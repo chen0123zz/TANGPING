@@ -1433,8 +1433,7 @@
 <div class="floating-btn-container">
         <button onclick="scrollToTop()" class="float-btn" title="回到最上方">▲</button>
         <button onclick="scrollToBottom()" class="float-btn" title="去最下方">▼</button>
-    </div>
-
+    
     // --- 懸浮按鈕自動隱藏功能 ---
         let isScrolling;
         const floatBtns = document.querySelector('.floating-btn-container');
@@ -1454,7 +1453,9 @@
                 floatBtns.style.opacity = '0.3'; // 改成 0.3 半透明，完全隱藏怕客人找不到，或者妳想改成 '0' 也可以
                 floatBtns.style.transition = 'opacity 0.5s ease'; // 加上淡出動畫
             }, 2000); // 2000 毫秒 = 2 秒
-        }, false);
+        }, false);    
+
+</div>
     
     <script>
         // 回到最上面的功能
@@ -1470,6 +1471,7 @@
 
 </body>
 </html>
+
 
 
 
