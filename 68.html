@@ -873,31 +873,66 @@
                 transform: scale(0.9);
             }
 
-            /* --- 問題 4 修正：須知 & Q&A 卡片置中與切邊問題 --- */
+            /* --- 問題 4 修正 V5.0：磁吸式滑動卡片 (一次一張) --- */
             .info-grid, .qa-grid {
                 display: flex !important;
                 overflow-x: auto !important;
                 gap: 15px !important;
                 
-                /* 👇 關鍵修正：讓內容看起來像置中，但又可以滑動 */
-                padding: 10px 20px 30px 20px !important; /* 左右留 20px 空間 */
-                margin: 0 -20px !important; /* 負邊距把容器拉開，製造「滿版滑動」效果 */
+                /* 👇 關鍵修正 1：設定磁吸容器 */
+                scroll-snap-type: x mandatory; /* x軸強制磁吸 */
                 
-                scroll-padding: 20px; /* 滑動停止時的邊距 */
-                align-items: stretch;
+                /* 👇 關鍵修正 2：讓容器左右留白，但看起來像滿版 */
+                padding: 10px 20px 40px 20px !important; /* 下方留空間給捲軸 */
+                margin: 0 -20px !important; /* 負邊距拉開容器 */
+                
+                -webkit-overflow-scrolling: touch; /* 讓滑動更順暢 */
+                scrollbar-width: none; /* 隱藏捲軸 (美觀) */
+            }
+            /* 隱藏捲軸 (Chrome/Safari) */
+            .info-grid::-webkit-scrollbar, .qa-grid::-webkit-scrollbar {
+                display: none;
             }
             
             .info-card, .qa-card {
-                min-width: 85vw !important; /* 卡片寬度佔螢幕 85% */
-                margin: 0 !important; /* 歸零 */
-                scroll-snap-align: center; /* 滑動停止時自動置中 */
+                /* 👇 關鍵修正 3：卡片寬度設為 100% 減去一點邊距 */
+                min-width: 85vw !important; /* 或是 90vw，看妳想要露出一點點下一張嗎？ */
+                margin: 0 !important; 
+                
+                /* 👇 關鍵修正 4：告訴瀏覽器「這裡是可以吸住的點」 */
+                scroll-snap-align: center; 
+                
                 box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
             }
-            /* 讓最後一張卡片右邊有空間，不會被切掉 */
+            
+            /* 讓最後一張卡片右邊有呼吸空間 */
             .info-card:last-child, .qa-card:last-child {
                 margin-right: 20px !important; 
             }
 
+            /* (選用) 自動加上編號：1/6, 2/6... */
+            .info-grid {
+                counter-reset: card-counter; /* 建立計數器 */
+            }
+            .info-card {
+                position: relative; /* 為了放編號 */
+            }
+            .info-card::before {
+                counter-increment: card-counter; /* 計數器 +1 */
+                content: counter(card-counter); /* 顯示數字 */
+                
+                /* 編號的樣式 */
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                background: #eee;
+                color: #888;
+                font-size: 0.8rem;
+                padding: 2px 8px;
+                border-radius: 10px;
+                font-weight: bold;
+            }
+            
             /* --- 問題 5 修正：地圖下方神秘黑條 --- */
             .map-box {
                 height: 300px !important;
@@ -1490,6 +1525,7 @@
 
 </body>
 </html>
+
 
 
 
