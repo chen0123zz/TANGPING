@@ -903,6 +903,29 @@
             .offer-text-box { padding: 25px !important; }
             #about { padding-left: 15px !important; padding-right: 15px !important; }
         }
+
+/* --- 響應式換行控制 --- */
+        
+        /* 1. 預設 (電腦版)：把這個換行隱藏起來 */
+        .mobile-break {
+            display: none; 
+        }
+        /* 同時，為了讓電腦版中間有分隔，我們可以在隱藏的 br 旁邊補一個 | 符號 (用 CSS 偽元素) */
+        .mobile-break::after {
+            content: " | "; /* 電腦版顯示分隔線 */
+            display: inline;
+        }
+
+        /* 2. 手機版 (螢幕小於 768px)：顯示換行 */
+        @media (max-width: 768px) {
+            .mobile-break {
+                display: inline; /* 讓 <br> 生效 */
+            }
+            .mobile-break::after {
+                content: ""; /* 手機版換行了，就不需要分隔線了 */
+                display: none;
+            }
+        }
         
         /* --- CSS 結束 --- */
     </style>
@@ -1309,7 +1332,7 @@
                 <p><strong>🏠 地址：</strong> 新北市蘆洲區三民路128巷68號</p>
                 <p><strong>📞 LINE 預約：</strong> @tangping</p>
                 <p><strong>📷 Instagram：</strong> tangping_68</p>
-                <p><strong>⏰ 每日可預約時段：</strong> <br>10:00 | 12:00 | 14:00 | 15:40 | 17:10 | 19:30 | 21:10</p>
+                <p><strong>⏰ 每日可預約時段：</strong> <br>10:00 | 12:00 | 14:00 | 15:40 <span class="mobile-break"><br></span> 17:10 | 19:30 | 21:10</p>
                 
                 <br>
                 <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="border:none; background-color:#00B900; color:white;">
@@ -1339,7 +1362,7 @@
     </section>
 
     <footer>
-        <p>© 2025 TANG PING Sport Massage. Designed by Chen0123.</p>
+        <p>© 2025 TANG PING Sport Massage.</p>
     </footer>
 
 <script>
@@ -1479,6 +1502,7 @@
 
 </body>
 </html>
+
 
 
 
