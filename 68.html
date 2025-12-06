@@ -1,342 +1,56 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<link rel="icon" href="images/LOGO2.png" type="image/png">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>躺平運動按摩 TANG PING - 預約官網</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="icon" href="images/LOGO2.png" type="image/png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 這裡開始是 CSS 樣式設計區域 --- */
-        
-        /* --- 修正電腦版：聯絡我們 (強制左右並排) --- */
-        .contact-container {
-            display: grid; 
-            grid-template-columns: 1fr 1fr; /* 👈 關鍵！分成左右兩欄 */
-            gap: 40px; /* 中間留空隙 */
-            align-items: center; /* 垂直置中 */
-            width: 100%;
-        }
-
-        /* 確保地圖跟文字區塊各佔一半 */
-        .contact-info, .map-box {
-            width: 100%;
-        }
-        
-        /* 確保地圖高度正常 */
-        .map-box {
-            height: 300px;
-        }
-        
-        /* 定義品牌顏色變數，以後要改顏色只要改這裡就好 */
+        /* ========================================= */
+        /* 🎨 全域變數與基礎設定 (Global Styles)      */
+        /* ========================================= */
         :root {
             --brand-color: #efb748; /* 阿庠的招牌黃色 */
             --bg-beige: #f9f5f0;    /* 米色背景 */
             --text-dark: #333333;   /* 深灰色文字 */
         }
 
-     html {
-            scroll-behavior: smooth; /* 讓所有跳轉連結都變成平滑捲動 */
+        html {
+            scroll-behavior: smooth; /* 平滑捲動 */
         }
 
-        /* 網頁整體設定 */
         body {
-            font-family: 'Noto Sans TC', sans-serif; /* 使用刚才引入的字体 */
+            font-family: 'Noto Sans TC', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--bg-beige); /* 設定整體背景為米色 */
+            background-color: var(--bg-beige);
             color: var(--text-dark);
         }
 
-       /* 導覽列 (最上面那條) */
+        /* 讓點擊選單跳轉時，不會被導覽列擋住標題 */
+        section, .content-section {
+            scroll-margin-top: 100px;
+        }
+
+        /* ========================================= */
+        /* 🏗️ 各區塊樣式 (Components)                */
+        /* ========================================= */
+
+        /* --- 1. 導覽列 (Header) --- */
         header {
             background-color: #fff;
             padding: 15px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-            
-            /* 原本應該有這兩行，確保它黏在上面 */
-            position: sticky; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky; /* 電腦版黏貼效果 */
             top: 0;
-
-            /* 👇👇👇 加入這一行！讓它變成網頁的老大，誰都不能蓋過它 👇👇👇 */
-            z-index: 1000; 
-            
-            /* 下面這些維持原本的不用動 */
-            display: block; 
-        }
-
-/* --- 修正點擊選單會被擋住的問題 --- */
-        section, .content-section {
-            /* 讓捲動時上方自動留出 100px 的緩衝空間 (大約是導覽列的高度) */
-            scroll-margin-top: 100px;
-        }
-        
-        /* LOGO 圖片設定 */
-        .logo-img {
-            height: 50px; /* 設定 LOGO 高度，寬度會自動調整 */
-            width: auto;
-        }
-
-        /* 主視覺區塊 (Hero Section) */
-        .hero-section {
-            /* 這裡用了妳指定的品牌黃色，做了一個漸層效果 */
-            background: linear-gradient(135deg, var(--brand-color) 0%, #f3c975 100%);
-            padding: 60px 20px;
-            text-align: center;
-            color: #fff; /* 文字白色比較跳 */
-        }
-
-        .hero-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2); /* 文字加一點陰影更立體 */
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-
-        /* 按鈕設計 */
-        .btn-main {
-            display: inline-block;
-            background-color: #fff; /* 白底 */
-            color: var(--brand-color); /* 黃字 */
-            padding: 12px 30px;
-            border-radius: 30px; /* 圓角按鈕 */
-            text-decoration: none; /* 去掉底線 */
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease; /* 讓滑鼠移過去有動畫效果 */
-        }
-
-        .btn-main:hover {
-            transform: translateY(-2px); /* 滑鼠移上去會往上浮一點 */
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            background-color: #fffaf0;
-        }
-
-        /* 內容區塊 (暫時放的) */
-        .content-section {
-            padding: 40px 20px;
-            max-width: 800px;
-            margin: 0 auto; /* 讓內容居中 */
-            text-align: center;
-        }
-
-        .placeholder-box {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            border: 2px dashed var(--brand-color); /* 虛線框框 */
-            color: #999;
-        }
-        
-        /* 頁尾 */
-        /* --- 頁尾樣式優化 --- */
-        footer {
-            text-align: center;
-            padding: 5px 5px; /* 上下留點空間，才不會太擠 */
-            
-            /* 👇 把原本的背景顏色拿掉，或是改成跟 body 一樣的背景色 */
-            background-color: transparent; 
-            
-            color: #999; /* 文字顏色調淡一點，更有質感 */
-            font-size: 0.85rem; /* 字稍微縮小一點點 */
-            margin-top: 20px;
-        }
-```css
-        /* --- 新增的服務區塊樣式 --- */
-        .section-title {
-            color: var(--brand-color);
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        
-        .section-desc {
-            color: #666;
-            margin-bottom: 40px;
-        }
-
-        /* 讓卡片可以橫向排列的網格系統 */
-        .services-grid {
-            display: grid;
-            /* 電腦版一行三個，手機版自動變一行一個 */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 30px; /* 卡片之間的距離 */
-            text-align: left; /* 文字靠左 */
-        }
-
-        /* 卡片本體設計 */
-        .service-card {
-            background: #fff;
-            border-radius: 15px; /* 圓角 */
-            overflow: hidden; /* 讓圖片不會跑出圓角 */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* 淡淡的陰影 */
-            transition: transform 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px); /* 滑鼠移上去會浮起來 */
-        }
-
-        .card-img {
-            height: 200px;
-            width: 100%;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-        }
-
-        .card-body {
-            padding: 25px;
-        }
-
-        .card-body h3 {
-            margin: 0 0 10px 0;
-            color: #333;
-        }
-
-        .price {
-            color: var(--brand-color);
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .duration {
-            font-size: 0.9rem;
-            color: #999;
-            font-weight: normal;
-        }
-
-        .desc {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-        }
-
-        .btn-card {
+            z-index: 1000;
             display: block;
-            text-align: center;
-            border: 2px solid var(--brand-color);
-            color: var(--brand-color);
-            padding: 8px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .btn-card:hover {
-            background-color: var(--brand-color);
-            color: #fff;
-        }
-
-/* --- 預約日曆區塊樣式 --- */
-        .booking-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            max-width: 600px;
-            margin: 0 auto; /* 居中 */
-            text-align: left;
-        }
-
-        .booking-container h3 {
-            border-left: 5px solid var(--brand-color);
-            padding-left: 10px;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        /* 日期格子 */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr); /* 改成一排 7 個 (週一到週日) */
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .calendar-day {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .calendar-day span {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        /* 選中日期的特效 */
-        .calendar-day.active, .calendar-day:hover {
-            background-color: var(--brand-color);
-            color: #fff;
-            border-color: var(--brand-color);
-        }
-        
-        .calendar-day.active span, .calendar-day:hover span {
-            color: #fff;
-        }
-
-        /* 無法選取的日期/時間 */
-        .calendar-day.disabled, .time-btn.disabled {
-            background-color: #f0f0f0;
-            color: #ccc;
-            cursor: not-allowed;
-            pointer-events: none; /* 禁止點擊 */
-        }
-
-        /* 時間按鈕 */
-/* 時間按鈕網格設定 */
-        .time-grid {
-            display: grid;
-            /* 原本是 repeat(3, 1fr) 改成下面這樣，變成一排4個 */
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 10px; /* 間距稍微縮小一點點，因為按鈕變多了 */
-        }
-        
-        /* 手機版的時候，怕按鈕太擠，我們可以讓它變回一排3個 (這段是新的，可以加在 .time-grid 下面) */
-        @media (max-width: 600px) {
-            .time-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .time-btn {
-            padding: 10px;
-            background: #fff;
-            border: 1px solid var(--brand-color);
-            border-radius: 5px;
-            color: var(--brand-color);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .time-btn:hover, .time-btn.selected {
-            background-color: var(--brand-color);
-            color: #fff;
-        }
-/* --- 新增區塊的樣式 --- */
-
-        /* 導覽列優化 */
-        header {
-            /* 修改原本的 header 讓內容左右排 */
-            display: block; 
         }
         .header-content {
             display: flex;
@@ -344,6 +58,10 @@
             align-items: center;
             max-width: 1000px;
             margin: 0 auto;
+        }
+        .logo-img {
+            height: 50px;
+            width: auto;
         }
         .nav-menu a {
             text-decoration: none;
@@ -357,210 +75,86 @@
             color: var(--brand-color);
         }
 
-        /* 優惠區塊 */
-        .promo-box {
-            background: #fff;
-            border: 2px solid var(--brand-color);
-            padding: 20px;
-            border-radius: 10px;
-            position: relative; /* 為了放標籤 */
-            margin-bottom: 20px;
-            text-align: left;
+        /* --- 2. 通用區塊設定 --- */
+        .content-section {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
         }
-        .promo-tag {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #ff4757;
-            color: #fff;
-            padding: 5px 15px;
-            font-size: 0.8rem;
+        .section-title {
+            color: var(--brand-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .section-desc {
+            color: #666;
+            margin-bottom: 40px;
+        }
+        .btn-main {
+            display: inline-block;
+            background-color: #fff;
+            color: var(--brand-color);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
             font-weight: bold;
-            transform: rotate(5deg);
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
-        .news-item {
-            text-align: left;
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
-        }
-        .news-date {
-            color: #999;
-            font-size: 0.8rem;
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background-color: #fffaf0;
         }
 
-        /* 須知區塊 */
-        .notice-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            text-align: left;
-        }
-        .notice-box {
-            background: #fff;
-            padding: 25px;
-            border-top: 5px solid var(--brand-color); /* 頂部有顏色條 */
-            border-radius: 5px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-        }
-        .notice-box ul {
-            padding-left: 20px;
-            color: #555;
-            line-height: 1.8;
-        }
-
-        /* 聯絡資訊區塊 */
-        .contact-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            align-items: center;
-            text-align: left;
-        }
-        .contact-info p {
-            margin: 10px 0;
-            font-size: 1.1rem;
-        }
-        
-        /* 手機版調整：選單變小一點 */
-        @media (max-width: 600px) {
-            .header-content {
-                flex-direction: column;
-            }
-            .nav-menu {
-                margin-top: 10px;
-            }
-            .nav-menu a {
-                margin: 0 10px;
-                font-size: 0.9rem;
-            }
-        }
-/* --- 輪播區塊樣式 --- */
-       .swiper {
-            width: 100%;
-            /* 新增這行：限制輪播區塊最大寬度，避免在大螢幕上圖片大到嚇人 */
-            max-width: 1200px; 
-            margin: 0 auto; /* 居中 */
-            padding-bottom: 40px;
-            padding-top: 20px; /* 上面留一點空間給陰影 */
-        }
-
-       .swiper-slide {
-            background-position: center;
-            background-size: cover;
-            /* 原本是 width: 300px;  <-- 這行要拿掉！ */
-            width: auto; /* 改成 auto 或直接刪掉這行，讓 JS 去控制寬度 */
-            height: auto;
-        }
-
-        /* 確保圖片本身也是撐滿的 */
-        .slide-img {
-            display: block;
-            width: 100%;
-            border-radius: 15px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-        }
-
-        /* 修改小圓點的顏色 */
-        .swiper-pagination-bullet-active {
-            background-color: var(--brand-color) !important;
-        }
-/* --- 最新活動區 (靜態展示牆樣式) --- */
-        
-        .promo-grid {
-            display: grid;
-            /* 電腦版：自動填滿，每張卡片最少 300px 寬，這樣大概會是並排 2~3 張 */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px; /* 圖片之間的距離 */
-            justify-items: center; /* 讓圖片置中 */
-        }
-
-        .promo-card {
-            background: #fff;
-            padding: 10px; /* 像相框一樣留白邊 */
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* 讓圖片有點浮起來 */
-            transition: transform 0.3s ease; /* 增加互動感 */
-            max-width: 400px; /* 限制最大寬度，避免圖片在電腦版大到嚇人 */
-        }
-
-        .promo-card:hover {
-            transform: translateY(-5px); /* 滑鼠移上去會稍微浮起來，很有質感！ */
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        .promo-card img {
-            width: 100%; /* 讓圖片自動適應框框大小 */
-            height: auto;
-            border-radius: 10px;
-            display: block;
-        }
-
-/* --- 旗艦優惠輪播樣式 --- */
-        
+        /* --- 3. 最新優惠 (Offer) --- */
         .offerSwiper {
             width: 100%;
-            padding: 20px 0 50px 0; /* 下面留空間給分頁點 */
+            padding: 20px 0 50px 0;
         }
-
-        /* 卡片佈局：使用 Flexbox 達成左圖右文 */
         .offer-card-layout {
             background: #fff;
             border-radius: 20px;
-            overflow: hidden; /* 圓角 */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* 比較深的陰影，更有質感 */
-            display: flex; /* 讓圖文並排 */
-            max-width: 900px; /* 限制卡片最大寬度 */
-            margin: 0 auto; /* 居中 */
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            max-width: 900px;
+            margin: 0 auto;
         }
-
-        /* 左邊圖片區 */
-        .offer-img-box img {
-            width: 100%;
-            height: 100%;
-            /* 原本是 cover (裁切填滿)，改成 contain (完整顯示) */
-            object-fit: contain; 
-            display: block;
-            /* 加一點背景色，萬一圖片比例跟格子不合時，留白才不會怪怪的 */
-            background-color: #fff; 
-        }
-
-   /* 左邊圖片區 */
         .offer-img-box {
-            flex: 1; 
+            flex: 1;
             min-height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: #fff;
-            
-            /* 👇👇👇 加入這一行！讓圖片往內縮，不要貼邊 👇👇👇 */
-            padding: 30px; /* 數字越大，留白越多，圖片會稍微變小一點點，看起來更精緻 */
+            padding: 30px; /* 圖片留白 */
         }
-
-        /* 右邊文字區 */
+        .offer-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
         .offer-text-box {
-            flex: 1; /* 佔一半空間 */
+            flex: 1;
             padding: 40px;
             text-align: left;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* 垂直居中 */
+            justify-content: center;
         }
-
         .offer-text-box h3 {
             font-size: 1.8rem;
             color: #333;
             margin: 15px 0;
         }
-
         .offer-text-box p {
             color: #666;
             line-height: 1.6;
             margin-bottom: 20px;
         }
-
-        /* 優惠標籤小藥丸 */
         .tag-pill {
             display: inline-block;
             background-color: #ff4757;
@@ -569,21 +163,15 @@
             border-radius: 50px;
             font-size: 0.9rem;
             font-weight: bold;
-            align-self: flex-start; /* 靠左對齊 */
+            align-self: flex-start;
         }
-
-        /* 列表樣式 */
         .offer-list {
             list-style: none;
             padding: 0;
             margin-bottom: 20px;
             color: #555;
         }
-        .offer-list li {
-            margin-bottom: 8px;
-        }
-
-        /* 包堂價格亮點 */
+        .offer-list li { margin-bottom: 8px; }
         .price-highlight {
             display: flex;
             gap: 15px;
@@ -594,26 +182,316 @@
             color: var(--brand-color);
         }
 
-        
+        /* --- 4. 關於運動按摩 (輪播) --- */
+        .swiper {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 40px;
+            padding-top: 20px;
+        }
+        .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: auto;
+            height: auto;
+        }
+        .slide-img {
+            display: block;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .swiper-pagination-bullet-active {
+            background-color: var(--brand-color) !important;
+        }
+        /* 自訂箭頭樣式 */
+        .my-prev-btn, .my-next-btn {
+            position: absolute;
+            top: 60%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            cursor: pointer;
+        }
+        .my-prev-btn { left: 10px; }
+        .my-next-btn { right: 10px; }
+        .my-prev-btn::after, .my-next-btn::after {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
 
-/* --- 懸浮按鈕樣式 --- */
+        /* --- 5. 價目表 (Grid) --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+        .service-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .service-card:hover { transform: translateY(-5px); }
+        .card-body { padding: 25px; }
+        .card-body h3 { margin: 0 0 10px 0; color: #333; }
+        .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
+
+        /* --- 6. 預約日曆 --- */
+        .booking-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .booking-container h3 {
+            border-left: 5px solid var(--brand-color);
+            padding-left: 10px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* 日期格子容器 */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); /* 7 欄均分 */
+            gap: 10px; /* 格子間距 */
+            margin-bottom: 30px;
+            
+            /* 👇 新增這兩行：讓裡面的東西 (包含標題和日期) 全部置中對齊 */
+            justify-items: center; 
+            align-items: center;
+        }
+
+        /* 👇 新增這個：給星期標題一點樣式 */
+        .cal-header {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #888;
+            padding-bottom: 5px;
+            width: 100%;
+            text-align: center;
+        }
+	
+	/* 日期格子 (電腦版 - 暴力正方形版) */
+        .calendar-day {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            
+            /* 👇 這裡改了！直接指定寬高，保證正方形 */
+            width: 75px; 
+            height: 75px; 
+            
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            
+            /* 讓內容垂直置中 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            /* 避免被壓縮 */
+            flex-shrink: 0;
+        }
+        
+        .calendar-day span {
+            font-size: 0.8rem;
+            margin-top: 3px;
+            color: #888;
+        }
+
+        .calendar-day span { font-size: 0.8rem; color: #888; }
+        .calendar-day.active, .calendar-day:hover {
+            background-color: var(--brand-color);
+            color: #fff;
+            border-color: var(--brand-color);
+        }
+        .calendar-day.active span, .calendar-day:hover span { color: #fff; }
+        .calendar-day.disabled {
+            background-color: #f0f0f0;
+            color: #ccc;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        /* 時間按鈕 */
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .time-btn {
+            padding: 10px;
+            background: #fff;
+            border: 1px solid var(--brand-color);
+            border-radius: 5px;
+            color: var(--brand-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .time-btn:hover, .time-btn.selected {
+            background-color: var(--brand-color);
+            color: #fff;
+        }
+        .time-btn.disabled {
+            background-color: #f0f0f0;
+            color: #ccc;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* --- 7. 預約須知 & Q&A (卡片設計) --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .info-card {
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            text-align: left;
+            transition: transform 0.2s;
+            border-left: 5px solid transparent;
+        }
+        .info-card:hover {
+            transform: translateY(-3px);
+            border-left: 5px solid var(--brand-color);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .info-icon { font-size: 1.8rem; line-height: 1; }
+        .info-card h4 { margin: 0; font-size: 1.2rem; color: #333; }
+        .info-card p { margin: 0; color: #666; font-size: 0.95rem; line-height: 1.6; }
+
+        /* Q&A 卡片 */
+        .qa-grid {
+            display: grid;
+            gap: 30px;
+            margin-top: 40px;
+            grid-template-columns: 1fr; /* 預設手機一欄 */
+        }
+        /* 電腦版 Q&A 強制兩欄 */
+        @media (min-width: 768px) {
+            .qa-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .qa-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+        }
+        .qa-badge {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background-color: #5e4b35;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .qa-card h3 { margin-top: 10px; color: #333; font-size: 1.3rem; }
+
+        /* --- 8. 聯絡我們 (Contact) --- */
+        
+        /* 1. 外框設定 (維持左右並排) */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: flex-start; /* ✅ 改成靠上對齊，因為左邊變長了，置中會怪怪的 */
+            width: 100%;
+        }
+        .contact-info, .map-box { width: 100%; }
+        .contact-info { text-align: left; }
+        
+        /* 2. 地圖設定 */
+        .map-box {
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .map-box iframe { display: block; }
+
+        /* 3. 聯絡項目通用設定 */
+        .contact-item { 
+            font-size: 1.1rem; 
+            margin: 15px 0; /* 加大一點間距 */
+            line-height: 1.6;
+        }
+        
+        /* 4. 【關鍵修正】讓時間的標題換行 */
+        .time-item strong {
+            display: block; /* ✅ 強制標題自己佔一行 */
+            margin-bottom: 5px; /* 標題跟下面的時間留點空隙 */
+            color: #efb748;
+        }
+        /* 其他標題 (地址) 維持原本的樣子 */
+        .contact-item strong { 
+            color: #efb748; 
+            font-size: 1rem;
+        }
+
+        /* 5. 【關鍵修正】LINE & IG 分行 */
+        .social-row { 
+            display: block; /* ❌ 拿掉 flex，讓它們自然堆疊 */
+        }
+        /* 讓這兩個項目緊密一點，不要分太開 */
+        .social-row .contact-item { 
+            margin-bottom: 10px; 
+            margin-top: 0;
+        }
+
+        /* 響應式換行控制 (維持原樣) */
+        .mobile-break { display: none; }
+        .mobile-break::after { content: " | "; display: inline; }
+
+        /* --- 9. 懸浮按鈕 & 頁尾 --- */
         .floating-btn-container {
             position: fixed;
             bottom: 30px;
             right: 30px;
             display: flex;
-            flex-direction: column; /* 讓兩個按鈕上下排 */
+            flex-direction: column;
             gap: 10px;
-            z-index: 999; /* 確保它浮在最上層 */
-            
-            /* 👇👇👇 就是加在這裡！ 👇👇👇 */
-            transition: opacity 0.5s ease; /* 讓透明度變化有動畫效果 */
+            z-index: 999;
+            transition: opacity 0.5s ease;
         }
-
         .float-btn {
             width: 45px;
             height: 45px;
-            background-color: var(--brand-color); /* 用阿庠的品牌黃色 */
+            background-color: var(--brand-color);
             color: #fff;
             border: none;
             border-radius: 50%;
@@ -625,241 +503,67 @@
             align-items: center;
             justify-content: center;
         }
-
         .float-btn:hover {
-            background-color: #333; /* 滑鼠移上去變黑色 */
-            transform: scale(1.1); /* 稍微放大 */
+            background-color: #333;
+            transform: scale(1.1);
         }
-
-/* --- 手機版選單優化 (讓選單變橫向滑動) --- */
-        @media (max-width: 600px) {
-            .nav-menu {
-                white-space: nowrap; /* 強制不換行 */
-                overflow-x: auto; /* 超出範圍就左右滑動 */
-                padding-bottom: 10px; /* 留點空間給滑動條 */
-                -webkit-overflow-scrolling: touch; /* 讓滑動更順暢 */
-            }
-            
-            .nav-menu a {
-                display: inline-block;
-                padding: 5px 10px;
-                background: #f5f5f5; /* 加個底色像按鈕 */
-                border-radius: 20px;
-                margin-right: 5px;
-                font-size: 0.85rem;
-            }
-        }
-
-/* --- 箭頭精準定位 V4 (放在黃框的走廊上) --- */
-        
-        /* 定義我們自己的按鈕樣式 */
-        .my-prev-btn,
-        .my-next-btn {
-            position: absolute; /* 絕對定位 */
-            top: 60%; /* 垂直居中 (稍微偏下因為有標題) */
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background-color: #fff;
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10; /* 確保浮在最上面 */
-            cursor: pointer;
-        }
-
-        /* 箭頭符號大小 */
-        .my-prev-btn::after,
-        .my-next-btn::after {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        /* 左邊箭頭：放在左邊 10px 的位置 */
-        .my-prev-btn {
-            left: 10px;
-        }
-        
-        /* 右邊箭頭：放在右邊 10px 的位置 */
-        .my-next-btn {
-            right: 10px;
-        }
-
-        /* 手機版調整 */
-        @media (max-width: 600px) {
-            #about {
-                padding-left: 10px !important;
-                padding-right: 10px !important;
-            }
-            /* 手機版箭頭可以稍微隱藏或變小，以免擋到圖 */
-            .my-prev-btn, .my-next-btn {
-                width: 30px; 
-                height: 30px;
-                background-color: rgba(255,255,255,0.8);
-            }
-            .my-prev-btn::after, .my-next-btn::after { font-size: 0.8rem; }
-            .my-prev-btn { left: 5px; }
-            .my-next-btn { right: 5px; }
-        }
-
-/* --- 地圖區塊優化 --- */
-        .map-box {
-            width: 100%;
-            height: 300px; /* 設定地圖高度 */
-            border-radius: 15px; /* 圓角 */
-            overflow: hidden; /* 確保圓角不被地圖直角蓋住 */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* 加深一點陰影，因為背景是黑的 */
-        }
-        
-        /* 確保 iframe 填滿盒子 */
-        .map-box iframe {
-            display: block; /* 消除下方可能出現的白邊 */
-        }
-
-/* --- 聯絡資訊黑卡片優化 --- */
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 左右各一半 */
-            gap: 40px; /* 中間留 40px 的空隙 */
-            align-items: center;
-        }
-
-    
-
-/* --- 預約須知六宮格樣式 --- */
-        .info-grid {
-            display: grid;
-            /* 電腦版：分成 2 欄 (因為原本只有半邊寬度) 或 3 欄 (如果是滿版) */
-            /* 這裡設定自動適應：最小寬度 200px，能塞幾個就塞幾個 */
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-       /* --- 1. 預約須知 (Emoji 同行版) --- */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto; /* 居中 */
-        }
-
-        .info-card {
-            background: #fff;
-            padding: 20px 25px; /* 稍微加寬一點內距 */
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            text-align: left;
-            transition: transform 0.2s;
-            border-left: 5px solid transparent; /* 預留左邊框 */
-        }
-
-        .info-card:hover {
-            transform: translateY(-3px);
-            border-left: 5px solid var(--brand-color); /* 滑鼠移上去左邊亮燈 */
-            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
-        }
-
-        /* 關鍵：讓圖示和標題排在同一行 */
-        .card-header {
-            display: flex;
-            align-items: center; /* 垂直居中 */
-            gap: 12px; /* 圖示跟字的距離 */
-            margin-bottom: 12px;
-            border-bottom: 1px solid #eee; /* 加一條淡淡的分隔線 */
-            padding-bottom: 10px;
-        }
-
-        .info-icon {
-            font-size: 1.8rem;
-            line-height: 1; /* 防止 emoji 被撐高 */
-        }
-
-        .info-card h4 {
-            margin: 0;
-            font-size: 1.2rem;
-            color: #333;
-        }
-
-        .info-card p {
-            margin: 0;
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* --- Q&A 知識卡片網格 (修正版) --- */
-        .qa-grid {
-            display: grid;
-            gap: 30px; /* 卡片之間的距離 */
-            margin-top: 40px;
-            
-            /* 👇 關鍵在這裡！我們用「媒體查詢」來強制規定 */
-            /* 手機版預設：1 欄 (直的一排) */
-            grid-template-columns: 1fr; 
-        }
-
-        /* 當螢幕寬度大於 768px (平板/電腦) 時，強制變 2 欄 */
-        @media (min-width: 768px) {
-            .qa-grid {
-                /* 強制分成兩半，不管是寬螢幕還是窄螢幕，只要不是手機就是 2x2 */
-                grid-template-columns: 1fr 1fr; 
-            }
-        }
-
-        .qa-card {
-            background: #fff;
-            padding: 30px;
-            border-radius: 20px;
-            position: relative; /* 為了放標籤 */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border: 1px solid #f0f0f0;
-        }
-        
-        /* 卡片上的小標籤 (Question 1) */
-        .qa-badge {
-            position: absolute;
-            top: -15px;
-            left: 20px;
-            background-color: #5e4b35; /* 棕色系，呼應妳原本的圖 */
-            color: #fff;
-            padding: 5px 15px;
-            border-radius: 20px;
+        footer {
+            text-align: center;
+            padding: 5px 5px;
+            background-color: transparent;
+            color: #999;
             font-size: 0.85rem;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin-top: 20px;
         }
 
-        .qa-card h3 {
-            margin-top: 10px;
-            color: #333;
-            font-size: 1.3rem;
-        }
-
-/* ============================================= */
-        /* 📱 手機版專屬修正 V8.0 (細節強迫症版)         */
+        /* ============================================= */
+        /* 📱 手機版專屬修正 V10.0 (絕對強制版)           */
         /* ============================================= */
         @media (max-width: 768px) {
             
-            /* --- 1. 包堂表格修復：禁止換行 --- */
-            table {
-                font-size: 0.75rem !important; /* ✅ 字體再縮小一點點 */
+            /* 1. 導覽列修復：自動隱藏效果 */
+            header {
+                position: fixed !important;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+                background: rgba(255, 255, 255, 0.98);
+                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+                padding: 8px 0;
+                transition: transform 0.3s ease;
             }
-            th, td {
-                padding: 8px 4px !important; /* ✅ 減少左右內距，把空間讓給文字 */
-                white-space: nowrap !important; /* 🔥 關鍵指令：強制不換行！ */
+            header.nav-hidden { transform: translateY(-100%); }
+            body { padding-top: 70px; }
+
+            .nav-menu {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 8px;
+                padding: 5px 15px;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                align-items: center;
             }
-            /* 針對 ($1,100/堂) 這種括號內的小字再縮小 */
-            td span {
-                font-size: 0.65rem !important;
-                display: inline-block; /* 確保它跟著前面的數字 */
+            .nav-menu a {
+                background-color: #f3f3f3;
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                color: #555;
+                flex-shrink: 0;
+                margin: 0;
+                white-space: nowrap;
             }
 
-/* --- 2. 聯絡資訊修復 V10.0 (絕對強制版) --- */
-            
-            /* 1. 針對所有的聯絡項目設定 */
+            /* 2. 聯絡資訊修復：直排 + 消滅空行 */
+            .contact-container {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 30px !important;
+                width: 100% !important;
+            }
             .contact-info p.contact-item {
                 font-size: 0.95rem !important;
                 display: flex !important;
@@ -867,135 +571,128 @@
                 align-items: flex-start !important; /* 強制靠左對齊 */
                 margin-bottom: 15px !important;
                 line-height: 1.5 !important;
-                padding: 0 !important; /* 清除內距 */
-                text-align: left !important; /* 文字靠左 */
+                padding: 0 !important;
+                text-align: left !important;
             }
-
-            /* 2. 針對標題 (強迫歸零，消滅空行！) */
             .contact-info strong {
                 display: block !important;
                 width: 100% !important; /* 佔滿整行 */
-                margin-bottom: 2px !important; /* ✅ 只留 2px 縫隙，絕對不會空一行 */
+                margin-bottom: 2px !important; /* ✅ 強制歸零！消滅空行 */
                 padding-bottom: 0 !important;
                 line-height: 1.2 !important;
             }
-
-            /* 3. 針對內容文字 (例如時間表) */
             .contact-info span {
                 display: block !important;
-                margin-top: 0 !important; /* 確保頭上沒有空隙 */
+                margin-top: 0 !important;
             }
-
-            /* 4. 社交專區 (LINE/IG 並排) */
+            /* 社交專區 (LINE/IG 並排) */
             .social-row {
                 display: flex !important;
-                flex-direction: row !important; /* 強制橫排 */
+                flex-direction: row !important;
                 gap: 20px !important;
                 margin-bottom: 15px !important;
-                align-items: center !important; /* 垂直置中 */
+                align-items: center !important;
             }
-            /* 社交專區裡的項目，不要受上面直排影響 */
             .social-row .contact-item {
                 margin-bottom: 0 !important;
-                flex-direction: row !important; /* 這裡改回橫排 */
+                flex-direction: row !important; /* 改回橫排 */
                 align-items: center !important;
                 gap: 5px !important;
             }
             .social-row strong {
-                width: auto !important; /* 標題不用佔滿 */
+                width: auto !important;
                 margin-bottom: 0 !important;
             }
-
-            /* --- 3. 按鈕對齊修復 --- */
+            /* 按鈕對齊 */
             .contact-info .btn-main {
-                width: 100% !important; /* ✅ 寬度佔滿 */
-                margin: 8px 0 !important; /* 上下留白 */
-                padding: 12px 0 !important; /* 增加高度，看起來更氣派 */
+                width: 100% !important;
+                margin: 8px 0 !important;
+                padding: 12px 0 !important;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                box-sizing: border-box; /* 確保 padding 不會撐大 */
+                box-sizing: border-box;
                 text-align: center;
             }
-            .contact-info a {
-                margin-left: 0 !important; /* 歸零 */
-                text-decoration: none;
-            }
+            .contact-info a { margin-left: 0 !important; text-decoration: none; }
 
-            /* --- 其他保留的修正 (導覽列、日曆、圖卡...) --- */
-            header { position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(255,255,255,0.98); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 8px 0; transition: transform 0.3s ease; }
-            header.nav-hidden { transform: translateY(-100%); }
-            body { padding-top: 70px; }
-            .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 5px 15px; scrollbar-width: none; align-items: center; }
-            .nav-menu a { background-color: #f3f3f3; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; color: #555; flex-shrink: 0; margin: 0; white-space: nowrap; }
+            /* 3. 換行控制 */
+            .mobile-break { display: inline; }
+            .mobile-break::after { display: none; }
+
+            /* 4. 日曆修復 */
             .booking-container { padding: 20px 10px !important; width: 100% !important; box-sizing: border-box; }
             .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 4px !important; width: 100% !important; }
             .calendar-grid > div:nth-child(-n+7) { text-align: center; font-size: 0.7rem; padding-bottom: 5px; }
             .calendar-day { height: auto !important; aspect-ratio: 1 / 1; font-size: 0.75rem !important; padding: 2px !important; border-radius: 6px !important; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .calendar-day span { font-size: 0.55rem !important; transform: scale(0.9); margin-top: 1px; }
-            .info-grid, .qa-grid { display: flex !important; overflow-x: auto !important; gap: 15px !important; padding: 30px 20px 30px 20px !important; margin: 0 -20px !important; scroll-snap-type: x mandatory; scrollbar-width: none; align-items: stretch; }
-            .info-card, .qa-card { min-width: 70vw !important; margin: 0 !important; scroll-snap-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; position: relative; overflow: visible !important; }
+            .time-grid { grid-template-columns: repeat(3, 1fr) !important; }
+
+            /* 5. 圖卡修復：瘦身 + 磁吸滑動 */
+            .info-grid, .qa-grid {
+                display: flex !important;
+                overflow-x: auto !important;
+                gap: 15px !important;
+                padding: 30px 20px 30px 20px !important;
+                margin: 0 -20px !important;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
+                align-items: stretch;
+            }
+            .info-card, .qa-card {
+                min-width: 70vw !important; /* ✅ 70% 寬度 */
+                margin: 0 !important;
+                scroll-snap-align: center;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+                position: relative;
+                overflow: visible !important;
+            }
             .info-card:last-child, .qa-card:last-child { margin-right: 20px !important; }
-            #contact { margin: 20px 0 !important; border-radius: 0 !important; width: 100% !important; padding: 40px 20px !important; box-sizing: border-box; }
-            .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
-            .contact-info, .map-box { width: 100% !important; }
-            .map-box { height: 300px !important; border-radius: 15px; overflow: hidden; }
+
+            /* 6. 其他設定 */
             html, body { overflow-x: hidden; position: relative; }
-            .content-section { padding: 30px 20px !important; margin: 20px 15px !important; width: auto !important; border-radius: 20px !important; box-sizing: border-box; }
+            .content-section {
+                padding: 30px 20px !important;
+                margin: 20px 15px !important;
+                width: auto !important;
+                border-radius: 20px !important;
+                box-sizing: border-box;
+            }
+            /* 黑框滿版 */
+            #contact { margin: 20px 0 !important; border-radius: 0 !important; width: 100% !important; padding: 40px 20px !important; box-sizing: border-box; }
             .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
             .offer-card-layout { flex-direction: column !important; }
             .offer-img-box { padding: 0 !important; }
             .offer-text-box { padding: 25px !important; }
             #about { padding-left: 15px !important; padding-right: 15px !important; }
+            /* 表格不換行 */
+            table { font-size: 0.75rem !important; }
+            th, td { padding: 8px 4px !important; white-space: nowrap !important; }
+            td span { font-size: 0.65rem !important; display: inline-block; }
         }
-
-/* --- 響應式換行控制 --- */
-        
-        /* 1. 預設 (電腦版)：把這個換行隱藏起來 */
-        .mobile-break {
-            display: none; 
-        }
-        /* 同時，為了讓電腦版中間有分隔，我們可以在隱藏的 br 旁邊補一個 | 符號 (用 CSS 偽元素) */
-        .mobile-break::after {
-            content: " | "; /* 電腦版顯示分隔線 */
-            display: inline;
-        }
-
-        /* 2. 手機版 (螢幕小於 768px)：顯示換行 */
-        @media (max-width: 768px) {
-            .mobile-break {
-                display: inline; /* 讓 <br> 生效 */
-            }
-            .mobile-break::after {
-                content: ""; /* 手機版換行了，就不需要分隔線了 */
-                display: none;
-            }
-        }
-        
-        /* --- CSS 結束 --- */
     </style>
 </head>
 <body>
 
-<header>
+    <header>
         <div class="header-content">
             <img src="images/logo.png" alt="躺平運動按摩 LOGO" class="logo-img">
-                <nav class="nav-menu">
+            <nav class="nav-menu">
                 <a href="#news">最新優惠</a>
-                <a href="#about">關於躺平</a>  <a href="#services">價目表</a>
+                <a href="#about">關於躺平</a>
+                <a href="#services">價目表</a>
                 <a href="#notice">預約須知</a>
                 <a href="#contact">聯絡我們</a>
             </nav>
         </div>
     </header>
 
-<section class="content-section" id="news" style="background-color: #f9f5f0; padding-bottom: 40px;">
+    <section class="content-section" id="news" style="background-color: #f9f5f0; padding-bottom: 40px;">
         <h2 class="section-title">🎉 最新活動 & 獨家優惠</h2>
         <p class="section-desc">為您準備的專屬放鬆提案 👇</p>
 
         <div class="swiper offerSwiper">
             <div class="swiper-wrapper">
-                
                 <div class="swiper-slide">
                     <div class="offer-card-layout">
                         <div class="offer-img-box">
@@ -1013,7 +710,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="swiper-slide">
                     <div class="offer-card-layout">
                         <div class="offer-img-box">
@@ -1031,7 +727,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="swiper-slide">
                     <div class="offer-card-layout">
                         <div class="offer-img-box">
@@ -1049,81 +744,47 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-            
             <div class="swiper-pagination"></div>
             <div class="swiper-button-next" style="color: var(--brand-color);"></div>
             <div class="swiper-button-prev" style="color: var(--brand-color);"></div>
         </div>
     </section>
 
-<section class="content-section" id="about" style="
+    <section class="content-section" id="about" style="
         background-color: #fffaf0; 
         padding-bottom: 50px; 
         border-radius: 20px; 
         margin: 40px auto; 
         max-width: 900px; 
-        position: relative; /* 讓箭頭可以定位 */
-        padding-left: 60px;  /* 左邊留 60px 給箭頭 */
-        padding-right: 60px; /* 右邊留 60px 給箭頭 */
-        box-sizing: border-box; /* 確保寬度包含 padding，不會爆開 */
+        position: relative;
+        padding-left: 60px;
+        padding-right: 60px;
+        box-sizing: border-box;
     ">
-        
         <h2 class="section-title" style="padding-top: 20px;">關於運動按摩</h2>
         <p class="section-desc" style="margin-bottom: 30px;">左右滑動卡片，了解我們如何幫助您的身體 👇</p>
 
         <div class="swiper mySwiper" style="width: 100%; height: 100%; overflow: hidden; border-radius: 10px;">
             <div class="swiper-wrapper">
-                
-                <div class="swiper-slide">
-                    <img src="images/按摩效果.png" alt="按摩效果" class="slide-img">
-                </div>
-
-                <div class="swiper-slide">
-                    <img src="images/比較圖.png" alt="比較圖" class="slide-img">
-                </div>
-
-                <div class="swiper-slide">
-                    <img src="images/適合族群.png" alt="適合族群" class="slide-img">
-                </div>
-
-                <div class="swiper-slide">
-                    <img src="images/徒手按摩.png" alt="徒手按摩" class="slide-img">
-                </div>
-
-                <div class="swiper-slide">
-                    <img src="images/筋膜刀.png" alt="筋膜刀" class="slide-img">
-                </div>
-
-                <div class="swiper-slide">
-                    <img src="images/拔罐.png" alt="拔罐" class="slide-img">
-                </div>
-                
-                 <div class="swiper-slide">
-                    <img src="images/不是萬靈丹1.png" alt="不是萬靈丹1" class="slide-img">
-                </div>
-
-                 <div class="swiper-slide">
-                    <img src="images/不是萬靈丹2.png" alt="不是萬靈丹2" class="slide-img">
-                </div>
-
-                 <div class="swiper-slide">
-                    <img src="images/不是萬靈丹3.png" alt="不是萬靈丹3" class="slide-img">
-                </div>
-
+                <div class="swiper-slide"><img src="images/按摩效果.png" alt="按摩效果" class="slide-img"></div>
+                <div class="swiper-slide"><img src="images/比較圖.png" alt="比較圖" class="slide-img"></div>
+                <div class="swiper-slide"><img src="images/適合族群.png" alt="適合族群" class="slide-img"></div>
+                <div class="swiper-slide"><img src="images/徒手按摩.png" alt="徒手按摩" class="slide-img"></div>
+                <div class="swiper-slide"><img src="images/筋膜刀.png" alt="筋膜刀" class="slide-img"></div>
+                <div class="swiper-slide"><img src="images/拔罐.png" alt="拔罐" class="slide-img"></div>
+                <div class="swiper-slide"><img src="images/不是萬靈丹1.png" alt="不是萬靈丹1" class="slide-img"></div>
+                <div class="swiper-slide"><img src="images/不是萬靈丹2.png" alt="不是萬靈丹2" class="slide-img"></div>
+                <div class="swiper-slide"><img src="images/不是萬靈丹3.png" alt="不是萬靈丹3" class="slide-img"></div>
             </div>
             <div class="swiper-pagination"></div>
         </div>
-
         <div class="swiper-button-next my-next-btn" style="color: var(--brand-color);"></div>
         <div class="swiper-button-prev my-prev-btn" style="color: var(--brand-color);"></div>
-
     </section>
 
-<section class="content-section" id="services">
+    <section class="content-section" id="services">
         <h2 class="section-title">服務項目 & 價目表</h2>
-        
         <div class="services-grid">
             <div class="service-card">
                 <div class="card-body">
@@ -1140,7 +801,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="service-card">
                 <div class="card-body">
                     <h3 style="color: var(--brand-color);">張力調整</h3>
@@ -1157,7 +817,6 @@
                 </div>
             </div>
         </div>
-
         <div style="margin-top: 40px; overflow-x: auto;">
             <h3 style="text-align: center; margin-bottom: 20px;">💰 包堂優惠方案 (最划算!)</h3>
             <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
@@ -1184,21 +843,20 @@
         </div>
     </section>
 
-<section class="content-section" id="booking">
+    <section class="content-section" id="booking">
         <h2 class="section-title">線上預約</h2>
         <p class="section-desc">請選擇您想放鬆的日期與時段，我們將為您保留專屬時光。</p>
-
         <div class="booking-container">
             <div class="date-selector">
                 <h3>1. 選擇日期 (12月)</h3>
                 <div class="calendar-grid">
-                    <div style="font-size:0.8rem; font-weight:bold; color:#888;">MON</div>
-                    <div style="font-size:0.8rem; font-weight:bold; color:#888;">TUE</div>
-                    <div style="font-size:0.8rem; font-weight:bold; color:#888;">WED</div>
-                    <div style="font-size:0.8rem; font-weight:bold; color:#888;">THU</div>
-                    <div style="font-size:0.8rem; font-weight:bold; color:#888;">FRI</div>
-                    <div style="font-size:0.8rem; font-weight:bold; color:#888;">SAT</div>
-                    <div style="font-size:0.8rem; font-weight:bold; color:#888;">SUN</div>
+                    <div class="cal-header">MON</div>
+                    <div class="cal-header">TUE</div>
+                    <div class="cal-header">WED</div>
+                    <div class="cal-header">THU</div>
+                    <div class="cal-header">FRI</div>
+                    <div class="cal-header">SAT</div>
+                    <div class="cal-header">SUN</div>
 
                     <div class="calendar-day" onclick="selectDate(this)">1<br><span>可約</span></div>
                     <div class="calendar-day" onclick="selectDate(this)">2<br><span>可約</span></div>
@@ -1207,9 +865,8 @@
                     <div class="calendar-day" onclick="selectDate(this)">5<br><span>今天</span></div>
                     <div class="calendar-day" onclick="selectDate(this)">6<br><span>可約</span></div>
                     <div class="calendar-day" onclick="selectDate(this)">7<br><span>可約</span></div>
-
-                    <div class="calendar-day" onclick="selectDate(this)">8<br><span>可約</span></div>
                     
+                    <div class="calendar-day" onclick="selectDate(this)">8<br><span>可約</span></div>
                     <div class="calendar-day disabled" style="background:#fff0f0; border-color:#ffcccc; color:#d63031;">9<br><span>店休</span></div>
                     <div class="calendar-day disabled" style="background:#fff0f0; border-color:#ffcccc; color:#d63031;">10<br><span>店休</span></div>
                     <div class="calendar-day disabled" style="background:#fff0f0; border-color:#ffcccc; color:#d63031;">11<br><span>店休</span></div>
@@ -1236,36 +893,35 @@
                     <div class="calendar-day" onclick="selectDate(this)">29<br><span>可約</span></div>
                     <div class="calendar-day" onclick="selectDate(this)">30<br><span>可約</span></div>
                     <div class="calendar-day" onclick="selectDate(this)">31<br><span>跨年</span></div>
-                    <div style="border:none;"></div> <div style="border:none;"></div> <div style="border:none;"></div> <div style="border:none;"></div> </div>
+                    <div style="border:none;"></div> <div style="border:none;"></div> <div style="border:none;"></div> <div style="border:none;"></div>
                 </div>
             </div>
-
-<div class="time-selector">
+            <div class="time-selector">
                 <h3>2. 選擇時段</h3>
                 <div class="time-grid">
                     <button class="time-btn" onclick="selectTime(this)">10:00</button>
                     <button class="time-btn" onclick="selectTime(this)">12:00</button>
                     <button class="time-btn" onclick="selectTime(this)">14:00</button>
                     <button class="time-btn" onclick="selectTime(this)">15:40</button>
-                    <button class="time-btn disabled">17:10 (已預約)</button> <button class="time-btn" onclick="selectTime(this)">19:30</button>
+                    <button class="time-btn disabled">17:10 (已預約)</button> 
+                    <button class="time-btn" onclick="selectTime(this)">19:30</button>
                     <button class="time-btn" onclick="selectTime(this)">21:10</button>
                 </div>
             </div>
-
+        </div>
         <div style="margin-top: 30px;">
             <button class="btn-main" onclick="alert('恭喜冠穎！這是模擬預約成功！下一步我們就要接資料庫囉！')">確認預約資訊</button>
         </div>
     </section>
 
-<section class="content-section" id="notice" style="
+    <section class="content-section" id="notice" style="
         background-color: #f9f9f9; 
         padding: 50px 40px; 
-        border-radius: 30px;      /* ✅ 變圓角了！ */
-        max-width: 1000px;        /* ✅ 限制寬度，跟上下對齊 */
-        margin: 40px auto;        /* ✅ 置中且留出呼吸空間 */
-        box-shadow: 0 5px 20px rgba(0,0,0,0.03); /* ✅ 淡淡的陰影增加層次 */
+        border-radius: 30px; 
+        max-width: 1000px; 
+        margin: 40px auto; 
+        box-shadow: 0 5px 20px rgba(0,0,0,0.03);
     ">
-        
         <h2 class="section-title">⚠️ 預約須知</h2>
         <div class="info-grid">
             <div class="info-card">
@@ -1275,7 +931,6 @@
                 </div>
                 <p>請穿著或攜帶<strong>運動服裝</strong>，女性建議穿著運動內衣，方便伸展與放鬆。</p>
             </div>
-
             <div class="info-card">
                 <div class="card-header">
                     <div class="info-icon">🍱</div>
@@ -1283,7 +938,6 @@
                 </div>
                 <p>按摩前可稍微進食，但<strong>切勿飽腹前來</strong>，以免趴臥時造成腹部不適。</p>
             </div>
-
             <div class="info-card">
                 <div class="card-header">
                     <div class="info-icon">💪</div>
@@ -1291,7 +945,6 @@
                 </div>
                 <p>運動按摩不同於一般放鬆，針對沾黏處處理時<strong>偶有痠痛感</strong>，屬正常現象。</p>
             </div>
-
             <div class="info-card">
                 <div class="card-header">
                     <div class="info-icon">🤕</div>
@@ -1299,7 +952,6 @@
                 </div>
                 <p>若有手術舊疾、懷孕或身體不適部位，請<strong>務必主動告知</strong>師傅。</p>
             </div>
-
             <div class="info-card">
                 <div class="card-header">
                     <div class="info-icon">🕒</div>
@@ -1307,7 +959,6 @@
                 </div>
                 <p>建議預約 <strong>90 分鐘方案</strong>，包含完整評估與測試，較能充分感受成效。</p>
             </div>
-
             <div class="info-card">
                 <div class="card-header">
                     <div class="info-icon">🏥</div>
@@ -1317,11 +968,10 @@
             </div>
         </div>
 
-  <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
+        <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
         <p class="section-desc">關於「運動按摩」與「延遲性肌肉痠痛 (DOMS)」，你需要知道的事 👇</p>
 
         <div class="qa-grid">
-            
             <div class="qa-card">
                 <div class="qa-badge" style="background-color: #d35400;">Question 1</div>
                 <h3>跟一般按摩差在哪？</h3>
@@ -1329,7 +979,6 @@
                 <p><strong>A: 目的完全不同！</strong></p>
                 <p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p>
             </div>
-       
             <div class="qa-card">
                 <div class="qa-badge">Question 2</div>
                 <h3>按摩後隔天，身體有點痠痛正常嗎？</h3>
@@ -1337,7 +986,6 @@
                 <p><strong>A: 是正常的喔！👌</strong></p>
                 <p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛(DOMS)」。</p>
             </div>
-
             <div class="qa-card">
                 <div class="qa-badge" style="background-color: #88c1b8;">Question 3</div>
                 <h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3>
@@ -1345,7 +993,6 @@
                 <p><strong>A: 這是修復的信號！🛠️</strong></p>
                 <p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p>
             </div>
-
             <div class="qa-card">
                 <div class="qa-badge" style="background-color: #e67e22;">Question 4</div>
                 <h3>該如何緩解痠痛感？</h3>
@@ -1358,26 +1005,25 @@
                     <li>🛌 充分休息，避免疲勞</li>
                 </ul>
             </div>
-            
         </div> 
+    </section>
 
-<section class="content-section" id="contact" style="
+    <section class="content-section" id="contact" style="
         background-color: #333; 
         color: #fff; 
-        border-radius: 30px;      /* 變圓角了！ */
-        max-width: 900px;         /* 寬度限制 900px (跟上面對齊) */
-        margin: 30px auto;        /* 讓它置中，並且跟上下有點距離 */
-        padding: 20px 20px;       /* 內部留白，讓文字不要貼邊 */
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* 加一點陰影，更有質感 */
+        border-radius: 30px; 
+        max-width: 900px; 
+        margin: 30px auto; 
+        padding: 20px 20px; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     ">
         <h2 class="section-title" style="color: #efb748;">📍 聯絡我們</h2>
-        
-        <div class="contact-info">
+        <div class="contact-container">
+            <div class="contact-info">
                 <p class="contact-item">
                     <strong>🏠 地址：</strong> 
                     <span>新北市蘆洲區三民路128巷68號</span>
                 </p>
-
                 <div class="social-row">
                     <p class="contact-item">
                         <strong>📞 LINE：</strong> 
@@ -1388,7 +1034,6 @@
                         <a href="https://instagram.com/tangping_68" target="_blank" style="color: #fff; text-decoration: underline;">tangping_68</a>
                     </p>
                 </div>
-
                 <p class="contact-item time-item">
                     <strong>⏰ 每日可預約時段：</strong>
                     <span>
@@ -1396,30 +1041,21 @@
                         17:10 | 19:30 | 21:10
                     </span>
                 </p>
-                
-                <br> <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="border:none; background-color:#00B900; color:white;">
-                    加入 LINE 預約
-                </a>
-                <a href="https://instagram.com/tangping_68" target="_blank" class="btn-main" style="border:none; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color:white; margin-left: 10px;">
-                    追蹤 Instagram
-                </a>
+                <br> 
+                <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="border:none; background-color:#00B900; color:white;">加入 LINE 預約</a>
+                <a href="https://instagram.com/tangping_68" target="_blank" class="btn-main" style="border:none; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color:white; margin-left: 10px;">追蹤 Instagram</a>
             </div>
-            
             <div class="map-box">
                 <iframe 
-                    /* 👇 關鍵在這裡！把原本的 600 改成 100% */
                     width="100%" 
-                    /* 👇 把原本的 450 也改成 100%，這樣它就會乖乖聽我們 CSS 的話 (300px 高) */
-                    height="300" 
+                    height="100%" 
                     style="border:0;" 
                     allowfullscreen="" 
                     loading="lazy" 
                     referrerpolicy="no-referrer-when-downgrade"
-                    /* 👇 這是妳剛剛複製出來的網址 (我幫妳填進去了) */
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.370022826966!2d121.46770401095526!3d25.08933283596854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90055f62f55%3A0x9cc567681495fd17!2z6Lq65bmz6YGL5YuV5oyJ5pGp!5e0!3m2!1szh-TW!2stw!4v1765006184538!5m2!1szh-TW!2stw">
                 </iframe>
             </div>
-
         </div>
     </section>
 
@@ -1427,161 +1063,105 @@
         <p>© 2025 TANG PING Sport Massage.</p>
     </footer>
 
-<script>
-        // 這是簡單的 JavaScript 魔法
-        
-        // 選擇日期的功能
+    <div class="floating-btn-container">
+        <button onclick="scrollToTop()" class="float-btn" title="回到最上方">▲</button>
+        <button onclick="scrollToBottom()" class="float-btn" title="去最下方">▼</button>
+    </div>
+
+    <script>
+        // 1. 日期選擇功能
         function selectDate(element) {
-            // 1. 先把所有日期的「選中狀態」取消
             let days = document.querySelectorAll('.calendar-day');
             days.forEach(day => day.classList.remove('active'));
-            
-            // 2. 把自己變成「選中狀態」
             element.classList.add('active');
         }
 
-        // 選擇時間的功能
+        // 2. 時間選擇功能
         function selectTime(element) {
-            // 1. 先把所有時間的「選中狀態」取消
             let times = document.querySelectorAll('.time-btn');
             times.forEach(time => time.classList.remove('selected'));
-            
-            // 2. 把自己變成「選中狀態」
             element.classList.add('selected');
         }
 
-// 啟動 Swiper 輪播特效 (整頁翻動版)
+        // 3. 懸浮按鈕：回到最上方/最下方
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function scrollToBottom() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        // 4. 啟動 Swiper 輪播 (介紹區)
         var swiper = new Swiper(".mySwiper", {
-            // --- 手機版設定 (螢幕比較小) ---
-            slidesPerView: 1,  // 一次看 1 張
-            slidesPerGroup: 1, // 點一下換 1 張 (手機版通常還是一張張滑比較順手)
+            slidesPerView: 1,
+            slidesPerGroup: 1,
             spaceBetween: 20,
             loop: true,
-            
-            // --- 電腦版設定 (螢幕大於 768px) ---
             breakpoints: {
                 768: {
-                    slidesPerView: 3,  // 一次看 3 張
-                    slidesPerGroup: 3, // 👉 關鍵在這裡！點一下換 3 張 (整頁換新)
+                    slidesPerView: 3,
+                    slidesPerGroup: 3,
                     spaceBetween: 30,
                 }
             },
-
-            // 下面這些不用動
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
             },
             navigation: {
-                // 改成我們新取的 class 名字
                 nextEl: ".my-next-btn",
                 prevEl: ".my-prev-btn",
             },
             autoplay: {
-                delay: 4000, // 我把自動播放時間稍微拉長一點 (4秒)，讓客人有時間看完 3 張圖
+                delay: 4000,
                 disableOnInteraction: false,
             },
         });
 
-// --- 啟動上方的「最新優惠」輪播 ---
+        // 5. 啟動 Swiper 輪播 (優惠區)
         var offerSwiper = new Swiper(".offerSwiper", {
-            slidesPerView: 1, // 一次只看一張大卡片
+            slidesPerView: 1,
             spaceBetween: 30, 
-            loop: true,       // 無限循環
+            loop: true,
             autoplay: {
-                delay: 5000,  // 5秒換一張，讓客人有時間看字
+                delay: 5000,
                 disableOnInteraction: false,
             },
             pagination: {
-                el: ".offerSwiper .swiper-pagination", // 指定是這個輪播的分頁點
+                el: ".offerSwiper .swiper-pagination",
                 clickable: true,
             },
             navigation: {
-                nextEl: ".offerSwiper .swiper-button-next", // 指定是這個輪播的箭頭
+                nextEl: ".offerSwiper .swiper-button-next",
                 prevEl: ".offerSwiper .swiper-button-prev",
             },
         });
 
-    </script>
-
-<div class="floating-btn-container">
-        <button onclick="scrollToTop()" class="float-btn" title="回到最上方">▲</button>
-        <button onclick="scrollToBottom()" class="float-btn" title="去最下方">▼</button>
-
-</div>
-    
-    <script>
-        // 回到最上面的功能
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // 去到最下面的功能 (假設最下面是 footer)
-        function scrollToBottom() {
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        }
-// --- 懸浮按鈕自動隱藏功能 ---
+        // 6. 懸浮按鈕自動隱藏
         let isScrolling;
         const floatBtns = document.querySelector('.floating-btn-container');
-
-        // 監聽捲動事件
         window.addEventListener('scroll', function() {
-            // 1. 一開始滑動，就顯示按鈕 (透明度改回 1)
             floatBtns.style.opacity = '1';
-            floatBtns.style.pointerEvents = 'auto'; // 讓它可以被點擊
-
-            // 2. 清除之前的計時器 (重新倒數)
+            floatBtns.style.pointerEvents = 'auto'; 
             window.clearTimeout(isScrolling);
-
-            // 3. 設定新的計時器：如果 2 秒鐘沒有滑動...
             isScrolling = setTimeout(function() {
-                // 就把按鈕隱藏 (透明度變 0)
-                floatBtns.style.opacity = '0.3'; // 改成 0.3 半透明，完全隱藏怕客人找不到，或者妳想改成 '0' 也可以
-                floatBtns.style.transition = 'opacity 0.5s ease'; // 加上淡出動畫
-            }, 2000); // 2000 毫秒 = 2 秒
+                floatBtns.style.opacity = '0.3'; 
+            }, 2000); 
         }, false);
 
-        // --- 導覽列自動隱藏功能 (手機版) ---
+        // 7. 導覽列自動隱藏 (手機版)
         let lastScrollTop = 0;
         const header = document.querySelector('header');
-
         window.addEventListener('scroll', function() {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // 如果往下捲動超過 50px
             if (scrollTop > lastScrollTop && scrollTop > 50) {
-                // 往下捲：隱藏導覽列
                 header.classList.add('nav-hidden');
             } else {
-                // 往上捲：顯示導覽列
                 header.classList.remove('nav-hidden');
             }
-            
             lastScrollTop = scrollTop;
         });
-        
     </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
