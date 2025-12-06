@@ -838,27 +838,37 @@
                 display: inline-block; /* 確保它跟著前面的數字 */
             }
 
-            /* --- 2. 聯絡資訊修復：時段換行 & 按鈕對齊 --- */
-            .contact-info p {
-                font-size: 0.95rem !important;
-                display: flex;
-                flex-direction: column; /* 讓標題與內容直排 */
-                align-items: flex-start;
-                margin-bottom: 15px;
-                line-height: 1.6;
-                gap: 2px !important; /* ✅ 減少圖示跟文字的垂直間距 */
+/* --- 2. 聯絡資訊 V9.0 (LINE/IG 同行 + 行高統一) --- */
+            
+            /* 1. 設定所有項目的統一間距與行高 */
+            .contact-item {
+                font-size: 0.9rem !important;
+                margin-bottom: 15px; /* 每一項的距離 */
+                line-height: 1.6; /* ✅ 統一行高，看起來才舒服 */
+                display: block; /* 預設區塊顯示 */
             }
             
-            .contact-info {
-                text-align: left;
-                width: 100%;
+            /* 2. 標題樣式 (地址、LINE、IG...) */
+            .contact-item strong {
+                display: block; /* 標題自己佔一行 */
+                margin-bottom: 4px; /* 標題跟內容稍微分開一點點 */
+                font-size: 1rem;
+                color: #efb748; /* 標題用品牌黃色，更清楚 */
             }
 
-            /* 👇 關鍵修正：針對「每日可預約時段：」 */
-            .contact-info strong {
-                display: block;
-                margin-bottom: 0px !important; /* ✅ 強制歸零！不准有空行 */
-                line-height: 1.2; /* 行高縮小，讓它跟下面更緊密 */
+            /* 3. 社交專區 (讓 LINE 跟 IG 並排) */
+            .social-row {
+                display: flex;
+                gap: 20px; /* 兩個帳號中間的距離 */
+                margin-bottom: 15px;
+            }
+            .social-row .contact-item {
+                margin-bottom: 0; /* 裡面不需要底部間距 */
+            }
+
+            /* 4. 時間專區特別調整 */
+            .time-item span {
+                display: block; /* 確保時間內容換行 */
             }
 
             /* --- 3. 按鈕對齊修復 --- */
@@ -1327,15 +1337,32 @@
     ">
         <h2 class="section-title" style="color: #efb748;">📍 聯絡我們</h2>
         
-        <div class="contact-container">
-            <div class="contact-info">
-                <p><strong>🏠 地址：</strong> 新北市蘆洲區三民路128巷68號</p>
-                <p><strong>📞 LINE 預約：</strong> @tangping</p>
-                <p><strong>📷 Instagram：</strong> tangping_68</p>
-                <p><strong>⏰ 每日可預約時段：</strong> <br>10:00 | 12:00 | 14:00 | 15:40 <span class="mobile-break"><br></span> 17:10 | 19:30 | 21:10</p>
+        <div class="contact-info">
+                <p class="contact-item">
+                    <strong>🏠 地址：</strong> 
+                    <span>新北市蘆洲區三民路128巷68號</span>
+                </p>
+
+                <div class="social-row">
+                    <p class="contact-item">
+                        <strong>📞 LINE：</strong> 
+                        <a href="https://line.me/R/ti/p/@tangping" target="_blank" style="color: #fff; text-decoration: underline;">@tangping</a>
+                    </p>
+                    <p class="contact-item">
+                        <strong>📷 IG：</strong> 
+                        <a href="https://instagram.com/tangping_68" target="_blank" style="color: #fff; text-decoration: underline;">tangping_68</a>
+                    </p>
+                </div>
+
+                <p class="contact-item time-item">
+                    <strong>⏰ 每日可預約時段：</strong>
+                    <span>
+                        10:00 | 12:00 | 14:00 | 15:40 <span class="mobile-break"><br></span>
+                        17:10 | 19:30 | 21:10
+                    </span>
+                </p>
                 
-                <br>
-                <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="border:none; background-color:#00B900; color:white;">
+                <br> <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="border:none; background-color:#00B900; color:white;">
                     加入 LINE 預約
                 </a>
                 <a href="https://instagram.com/tangping_68" target="_blank" class="btn-main" style="border:none; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color:white; margin-left: 10px;">
@@ -1502,6 +1529,7 @@
 
 </body>
 </html>
+
 
 
 
