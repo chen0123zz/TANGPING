@@ -204,7 +204,20 @@
             
             /* 按鈕 */
             .btn-group { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; }
-            .contact-info .btn-main { width: 100% !important; margin: 0 !important; text-align: center; }
+            /* 按鈕修復：防止爆框 */
+            .contact-info .btn-main { 
+                width: 100% !important; 
+                margin: 8px 0 !important; 
+                text-align: center; 
+                display: flex !important; 
+                justify-content: center !important; 
+                
+                /* 🔥 關鍵：確保內距不會撐大寬度 */
+                box-sizing: border-box !important; 
+                
+                /* 如果還是爆框，可以試試看這個 (縮小一點點) */
+                /* max-width: 100%; */
+            }
 
             /* 4. 其他修正 */
             .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
@@ -515,3 +528,4 @@
     </script>
 </body>
 </html>
+
