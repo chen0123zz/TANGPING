@@ -525,11 +525,11 @@
         }
 
 		/* ============================================= */
-        /* 📱 手機版專屬修正 V12.0 (字體、日曆、聯絡)      */
+        /* 📱 手機版專屬修正 V13.0 (日曆防爆、聯絡緊密版)   */
         /* ============================================= */
         @media (max-width: 768px) {
             
-            /* --- 1. 日曆修復：極限壓縮防爆框 --- */
+            /* --- 1. 日曆與時段修復 --- */
             .booking-container {
                 padding: 20px 5px !important; /* 左右內距縮到最小 */
                 width: 100% !important;
@@ -538,20 +538,21 @@
             .calendar-grid {
                 display: grid !important;
                 grid-template-columns: repeat(7, 1fr) !important;
-                gap: 2px !important; /* ✅ 間距縮到 2px，擠出空間 */
+                gap: 2px !important; /* ✅ 間距縮到 2px (關鍵！擠出空間) */
                 width: 100% !important;
             }
-            /* 讓星期標題字變小 */
+            /* 星期標題 */
             .calendar-grid > div:nth-child(-n+7) { 
                 font-size: 0.7rem !important; 
                 padding-bottom: 5px; 
             }
+            /* 日期格子 */
             .calendar-day {
                 height: auto !important;
                 aspect-ratio: 1 / 1;
-                font-size: 0.75rem !important;
+                font-size: 0.75rem !important; /* 字縮小 */
                 padding: 0 !important;
-                border-radius: 4px !important; /* 圓角改小 */
+                border-radius: 4px !important;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -559,20 +560,62 @@
             }
             .calendar-day span {
                 font-size: 0.5rem !important;
-                transform: scale(0.85); /* 字體再縮小一點 */
+                transform: scale(0.85);
                 margin-top: 0px;
             }
+            /* 時段按鈕：強制一排3個，大小一致 */
+            .time-grid { 
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important; /* 改成一排3個比較寬鬆 */
+                gap: 8px !important;
+            }
+            .time-btn {
+                width: 100% !important; /* 強制填滿格子 */
+                padding: 10px 0 !important; /* 上下內距 */
+                font-size: 0.9rem !important;
+                box-sizing: border-box;
+            }
 
-            /* --- 2. 聯絡資訊：LINE/IG 換行 + 消滅空行 --- */
-            /* 社交專區：強制直排 (換行) */
+            /* --- 2. 聯絡資訊修復：消滅所有空隙 --- */
+            
+            /* 讓所有項目直排 (標題上、內容下) */
+            .contact-info p.contact-item {
+                font-size: 0.95rem !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                margin-bottom: 15px !important;
+                line-height: 1.5 !important;
+                padding: 0 !important;
+                text-align: left !important;
+                gap: 0px !important; /* ✅ 關鍵！標題跟內容之間不要有縫隙 */
+            }
+
+            /* 標題設定 (每日可預約時段...) */
+            .contact-info strong {
+                display: block !important;
+                width: 100% !important;
+                margin-bottom: 0px !important; /* ✅ 強制歸零！貼緊下面 */
+                padding-bottom: 2px !important; /* 只留一點點呼吸 */
+                line-height: 1.2 !important;
+            }
+            
+            /* 內容設定 (時間表) */
+            .contact-info span {
+                display: block !important;
+                margin-top: 0 !important;
+            }
+
+            /* 社交專區 (LINE/IG) */
             .social-row {
                 display: flex !important;
-                flex-direction: column !important; /* 🔥 關鍵：改成直排 */
-                gap: 10px !important; /* 上下間距 */
+                flex-direction: column !important; /* 直排 */
+                gap: 5px !important; /* ✅ 縮小 LINE 跟 IG 之間的距離 (原本可能是 20px) */
                 margin-bottom: 15px !important;
-                align-items: flex-start !important; /* 靠左對齊 */
+                align-items: flex-start !important;
+                width: 100% !important;
             }
-            /* 裡面的項目 (LINE 一行, IG 一行) */
+            /* 社交專區裡的項目 */
             .social-row .contact-item {
                 margin-bottom: 0 !important;
                 display: flex !important;
@@ -581,29 +624,30 @@
                 gap: 5px !important;
                 width: 100%;
             }
-            
-            /* 消滅「可預約時段」中間的空行 */
-            .contact-info strong {
-                display: block !important;
-                width: 100% !important;
-                margin-bottom: 0px !important; /* ✅ 強制歸零！貼緊下面 */
+            /* 社交專區裡的標題 (LINE:, IG:) */
+            .social-row strong {
+                width: auto !important;
+                margin-bottom: 0 !important;
                 padding-bottom: 0 !important;
-                line-height: 1.2 !important;
-            }
-            /* 針對內容的修正 */
-            .contact-info p {
-                margin-bottom: 15px !important;
-            }
-            .contact-info span {
-                display: block !important;
-                margin-top: 2px !important; /* 只留一點點縫隙 */
             }
 
-            /* --- 3. 其他必要的手機版設定 (保留) --- */
-            header {
-                position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000;
-                background: rgba(255, 255, 255, 0.98); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 10px 0; transition: transform 0.3s ease;
+            /* 按鈕與地圖 */
+            .contact-info .btn-main {
+                width: 100% !important;
+                margin: 8px 0 !important;
+                padding: 12px 0 !important;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-sizing: border-box;
+                text-align: center;
             }
+            .contact-info a { margin-left: 0 !important; text-decoration: none; }
+            .map-box { height: 250px !important; border-radius: 15px; overflow: hidden; width: 100% !important; }
+            
+            /* --- 3. 其他保留設定 (導覽列、圖卡...) --- */
+            /* 導覽列：Logo 置中 + 選單在下 */
+            header { position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(255, 255, 255, 0.98); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 10px 0; transition: transform 0.3s ease; }
             header.nav-hidden { transform: translateY(-100%); }
             body { padding-top: 110px; }
             .header-content { flex-direction: column !important; gap: 10px; }
@@ -611,7 +655,7 @@
             .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
             .nav-menu a { background-color: #f3f3f3; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; color: #555; flex-shrink: 0; margin: 0; white-space: nowrap; }
             
-            /* 圖卡修正 */
+            /* 標題與圖卡 */
             .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
             .info-grid, .qa-grid { display: flex !important; overflow-x: auto !important; gap: 15px !important; padding: 30px 20px 30px 20px !important; margin: 0 -20px !important; scroll-snap-type: x mandatory; scrollbar-width: none; align-items: stretch; }
             .info-card, .qa-card { min-width: 70vw !important; margin: 0 !important; scroll-snap-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; position: relative; overflow: visible !important; }
@@ -620,9 +664,6 @@
             /* 聯絡區塊外觀 */
             #contact { margin: 20px 15px !important; border-radius: 20px !important; width: auto !important; padding: 30px 20px !important; box-sizing: border-box; }
             .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
-            .contact-info .btn-main { width: 100% !important; margin: 8px 0 !important; padding: 12px 0 !important; display: flex; justify-content: center; align-items: center; box-sizing: border-box; text-align: center; }
-            .contact-info a { margin-left: 0 !important; text-decoration: none; }
-            .map-box { height: 250px !important; border-radius: 15px; overflow: hidden; width: 100% !important; }
             
             /* 通用 */
             html, body { overflow-x: hidden; position: relative; }
@@ -1134,5 +1175,6 @@
 
 </body>
 </html>
+
 
 
