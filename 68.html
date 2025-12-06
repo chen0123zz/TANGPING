@@ -820,152 +820,119 @@
         }
 
 /* ============================================= */
-        /* 📱 手機版專屬修正 V4.0 (針對截圖問題修復)      */
+        /* 📱 手機版專屬修正 V5.0 (針對導覽列、日曆、卡片大小、黑框優化) */
         /* ============================================= */
         @media (max-width: 768px) {
             
-            /* --- 問題 2 修正：消滅右側空白 --- */
-            html, body {
-                overflow-x: hidden; /* 禁止左右滑動 */
+            /* --- 1. 導覽列修復：強制固定在上方 --- */
+            header {
+                position: fixed !important; /* 強制固定定位 */
+                top: 0;
+                left: 0;
                 width: 100%;
-                position: relative;
+                z-index: 1000; /* 確保在最上層 */
+                background: rgba(255, 255, 255, 0.95); /* 稍微透明的白底 */
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            /* 因為 header 變 fixed 了，內容要往下推，不然會被擋住 */
+            body {
+                padding-top: 70px; 
             }
 
-            /* --- 問題 1 修正：導覽列按鈕優化 (變圓形按鈕、增加間距) --- */
+            /* 導覽列按鈕樣式 (維持 V4 的好看樣式) */
             .nav-menu {
                 display: flex;
-                flex-wrap: nowrap; /* 不換行，讓它滑動 */
-                overflow-x: auto; /* 允許左右滑動 */
-                gap: 10px; /* 按鈕之間的距離 */
-                padding: 15px 20px; /* 上下左右留白，增加呼吸感 */
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 10px;
+                padding: 10px 15px;
                 -webkit-overflow-scrolling: touch;
-                scrollbar-width: none; /* 隱藏捲軸 */
+                scrollbar-width: none;
             }
             .nav-menu a {
-                background-color: #f3f3f3; /* 淺灰底色 */
-                padding: 8px 16px; /* 內距加大，好按 */
-                border-radius: 25px; /* 變圓角按鈕 (Pill shape) */
-                font-size: 0.9rem;
+                background-color: #f3f3f3;
+                padding: 6px 14px;
+                border-radius: 20px;
+                font-size: 0.85rem;
                 color: #555;
-                flex-shrink: 0; /* 防止被擠扁 */
-                margin: 0; /* 歸零 */
+                flex-shrink: 0;
+                margin: 0;
             }
 
-            /* --- 問題 3 修正：日曆置中 & 正方形 --- */
+            /* --- 2. 日曆優化：爭取空間，增加間距 --- */
+            /* 把白色底框的內距縮小，讓格子有更多空間呼吸 */
+            .booking-container {
+                padding: 20px 10px !important; /* 左右只留 10px */
+            }
             .calendar-grid {
-                justify-content: center !important; /* ✅ 強制置中 */
-                gap: 5px !important; /* 格子間距 */
-                padding: 0 5px !important; /* 避免貼邊 */
+                gap: 8px !important; /* ✅ 間距加大！原本可能只有 2-5px */
             }
             .calendar-day {
                 height: auto !important;
-                aspect-ratio: 1 / 1; /* 強制正方形 */
-                width: 100%; /* 填滿格子 */
-                font-size: 0.85rem !important;
-                padding: 0 !important;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-            .calendar-day span {
-                font-size: 0.6rem !important;
-                transform: scale(0.9);
+                aspect-ratio: 1 / 1;
+                font-size: 0.8rem !important;
+                border-radius: 8px !important; /* 圓角稍微明顯一點 */
             }
 
-            /* --- 問題 4 修正 V5.0：磁吸式滑動卡片 (一次一張) --- */
+            /* --- 3. 卡片瘦身：讓左右露出來更多 --- */
             .info-grid, .qa-grid {
                 display: flex !important;
                 overflow-x: auto !important;
                 gap: 15px !important;
-                
-                /* 👇 關鍵修正 1：設定磁吸容器 */
-                scroll-snap-type: x mandatory; /* x軸強制磁吸 */
-                
-                /* 👇 關鍵修正 2：讓容器左右留白，但看起來像滿版 */
-                padding: 10px 20px 40px 20px !important; /* 下方留空間給捲軸 */
-                margin: 0 -20px !important; /* 負邊距拉開容器 */
-                
-                -webkit-overflow-scrolling: touch; /* 讓滑動更順暢 */
-                scrollbar-width: none; /* 隱藏捲軸 (美觀) */
+                padding: 10px 20px 30px 20px !important;
+                margin: 0 -20px !important;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
             }
-            /* 隱藏捲軸 (Chrome/Safari) */
-            .info-grid::-webkit-scrollbar, .qa-grid::-webkit-scrollbar {
-                display: none;
-            }
-            
             .info-card, .qa-card {
-                /* 👇 關鍵修正 3：卡片寬度設為 100% 減去一點邊距 */
-                min-width: 85vw !important; /* 或是 90vw，看妳想要露出一點點下一張嗎？ */
-                margin: 0 !important; 
-                
-                /* 👇 關鍵修正 4：告訴瀏覽器「這裡是可以吸住的點」 */
-                scroll-snap-align: center; 
-                
+                min-width: 75vw !important; /* ✅ 改成 75%！變瘦了，左右看得到鄰居 */
+                margin: 0 !important;
+                scroll-snap-align: center;
                 box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
             }
-            
-            /* 讓最後一張卡片右邊有呼吸空間 */
+            /* 修正最後一張卡片的右邊距 */
             .info-card:last-child, .qa-card:last-child {
                 margin-right: 20px !important; 
             }
 
-            /* (選用) 自動加上編號：1/6, 2/6... */
-            .info-grid {
-                counter-reset: card-counter; /* 建立計數器 */
+            /* --- 4. 聯絡我們 (黑框) 空間優化 --- */
+            /* 針對黑框 (id="contact") 特別處理 */
+            #contact {
+                margin: 20px 0 !important; /* 左右 margin 歸零，讓它變滿版 */
+                border-radius: 0 !important; /* 如果變滿版，圓角可以拿掉或改小 */
+                width: 100% !important; /* 強制滿寬 */
+                padding: 40px 20px !important; /* 內部空間 */
             }
-            .info-card {
-                position: relative; /* 為了放編號 */
-            }
-            .info-card::before {
-                counter-increment: card-counter; /* 計數器 +1 */
-                content: counter(card-counter); /* 顯示數字 */
-                
-                /* 編號的樣式 */
-                position: absolute;
-                top: 10px;
-                right: 15px;
-                background: #eee;
-                color: #888;
-                font-size: 0.8rem;
-                padding: 2px 8px;
-                border-radius: 10px;
-                font-weight: bold;
-            }
-            
-            /* --- 問題 5 修正：地圖下方神秘黑條 --- */
-            .map-box {
-                height: 300px !important;
-                background-color: #333; /* 背景設為黑色，防止破圖看到白底 */
-            }
-            .map-box iframe {
-                display: block !important; /* ✅ 消除 iframe 下方的空白基線 */
-                vertical-align: bottom !important; /* 雙重保險 */
-                height: 100% !important;
-            }
-
-            /* --- 其他必要的手機版設定 (保留) --- */
-            .content-section {
-                padding: 40px 20px !important;
+            /* 針對所有區塊的通用設定 (除了黑框) */
+            .content-section:not(#contact) {
+                padding: 30px 20px !important;
                 margin: 20px 15px !important;
                 width: auto !important;
                 border-radius: 20px !important;
             }
-            /* 隱藏大箭頭 */
-            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn {
-                display: none !important; 
+
+            /* 聯絡資訊文字排版優化 */
+            .contact-info p {
+                font-size: 0.95rem !important;
+                display: flex; /* 讓圖示跟文字對齊 */
+                align-items: flex-start; /* 文字長的話，圖示停在第一行 */
+                gap: 8px;
             }
-            /* 優惠區塊直排 */
+            /* 隱藏原本文字裡的 emoji，改用 CSS 偽元素加圖示 (選用，如果覺得原本排版太亂) */
+            /* 目前先維持原樣，透過 flex 讓它整齊一點 */
+
+            /* 地圖與按鈕 */
+            .contact-container { grid-template-columns: 1fr !important; gap: 25px; }
+            .map-box { height: 300px !important; }
+            .contact-info .btn-main { width: 100%; margin: 8px 0 !important; }
+            .contact-info a { margin-left: 0 !important; }
+
+            /* --- 其他必要設定 (保留) --- */
+            html, body { overflow-x: hidden; position: relative; }
+            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
             .offer-card-layout { flex-direction: column !important; }
             .offer-img-box { padding: 0 !important; }
             .offer-text-box { padding: 25px !important; }
-            
-            /* 聯絡區塊直排 */
-            .contact-container { grid-template-columns: 1fr !important; gap: 30px; }
-            .contact-info .btn-main { width: 100%; box-sizing: border-box; margin: 10px 0 !important; }
-            .contact-info a { margin-left: 0 !important; }
-            
-            /* 關於我們區塊修正 */
             #about { padding-left: 15px !important; padding-right: 15px !important; }
         }
         
@@ -1525,6 +1492,7 @@
 
 </body>
 </html>
+
 
 
 
