@@ -857,37 +857,53 @@
                 display: inline-block; /* 確保它跟著前面的數字 */
             }
 
-/* --- 2. 聯絡資訊 V9.0 (LINE/IG 同行 + 行高統一) --- */
+/* --- 2. 聯絡資訊修復 V10.0 (絕對強制版) --- */
             
-            /* 1. 設定所有項目的統一間距與行高 */
-            .contact-item {
-                font-size: 0.9rem !important;
-                margin-bottom: 15px; /* 每一項的距離 */
-                line-height: 1.6; /* ✅ 統一行高，看起來才舒服 */
-                display: block; /* 預設區塊顯示 */
-            }
-            
-            /* 2. 標題樣式 (地址、LINE、IG...) */
-            .contact-item strong {
-                display: block; /* 標題自己佔一行 */
-                margin-bottom: 4px; /* 標題跟內容稍微分開一點點 */
-                font-size: 1rem;
-                color: #efb748; /* 標題用品牌黃色，更清楚 */
+            /* 1. 針對所有的聯絡項目設定 */
+            .contact-info p.contact-item {
+                font-size: 0.95rem !important;
+                display: flex !important;
+                flex-direction: column !important; /* 標題在上，內容在下 */
+                align-items: flex-start !important; /* 強制靠左對齊 */
+                margin-bottom: 15px !important;
+                line-height: 1.5 !important;
+                padding: 0 !important; /* 清除內距 */
+                text-align: left !important; /* 文字靠左 */
             }
 
-            /* 3. 社交專區 (讓 LINE 跟 IG 並排) */
+            /* 2. 針對標題 (強迫歸零，消滅空行！) */
+            .contact-info strong {
+                display: block !important;
+                width: 100% !important; /* 佔滿整行 */
+                margin-bottom: 2px !important; /* ✅ 只留 2px 縫隙，絕對不會空一行 */
+                padding-bottom: 0 !important;
+                line-height: 1.2 !important;
+            }
+
+            /* 3. 針對內容文字 (例如時間表) */
+            .contact-info span {
+                display: block !important;
+                margin-top: 0 !important; /* 確保頭上沒有空隙 */
+            }
+
+            /* 4. 社交專區 (LINE/IG 並排) */
             .social-row {
-                display: flex;
-                gap: 20px; /* 兩個帳號中間的距離 */
-                margin-bottom: 15px;
+                display: flex !important;
+                flex-direction: row !important; /* 強制橫排 */
+                gap: 20px !important;
+                margin-bottom: 15px !important;
+                align-items: center !important; /* 垂直置中 */
             }
+            /* 社交專區裡的項目，不要受上面直排影響 */
             .social-row .contact-item {
-                margin-bottom: 0; /* 裡面不需要底部間距 */
+                margin-bottom: 0 !important;
+                flex-direction: row !important; /* 這裡改回橫排 */
+                align-items: center !important;
+                gap: 5px !important;
             }
-
-            /* 4. 時間專區特別調整 */
-            .time-item span {
-                display: block; /* 確保時間內容換行 */
+            .social-row strong {
+                width: auto !important; /* 標題不用佔滿 */
+                margin-bottom: 0 !important;
             }
 
             /* --- 3. 按鈕對齊修復 --- */
@@ -1548,6 +1564,7 @@
 
 </body>
 </html>
+
 
 
 
