@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+<link rel="icon" href="logo2.png" type="image/png">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>躺平運動按摩 TANG PING - 預約官網</title>
@@ -31,16 +33,21 @@
             color: var(--text-dark);
         }
 
-        /* 導覽列 (最上面那條) */
+       /* 導覽列 (最上面那條) */
         header {
             background-color: #fff;
             padding: 15px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 微微的陰影 */
-            display: flex;
-            justify-content: center; /* 讓 LOGO 居中 */
-            align-items: center;
-            position: sticky; /* 讓它黏在網頁最上方 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            
+            /* 原本應該有這兩行，確保它黏在上面 */
+            position: sticky; 
             top: 0;
+
+            /* 👇👇👇 加入這一行！讓它變成網頁的老大，誰都不能蓋過它 👇👇👇 */
+            z-index: 1000; 
+            
+            /* 下面這些維持原本的不用動 */
+            display: block; 
         }
 
         /* LOGO 圖片設定 */
@@ -106,11 +113,17 @@
         }
         
         /* 頁尾 */
+        /* --- 頁尾樣式優化 --- */
         footer {
             text-align: center;
-            padding: 20px;
-            background-color: #ece6dc; /* 稍微深一點的米色 */
-            font-size: 0.9rem;
+            padding: 5px 5px; /* 上下留點空間，才不會太擠 */
+            
+            /* 👇 把原本的背景顏色拿掉，或是改成跟 body 一樣的背景色 */
+            background-color: transparent; 
+            
+            color: #999; /* 文字顏色調淡一點，更有質感 */
+            font-size: 0.85rem; /* 字稍微縮小一點點 */
+            margin-top: 20px;
         }
 ```css
         /* --- 新增的服務區塊樣式 --- */
@@ -573,6 +586,259 @@
             }
         }
 
+/* --- 懸浮按鈕樣式 --- */
+        .floating-btn-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column; /* 讓兩個按鈕上下排 */
+            gap: 10px;
+            z-index: 999; /* 確保它浮在最上層 */
+        }
+
+        .float-btn {
+            width: 45px;
+            height: 45px;
+            background-color: var(--brand-color); /* 用阿庠的品牌黃色 */
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .float-btn:hover {
+            background-color: #333; /* 滑鼠移上去變黑色 */
+            transform: scale(1.1); /* 稍微放大 */
+        }
+
+/* --- 手機版選單優化 (讓選單變橫向滑動) --- */
+        @media (max-width: 600px) {
+            .nav-menu {
+                white-space: nowrap; /* 強制不換行 */
+                overflow-x: auto; /* 超出範圍就左右滑動 */
+                padding-bottom: 10px; /* 留點空間給滑動條 */
+                -webkit-overflow-scrolling: touch; /* 讓滑動更順暢 */
+            }
+            
+            .nav-menu a {
+                display: inline-block;
+                padding: 5px 10px;
+                background: #f5f5f5; /* 加個底色像按鈕 */
+                border-radius: 20px;
+                margin-right: 5px;
+                font-size: 0.85rem;
+            }
+        }
+
+/* --- 箭頭精準定位 V4 (放在黃框的走廊上) --- */
+        
+        /* 定義我們自己的按鈕樣式 */
+        .my-prev-btn,
+        .my-next-btn {
+            position: absolute; /* 絕對定位 */
+            top: 60%; /* 垂直居中 (稍微偏下因為有標題) */
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10; /* 確保浮在最上面 */
+            cursor: pointer;
+        }
+
+        /* 箭頭符號大小 */
+        .my-prev-btn::after,
+        .my-next-btn::after {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* 左邊箭頭：放在左邊 10px 的位置 */
+        .my-prev-btn {
+            left: 10px;
+        }
+        
+        /* 右邊箭頭：放在右邊 10px 的位置 */
+        .my-next-btn {
+            right: 10px;
+        }
+
+        /* 手機版調整 */
+        @media (max-width: 600px) {
+            #about {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+            /* 手機版箭頭可以稍微隱藏或變小，以免擋到圖 */
+            .my-prev-btn, .my-next-btn {
+                width: 30px; 
+                height: 30px;
+                background-color: rgba(255,255,255,0.8);
+            }
+            .my-prev-btn::after, .my-next-btn::after { font-size: 0.8rem; }
+            .my-prev-btn { left: 5px; }
+            .my-next-btn { right: 5px; }
+        }
+
+/* --- 地圖區塊優化 --- */
+        .map-box {
+            width: 100%;
+            height: 300px; /* 設定地圖高度 */
+            border-radius: 15px; /* 圓角 */
+            overflow: hidden; /* 確保圓角不被地圖直角蓋住 */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* 加深一點陰影，因為背景是黑的 */
+        }
+        
+        /* 確保 iframe 填滿盒子 */
+        .map-box iframe {
+            display: block; /* 消除下方可能出現的白邊 */
+        }
+
+/* --- 聯絡資訊黑卡片優化 --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 左右各一半 */
+            gap: 40px; /* 中間留 40px 的空隙 */
+            align-items: center;
+        }
+
+        /* 手機版調整：變回直排，且地圖在下 */
+        @media (max-width: 768px) {
+            #contact {
+                padding: 30px 20px !important; /* 手機版內距縮小 */
+                margin: 20px !important; /* 手機版左右留點邊 */
+                width: auto; /* 自動寬度 */
+            }
+            .contact-container {
+                grid-template-columns: 1fr; /* 變單欄 */
+                gap: 30px;
+            }
+            .map-box {
+                height: 250px; /* 手機版地圖不用太高 */
+            }
+        }
+
+/* --- 預約須知六宮格樣式 --- */
+        .info-grid {
+            display: grid;
+            /* 電腦版：分成 2 欄 (因為原本只有半邊寬度) 或 3 欄 (如果是滿版) */
+            /* 這裡設定自動適應：最小寬度 200px，能塞幾個就塞幾個 */
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+       /* --- 1. 預約須知 (Emoji 同行版) --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto; /* 居中 */
+        }
+
+        .info-card {
+            background: #fff;
+            padding: 20px 25px; /* 稍微加寬一點內距 */
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            text-align: left;
+            transition: transform 0.2s;
+            border-left: 5px solid transparent; /* 預留左邊框 */
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            border-left: 5px solid var(--brand-color); /* 滑鼠移上去左邊亮燈 */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+        }
+
+        /* 關鍵：讓圖示和標題排在同一行 */
+        .card-header {
+            display: flex;
+            align-items: center; /* 垂直居中 */
+            gap: 12px; /* 圖示跟字的距離 */
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eee; /* 加一條淡淡的分隔線 */
+            padding-bottom: 10px;
+        }
+
+        .info-icon {
+            font-size: 1.8rem;
+            line-height: 1; /* 防止 emoji 被撐高 */
+        }
+
+        .info-card h4 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .info-card p {
+            margin: 0;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- Q&A 知識卡片網格 (修正版) --- */
+        .qa-grid {
+            display: grid;
+            gap: 30px; /* 卡片之間的距離 */
+            margin-top: 40px;
+            
+            /* 👇 關鍵在這裡！我們用「媒體查詢」來強制規定 */
+            /* 手機版預設：1 欄 (直的一排) */
+            grid-template-columns: 1fr; 
+        }
+
+        /* 當螢幕寬度大於 768px (平板/電腦) 時，強制變 2 欄 */
+        @media (min-width: 768px) {
+            .qa-grid {
+                /* 強制分成兩半，不管是寬螢幕還是窄螢幕，只要不是手機就是 2x2 */
+                grid-template-columns: 1fr 1fr; 
+            }
+        }
+
+        .qa-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            position: relative; /* 為了放標籤 */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+        }
+        
+        /* 卡片上的小標籤 (Question 1) */
+        .qa-badge {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background-color: #5e4b35; /* 棕色系，呼應妳原本的圖 */
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .qa-card h3 {
+            margin-top: 10px;
+            color: #333;
+            font-size: 1.3rem;
+        }
+
         /* --- CSS 結束 --- */
     </style>
 </head>
@@ -659,11 +925,22 @@
         </div>
     </section>
 
-<section class="content-section" id="about" style="background-color: #fffaf0 ; padding-bottom: 20px;">
-        <h2 class="section-title">關於運動按摩</h2>
-        <p class="section-desc">左右滑動卡片，了解我們如何幫助您的身體 👇</p>
+<section class="content-section" id="about" style="
+        background-color: #fffaf0; 
+        padding-bottom: 50px; 
+        border-radius: 20px; 
+        margin: 40px auto; 
+        max-width: 900px; 
+        position: relative; /* 讓箭頭可以定位 */
+        padding-left: 60px;  /* 左邊留 60px 給箭頭 */
+        padding-right: 60px; /* 右邊留 60px 給箭頭 */
+        box-sizing: border-box; /* 確保寬度包含 padding，不會爆開 */
+    ">
+        
+        <h2 class="section-title" style="padding-top: 20px;">關於運動按摩</h2>
+        <p class="section-desc" style="margin-bottom: 30px;">左右滑動卡片，了解我們如何幫助您的身體 👇</p>
 
-        <div class="swiper mySwiper">
+        <div class="swiper mySwiper" style="width: 100%; height: 100%; overflow: hidden; border-radius: 10px;">
             <div class="swiper-wrapper">
                 
                 <div class="swiper-slide">
@@ -704,9 +981,11 @@
 
             </div>
             <div class="swiper-pagination"></div>
-            <div class="swiper-button-next" style="color: var(--brand-color);"></div>
-            <div class="swiper-button-prev" style="color: var(--brand-color);"></div>
         </div>
+
+        <div class="swiper-button-next my-next-btn" style="color: var(--brand-color);"></div>
+        <div class="swiper-button-prev my-prev-btn" style="color: var(--brand-color);"></div>
+
     </section>
 
 <section class="content-section" id="services">
@@ -845,39 +1124,119 @@
         </div>
     </section>
 
-<section class="content-section" id="notice">
-        <h2 class="section-title">📝 預約前請詳閱</h2>
+<section class="content-section" id="notice" style="
+        background-color: #f9f9f9; 
+        padding: 50px 40px; 
+        border-radius: 30px;      /* ✅ 變圓角了！ */
+        max-width: 1000px;        /* ✅ 限制寬度，跟上下對齊 */
+        margin: 40px auto;        /* ✅ 置中且留出呼吸空間 */
+        box-shadow: 0 5px 20px rgba(0,0,0,0.03); /* ✅ 淡淡的陰影增加層次 */
+    ">
         
-        <div class="notice-grid">
-            <div class="notice-box">
-                <h3>⚠️ 預約須知</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 10px;"><strong>穿著建議：</strong> <li>請穿著或攜帶運動服裝，女性建議穿著運動內衣。</li>
-                    <li style="margin-bottom: 10px;"><strong>飲食建議：</strong><li> 按摩前可稍微進食，但切勿飽腹前來。</li>
-                    <li style="margin-bottom: 10px;"><strong>心理準備：</strong> <li>運動按摩不同於一般按摩，偶有痠痛感。</li>
-                    <li style="margin-bottom: 10px;"><strong>主動告知：</strong> <li>若有手術舊疾或身體不適部位，請主動告知。</li>
-                    <li style="margin-bottom: 10px;"><strong>首次體驗：</strong> <li>建議預約 90 分鐘方案，包含完整評估。</li>
-                    <li style="margin-bottom: 10px;"><strong>醫療聲明：</strong> <li>運動按摩無法替代醫療行為，身體不適請洽醫療機構。</li>
+        <h2 class="section-title">⚠️ 預約須知</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="info-icon">🎽</div>
+                    <h4>穿著建議</h4>
+                </div>
+                <p>請穿著或攜帶<strong>運動服裝</strong>，女性建議穿著運動內衣，方便伸展與放鬆。</p>
             </div>
 
-            <div class="notice-box" style="border-top-color: #88c1b8;">
-                <h3>💡 按摩後身體小知識 (Q&A)</h3>
-                <p><strong>Q: 按摩完隔天身體痠痛是正常的嗎？</strong></p>
-                <p style="color: #666;">A: 是的！這稱為「延遲性肌肉痠痛 (DOMS)」。這是深層按摩後，身體排出代謝廢物及修復微小損傷的自然過程。</p>
-                <br>
-                <p><strong>該如何緩解呢？</strong></p>
-                <ul>
-                    <li>♨️ 熱敷或泡熱水澡，促進血液循環。</li>
-                    <li>💧 多補充水分，幫助代謝廢物排出。</li>
-                    <li>🚶‍♂️ 適度輕微運動（如散步）。</li>
-                    <li>🛌 充分休息，避免過度疲勞。</li>
-                </ul>
-                <p style="text-align: right; color: #88c1b8; font-weight: bold;">別擔心，緩解後肌肉會更結實強壯！💪</p>
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="info-icon">🍱</div>
+                    <h4>飲食建議</h4>
+                </div>
+                <p>按摩前可稍微進食，但<strong>切勿飽腹前來</strong>，以免趴臥時造成腹部不適。</p>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="info-icon">💪</div>
+                    <h4>心理準備</h4>
+                </div>
+                <p>運動按摩不同於一般放鬆，針對沾黏處處理時<strong>偶有痠痛感</strong>，屬正常現象。</p>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="info-icon">🤕</div>
+                    <h4>主動告知</h4>
+                </div>
+                <p>若有手術舊疾、懷孕或身體不適部位，請<strong>務必主動告知</strong>師傅。</p>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="info-icon">🕒</div>
+                    <h4>首次體驗</h4>
+                </div>
+                <p>建議預約 <strong>90 分鐘方案</strong>，包含完整評估與測試，較能充分感受成效。</p>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="info-icon">🏥</div>
+                    <h4>醫療聲明</h4>
+                </div>
+                <p>運動按摩<strong>無法替代醫療行為</strong>，若有急性發炎或嚴重不適，請先就醫。</p>
             </div>
         </div>
-    </section>
 
-<section class="content-section" id="contact" style="background-color: #333; color: #fff;">
+  <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
+        <p class="section-desc">關於「運動按摩」與「延遲性肌肉痠痛 (DOMS)」，你需要知道的事 👇</p>
+
+        <div class="qa-grid">
+            
+            <div class="qa-card">
+                <div class="qa-badge" style="background-color: #d35400;">Question 1</div>
+                <h3>跟一般按摩差在哪？</h3>
+                <hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;">
+                <p><strong>A: 目的完全不同！</strong></p>
+                <p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p>
+            </div>
+       
+            <div class="qa-card">
+                <div class="qa-badge">Question 2</div>
+                <h3>按摩後隔天，身體有點痠痛正常嗎？</h3>
+                <hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;">
+                <p><strong>A: 是正常的喔！👌</strong></p>
+                <p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛(DOMS)」。</p>
+            </div>
+
+            <div class="qa-card">
+                <div class="qa-badge" style="background-color: #88c1b8;">Question 3</div>
+                <h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3>
+                <hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;">
+                <p><strong>A: 這是修復的信號！🛠️</strong></p>
+                <p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p>
+            </div>
+
+            <div class="qa-card">
+                <div class="qa-badge" style="background-color: #e67e22;">Question 4</div>
+                <h3>該如何緩解痠痛感？</h3>
+                <hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;">
+                <p><strong>A: 這些方法很有用！🛁</strong></p>
+                <ul style="text-align: left; color: #666; font-size: 0.95rem; line-height: 1.6;">
+                    <li>♨️ 熱敷或泡熱水澡</li>
+                    <li>💧 多補充水分代謝廢物</li>
+                    <li>🚶‍♂️ 輕微活動 (如散步)</li>
+                    <li>🛌 充分休息，避免疲勞</li>
+                </ul>
+            </div>
+            
+        </div> 
+
+<section class="content-section" id="contact" style="
+        background-color: #333; 
+        color: #fff; 
+        border-radius: 30px;      /* 變圓角了！ */
+        max-width: 900px;         /* 寬度限制 900px (跟上面對齊) */
+        margin: 30px auto;        /* 讓它置中，並且跟上下有點距離 */
+        padding: 20px 20px;       /* 內部留白，讓文字不要貼邊 */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* 加一點陰影，更有質感 */
+    ">
         <h2 class="section-title" style="color: #efb748;">📍 聯絡我們</h2>
         
         <div class="contact-container">
@@ -897,13 +1256,25 @@
             </div>
             
             <div class="map-box">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.567890123456!2d121.47!3d25.08!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDA0JzQ4LjAiTiAxMjHCsDI4JzEyLjAiRQ!5e0!3m2!1szh-TW!2stw!4v1600000000000!5m2!1szh-TW!2stw" width="100%" height="300" style="border:0; border-radius: 10px;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe 
+                    /* 👇 關鍵在這裡！把原本的 600 改成 100% */
+                    width="100%" 
+                    /* 👇 把原本的 450 也改成 100%，這樣它就會乖乖聽我們 CSS 的話 (300px 高) */
+                    height="300" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    /* 👇 這是妳剛剛複製出來的網址 (我幫妳填進去了) */
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.370022826966!2d121.46770401095526!3d25.08933283596854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90055f62f55%3A0x9cc567681495fd17!2z6Lq65bmz6YGL5YuV5oyJ5pGp!5e0!3m2!1szh-TW!2stw!4v1765006184538!5m2!1szh-TW!2stw">
+                </iframe>
             </div>
+
         </div>
     </section>
 
     <footer>
-        <p>© 2025 TANG PING Sport Massage. Designed by Kuanying.</p>
+        <p>© 2025 TANG PING Sport Massage. Designed by Chen0123.</p>
     </footer>
 
 <script>
@@ -952,8 +1323,9 @@
                 clickable: true,
             },
             navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
+                // 改成我們新取的 class 名字
+                nextEl: ".my-next-btn",
+                prevEl: ".my-prev-btn",
             },
             autoplay: {
                 delay: 4000, // 我把自動播放時間稍微拉長一點 (4秒)，讓客人有時間看完 3 張圖
@@ -980,6 +1352,23 @@
             },
         });
 
+    </script>
+
+<div class="floating-btn-container">
+        <button onclick="scrollToTop()" class="float-btn" title="回到最上方">▲</button>
+        <button onclick="scrollToBottom()" class="float-btn" title="去最下方">▼</button>
+    </div>
+
+    <script>
+        // 回到最上面的功能
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 去到最下面的功能 (假設最下面是 footer)
+        function scrollToBottom() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
     </script>
 
 </body>
