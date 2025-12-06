@@ -50,6 +50,12 @@
             display: block; 
         }
 
+/* --- 修正點擊選單會被擋住的問題 --- */
+        section, .content-section {
+            /* 讓捲動時上方自動留出 100px 的緩衝空間 (大約是導覽列的高度) */
+            scroll-margin-top: 100px;
+        }
+        
         /* LOGO 圖片設定 */
         .logo-img {
             height: 50px; /* 設定 LOGO 高度，寬度會自動調整 */
@@ -580,6 +586,9 @@
             flex-direction: column; /* 讓兩個按鈕上下排 */
             gap: 10px;
             z-index: 999; /* 確保它浮在最上層 */
+            
+            /* 👇👇👇 就是加在這裡！ 👇👇👇 */
+            transition: opacity 0.5s ease; /* 讓透明度變化有動畫效果 */
         }
 
         .float-btn {
@@ -811,73 +820,99 @@
         }
 
 /* ============================================= */
-        /* 📱 手機版專屬微整形 (只在螢幕 < 768px 時生效) */
+        /* 📱 手機版專屬微整形 V2.0 (全方位優化版)       */
         /* ============================================= */
         @media (max-width: 768px) {
             
-            /* 1. 全域字體縮小：讓畫面精緻一點，不要那麼擁擠 */
-            html {
-                font-size: 14px; /* 電腦版預設是 16px，手機改 14px */
+            /* --- 1. 導覽列優化：增加呼吸空間 --- */
+            .nav-menu {
+                padding: 10px 15px; /* 上下左右多留白 */
+                display: flex;
+                align-items: center;
+                gap: 10px; /* 按鈕之間的距離 */
             }
-            h2.section-title {
-                font-size: 1.6rem !important; /* 標題變小 */
-                margin-bottom: 20px !important;
-            }
-            p, li {
-                font-size: 1rem !important; /* 內文變小 */
-                line-height: 1.6 !important;
-            }
-
-            /* 2. 輪播箭頭：在手機上太擋路了，直接隱藏！用滑的就好 */
-            .swiper-button-next, .swiper-button-prev,
-            .my-next-btn, .my-prev-btn {
-                display: none !important; 
+            .nav-menu a {
+                margin: 0; /* 歸零原本的 margin，改用 gap 控制 */
+                flex-shrink: 0; /* 禁止按鈕被擠扁 */
+                font-size: 0.9rem;
             }
 
-            /* 3. 區塊間距縮小：手機寸土寸金，不要留那麼多白邊 */
-            .content-section {
-                padding: 30px 20px !important; /* 內距縮小 */
-                margin: 20px 15px !important; /* 外距縮小 */
-                border-radius: 20px !important; /* 圓角稍微小一點 */
-                width: auto !important; /* 寬度自動 */
-                max-width: none !important;
-            }
-
-            /* 4. 最新優惠：圖片變滿版，文字縮小 */
-            .offer-card-layout {
-                flex-direction: column !important; /* 變直排 */
-            }
-            .offer-img-box {
-                padding: 0 !important; /* 圖片不留白，直接滿版 */
-                min-height: auto !important;
-            }
-            .offer-text-box {
-                padding: 20px !important;
-            }
-            .offer-text-box h3 { font-size: 1.4rem !important; }
-
-            /* 5. 預約須知 & Q&A：強制變成「直的一排」 (1欄) */
-            .info-grid, .qa-grid {
-                grid-template-columns: 1fr !important; /* 強制 1 欄 */
-                gap: 15px !important;
-            }
-            
-            /* 6. 關於運動按摩 (黃框)：修正留白 */
-            #about {
-                padding-left: 15px !important;
-                padding-right: 15px !important;
-            }
-
-            /* 7. 日曆：縮小字體，避免爆掉 */
+            /* --- 3. 線上預約日曆：強制正方形 --- */
             .calendar-day {
-                font-size: 0.8rem; 
-                padding: 5px 0;
-                height: 45px;
+                height: auto !important; /* 取消固定高度 */
+                aspect-ratio: 1 / 1; /* ✨ 魔法指令：寬高比永遠 1:1 (正方形) */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size: 0.9rem;
             }
             .calendar-day span {
                 font-size: 0.6rem;
-                display: block;
+                margin-top: 2px;
             }
+
+            /* --- 4. 須知 & QA：改成「橫向滑動卡片」(像 Netflix) --- */
+            /* 我們不把原本的格子擠成一排，而是讓它們變成橫向捲動 */
+            .info-grid, .qa-grid {
+                display: flex !important; /* 強制變成橫排 */
+                flex-wrap: nowrap !important; /* 禁止換行 */
+                overflow-x: auto; /* 允許左右滑動 */
+                gap: 15px !important;
+                padding-bottom: 20px; /* 下面留空間給滑動條 */
+                scroll-snap-type: x mandatory; /* 滑動時會有磁吸效果 */
+                -webkit-overflow-scrolling: touch; /* iOS 滑動更順暢 */
+                /* 隱藏醜醜的捲軸 (選用) */
+                scrollbar-width: none; 
+            }
+            .info-grid::-webkit-scrollbar, .qa-grid::-webkit-scrollbar {
+                display: none;
+            }
+            
+            /* 卡片本身的大小設定 */
+            .info-card, .qa-card {
+                min-width: 85vw; /* 每張卡片佔螢幕寬度的 85% (讓右邊露出一點點下一張) */
+                flex-shrink: 0; /* 禁止縮小 */
+                scroll-snap-align: center; /* 滑動停止時自動置中 */
+                margin-right: 0; /* 不需要 margin */
+            }
+
+            /* --- 5. 聯絡我們：按鈕修復 & 地圖長高 --- */
+            .contact-container {
+                grid-template-columns: 1fr !important;
+                gap: 30px;
+            }
+            
+            /* 按鈕變直排且滿版 */
+            .contact-info .btn-main {
+                display: flex; /* 改用 flex 讓圖示居中 */
+                justify-content: center;
+                align-items: center;
+                width: 100%; /* 寬度佔滿 */
+                margin: 10px 0 !important; /* 上下留間距 */
+                box-sizing: border-box; /* 確保 padding 不會撐破寬度 */
+            }
+            /* 讓兩個按鈕不再並排，而是上下堆疊 */
+            .contact-info a {
+                margin-left: 0 !important; /* 修正原本 IG 按鈕的左邊距 */
+            }
+
+            /* 地圖變高 */
+            .map-box {
+                height: 350px !important; /* 加高地圖，看起來才不會瘦長 */
+            }
+
+            /* 其他原本的縮小設定 (保留) */
+            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn {
+                display: none !important; 
+            }
+            .content-section {
+                padding: 40px 20px !important;
+                margin: 20px 15px !important;
+                width: auto !important;
+            }
+            .offer-card-layout { flex-direction: column !important; }
+            .offer-img-box { padding: 0 !important; }
         }
         
         /* --- CSS 結束 --- */
@@ -1400,6 +1435,27 @@
         <button onclick="scrollToBottom()" class="float-btn" title="去最下方">▼</button>
     </div>
 
+    // --- 懸浮按鈕自動隱藏功能 ---
+        let isScrolling;
+        const floatBtns = document.querySelector('.floating-btn-container');
+
+        // 監聽捲動事件
+        window.addEventListener('scroll', function() {
+            // 1. 一開始滑動，就顯示按鈕 (透明度改回 1)
+            floatBtns.style.opacity = '1';
+            floatBtns.style.pointerEvents = 'auto'; // 讓它可以被點擊
+
+            // 2. 清除之前的計時器 (重新倒數)
+            window.clearTimeout(isScrolling);
+
+            // 3. 設定新的計時器：如果 2 秒鐘沒有滑動...
+            isScrolling = setTimeout(function() {
+                // 就把按鈕隱藏 (透明度變 0)
+                floatBtns.style.opacity = '0.3'; // 改成 0.3 半透明，完全隱藏怕客人找不到，或者妳想改成 '0' 也可以
+                floatBtns.style.transition = 'opacity 0.5s ease'; // 加上淡出動畫
+            }, 2000); // 2000 毫秒 = 2 秒
+        }, false);
+    
     <script>
         // 回到最上面的功能
         function scrollToTop() {
@@ -1414,6 +1470,7 @@
 
 </body>
 </html>
+
 
 
 
