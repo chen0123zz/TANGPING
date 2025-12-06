@@ -837,44 +837,37 @@
                 font-size: 0.9rem;
             }
 
-            /* --- 3. 線上預約日曆：強制正方形 --- */
+            /* --- 3. 線上預約日曆修正 (防止爆框) --- */
+            .calendar-grid {
+                gap: 2px !important; /* 格子之間的縫隙縮到最小 */
+                margin-bottom: 20px !important;
+            }
             .calendar-day {
-                height: auto !important; /* 取消固定高度 */
-                aspect-ratio: 1 / 1; /* ✨ 魔法指令：寬高比永遠 1:1 (正方形) */
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                font-size: 0.9rem;
+                height: auto !important;
+                aspect-ratio: 1 / 1;
+                font-size: 0.8rem !important; /* 日期數字縮小 */
+                padding: 0 !important; /* 拿掉內距 */
+                border-radius: 4px !important; /* 圓角改小一點 */
             }
             .calendar-day span {
-                font-size: 0.6rem;
-                margin-top: 2px;
+                font-size: 0.55rem !important; /* 下面的小字縮到最小 */
+                transform: scale(0.9); /* 如果還是太大，用縮放再壓小一點 */
             }
 
-            /* --- 4. 須知 & QA：改成「橫向滑動卡片」(像 Netflix) --- */
-            /* 我們不把原本的格子擠成一排，而是讓它們變成橫向捲動 */
+            /* --- 4. 須知 & QA 滑動排版優化 --- */
             .info-grid, .qa-grid {
-                display: flex !important; /* 強制變成橫排 */
-                flex-wrap: nowrap !important; /* 禁止換行 */
-                overflow-x: auto; /* 允許左右滑動 */
-                gap: 15px !important;
-                padding-bottom: 20px; /* 下面留空間給滑動條 */
-                scroll-snap-type: x mandatory; /* 滑動時會有磁吸效果 */
-                -webkit-overflow-scrolling: touch; /* iOS 滑動更順暢 */
-                /* 隱藏醜醜的捲軸 (選用) */
-                scrollbar-width: none; 
-            }
-            .info-grid::-webkit-scrollbar, .qa-grid::-webkit-scrollbar {
-                display: none;
+                display: flex !important;
+                overflow-x: auto !important;
+                gap: 20px !important; /* 卡片間距加大一點點，比較舒服 */
+                padding: 10px 5px 30px 5px !important; /* 上下左右留空間給陰影 */
+                align-items: stretch; /* 讓所有卡片等高 */
+                margin: 0 -10px !important; /* 讓滑動區域往外擴一點，看起來像滿版 */
             }
             
-            /* 卡片本身的大小設定 */
             .info-card, .qa-card {
-                min-width: 85vw; /* 每張卡片佔螢幕寬度的 85% (讓右邊露出一點點下一張) */
-                flex-shrink: 0; /* 禁止縮小 */
-                scroll-snap-align: center; /* 滑動停止時自動置中 */
-                margin-right: 0; /* 不需要 margin */
+                min-width: 80vw !important; /* 寬度改窄一點，讓使用者更容易看到「下一張」 */
+                margin: 0 !important;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; /* 加深陰影，讓卡片浮起來 */
             }
 
             /* --- 5. 聯絡我們：按鈕修復 & 地圖長高 --- */
@@ -902,6 +895,11 @@
                 height: 350px !important; /* 加高地圖，看起來才不會瘦長 */
             }
 
+            .map-box iframe {
+                display: block !important; /* 消除底部白邊/黑條 */
+                vertical-align: bottom; /* 雙重保險 */
+            }
+            
             /* 其他原本的縮小設定 (保留) */
             .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn {
                 display: none !important; 
@@ -1471,6 +1469,7 @@
 
 </body>
 </html>
+
 
 
 
