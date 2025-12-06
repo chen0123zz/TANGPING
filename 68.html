@@ -820,11 +820,11 @@
         }
 
 /* ============================================= */
-        /* 📱 手機版專屬修正 V6.0 (精準對齊版)           */
+        /* 📱 手機版專屬修正 V7.0 (自動隱藏導覽列版)      */
         /* ============================================= */
         @media (max-width: 768px) {
             
-            /* --- 1. 導覽列修復：置中 & 完整顯示 --- */
+            /* --- 1. 導覽列優化：縮小按鈕 --- */
             header {
                 position: fixed !important;
                 top: 0;
@@ -833,47 +833,62 @@
                 z-index: 1000;
                 background: rgba(255, 255, 255, 0.98);
                 box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-                padding: 10px 0; /* 上下留白 */
+                padding: 8px 0; /* 上下留白縮小 */
+                transition: transform 0.3s ease; /* ✨ 讓隱藏有動畫效果 */
             }
-            body { padding-top: 80px; } /* 把內容往下推 */
+            /* 隱藏時的樣式 (往上移出畫面) */
+            header.nav-hidden {
+                transform: translateY(-100%);
+            }
+            
+            body { padding-top: 70px; }
 
             .nav-menu {
                 display: flex;
                 flex-wrap: nowrap;
                 overflow-x: auto;
-                gap: 10px;
-                padding: 5px 20px; /* 左右留白，確保第一顆按鈕不貼邊 */
+                gap: 8px; /* 間距縮小 */
+                padding: 5px 15px;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
-                align-items: center; /* 垂直置中 */
+                align-items: center;
             }
             .nav-menu a {
                 background-color: #f3f3f3;
-                padding: 8px 16px;
+                padding: 6px 12px; /* ✅ 內距縮小，讓按鈕變瘦 */
                 border-radius: 20px;
-                font-size: 0.9rem;
+                font-size: 0.8rem; /* ✅ 字體縮小 */
                 color: #555;
                 flex-shrink: 0;
                 margin: 0;
-                white-space: nowrap; /* 禁止文字換行 */
+                white-space: nowrap;
             }
 
-            /* --- 2. 日曆修復：防止爆框 & 字體微調 --- */
+            /* --- 2. 日曆修復：星期標題對齊 --- */
             .booking-container {
                 padding: 20px 10px !important;
                 width: 100% !important;
-                box-sizing: border-box; /* 確保 padding 不會撐大寬度 */
+                box-sizing: border-box;
             }
+            /* 星期標題也用 grid 排列，確保跟下面對齊 */
             .calendar-grid {
                 display: grid !important;
-                grid-template-columns: repeat(7, 1fr) !important; /* 強制 7 格 */
-                gap: 4px !important; /* 間距縮小一點，避免太擠 */
+                grid-template-columns: repeat(7, 1fr) !important;
+                gap: 4px !important;
                 width: 100% !important;
             }
+            /* 星期標題的樣式 (假設妳HTML裡有給它們 class 或 style) */
+            /* 這裡稍微暴力一點，選取 calendar-grid 裡面的前 7 個 div (如果是標題) */
+            .calendar-grid > div:nth-child(-n+7) {
+                text-align: center;
+                font-size: 0.7rem;
+                padding-bottom: 5px;
+            }
+
             .calendar-day {
                 height: auto !important;
                 aspect-ratio: 1 / 1;
-                font-size: 0.75rem !important; /* 字體再小一點 */
+                font-size: 0.75rem !important;
                 padding: 2px !important;
                 border-radius: 6px !important;
                 display: flex;
@@ -887,37 +902,36 @@
                 margin-top: 1px;
             }
 
-            /* --- 3. Q&A 標籤修復：增加頂部空間 --- */
+            /* --- 3. Q&A 圖卡瘦身：露出灰色背景 --- */
             .info-grid, .qa-grid {
                 display: flex !important;
                 overflow-x: auto !important;
                 gap: 15px !important;
-                /* 👇 關鍵：上邊距加大到 30px，給小標籤空間！ */
-                padding: 30px 20px 30px 20px !important; 
+                padding: 30px 20px 30px 20px !important;
                 margin: 0 -20px !important;
                 scroll-snap-type: x mandatory;
                 scrollbar-width: none;
-                align-items: stretch; /* 等高 */
+                align-items: stretch;
             }
             
             .info-card, .qa-card {
-                min-width: 80vw !important;
+                min-width: 70vw !important; /* ✅ 改成 70%！變更瘦，左右留白更多 */
                 margin: 0 !important;
                 scroll-snap-align: center;
                 box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
-                position: relative; /* 確保標籤定位正確 */
-                overflow: visible !important; /* ✅ 允許標籤凸出去！ */
+                position: relative;
+                overflow: visible !important;
             }
             .info-card:last-child, .qa-card:last-child {
                 margin-right: 20px !important; 
             }
 
-            /* --- 4. 聯絡我們修復：空間優化 --- */
+            /* --- 4. 聯絡我們修復：文字整齊 --- */
             #contact {
                 margin: 20px 0 !important;
                 border-radius: 0 !important;
                 width: 100% !important;
-                padding: 40px 25px !important; /* 增加內部呼吸空間 */
+                padding: 40px 20px !important;
                 box-sizing: border-box;
             }
             .contact-container {
@@ -927,13 +941,15 @@
                 width: 100% !important;
             }
             .contact-info, .map-box {
-                width: 100% !important; /* 強制滿寬 */
+                width: 100% !important;
             }
             .contact-info p {
-                font-size: 1rem !important;
+                font-size: 0.9rem !important; /* ✅ 字體縮小，避免換行 */
                 display: flex;
-                gap: 10px;
+                gap: 8px;
                 margin-bottom: 12px;
+                align-items: flex-start; /* 對齊頂部 */
+                line-height: 1.5;
             }
             .map-box {
                 height: 300px !important;
@@ -1508,11 +1524,31 @@
                 floatBtns.style.transition = 'opacity 0.5s ease'; // 加上淡出動畫
             }, 2000); // 2000 毫秒 = 2 秒
         }, false);
-    
+
+        // --- 導覽列自動隱藏功能 (手機版) ---
+        let lastScrollTop = 0;
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // 如果往下捲動超過 50px
+            if (scrollTop > lastScrollTop && scrollTop > 50) {
+                // 往下捲：隱藏導覽列
+                header.classList.add('nav-hidden');
+            } else {
+                // 往上捲：顯示導覽列
+                header.classList.remove('nav-hidden');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
     </script>
 
 </body>
 </html>
+
 
 
 
