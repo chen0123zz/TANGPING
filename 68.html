@@ -580,11 +580,13 @@
                 box-sizing: border-box;
             }
 
-            /* --- 2. 聯絡資訊修復 (維持上次的直排設定) --- */
+            /* --- 2. 聯絡資訊修復 V15.0 (標題同行 + 消滅空行) --- */
+            
+            /* 通用項目設定 */
             .contact-info p.contact-item {
                 font-size: 0.95rem !important;
                 display: flex !important;
-                flex-direction: column !important;
+                flex-direction: column !important; /* 預設直排 (地址、時間) */
                 align-items: flex-start !important;
                 margin-bottom: 15px !important;
                 line-height: 1.5 !important;
@@ -592,50 +594,42 @@
                 text-align: left !important;
                 gap: 0px !important;
             }
+
+            /* 針對標題 (地址、時間...) */
             .contact-info strong {
                 display: block !important;
                 width: 100% !important;
-                margin-bottom: 0px !important; 
-                padding-bottom: 2px !important;
+                margin-bottom: 0px !important; /* ✅ 強制歸零！貼緊下面 */
+                padding-bottom: 2px !important; 
                 line-height: 1.2 !important;
             }
-            .contact-info span {
-                display: block !important;
-                margin-top: 0 !important;
-            }
+            .contact-info span { display: block !important; margin-top: 0 !important; }
+
+            /* --- 社交專區 (LINE/IG) 特別處理 --- */
             .social-row {
                 display: flex !important;
-                flex-direction: column !important; 
-                gap: 5px !important;
+                flex-direction: column !important; /* 直排 (LINE 上、IG 下) */
+                gap: 5px !important; /* 兩個帳號間距 */
                 margin-bottom: 15px !important;
-                align-items: flex-start !important;
                 width: 100% !important;
             }
+            
+            /* 🔥 關鍵修正：LINE 和 IG 裡面要「橫排」 (標題 + 內容在同一行) */
             .social-row .contact-item {
                 margin-bottom: 0 !important;
                 display: flex !important;
-                flex-direction: row !important; 
-                align-items: center !important;
-                gap: 5px !important;
+                flex-direction: row !important; /* ✅ 改回橫排！ */
+                align-items: center !important; /* 垂直對齊 */
+                gap: 5px !important; /* 標題跟內容的距離 */
                 width: 100%;
             }
+            
+            /* 讓社交區的標題 (LINE:, IG:) 寬度自動，不要佔滿一行 */
             .social-row strong {
-                width: auto !important;
+                width: auto !important; /* ✅ 自動寬度 */
                 margin-bottom: 0 !important;
                 padding-bottom: 0 !important;
             }
-            .contact-info .btn-main {
-                width: 100% !important;
-                margin: 8px 0 !important;
-                padding: 12px 0 !important;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                box-sizing: border-box;
-                text-align: center;
-            }
-            .contact-info a { margin-left: 0 !important; text-decoration: none; }
-            .map-box { height: 250px !important; border-radius: 15px; overflow: hidden; width: 100% !important; }
             
             /* --- 3. 導覽列與其他設定 (維持 V11.0) --- */
             header { position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(255, 255, 255, 0.98); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 10px 0; transition: transform 0.3s ease; }
@@ -667,6 +661,16 @@
             td span { font-size: 0.65rem !important; display: inline-block; }
             .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
         }
+
+		/* --- 包堂方案提示語修正 (針對安卓) --- */
+            /* 選擇到那個 <p> 標籤 */
+            .services-grid + div p {
+                font-size: 0.75rem !important; /* 強制縮小字體 */
+                white-space: nowrap !important; /* 🔥 關鍵！死都不准換行 */
+                overflow: visible !important; /* 允許超出 */
+                margin-top: 15px !important;
+                letter-spacing: -0.5px; /* 字距稍微縮緊一點點 */
+            }
 		
     </style>
 </head>
@@ -1163,6 +1167,7 @@
 
 </body>
 </html>
+
 
 
 
