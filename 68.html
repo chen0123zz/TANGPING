@@ -820,97 +820,118 @@
         }
 
 /* ============================================= */
-        /* 📱 手機版專屬微整形 V2.0 (全方位優化版)       */
+        /* 📱 手機版專屬修正 V4.0 (針對截圖問題修復)      */
         /* ============================================= */
         @media (max-width: 768px) {
             
-            /* --- 1. 導覽列優化：增加呼吸空間 --- */
-            .nav-menu {
-                padding: 10px 15px; /* 上下左右多留白 */
-                display: flex;
-                align-items: center;
-                gap: 10px; /* 按鈕之間的距離 */
-            }
-            .nav-menu a {
-                margin: 0; /* 歸零原本的 margin，改用 gap 控制 */
-                flex-shrink: 0; /* 禁止按鈕被擠扁 */
-                font-size: 0.9rem;
+            /* --- 問題 2 修正：消滅右側空白 --- */
+            html, body {
+                overflow-x: hidden; /* 禁止左右滑動 */
+                width: 100%;
+                position: relative;
             }
 
-            /* --- 3. 線上預約日曆修正 (防止爆框) --- */
+            /* --- 問題 1 修正：導覽列按鈕優化 (變圓形按鈕、增加間距) --- */
+            .nav-menu {
+                display: flex;
+                flex-wrap: nowrap; /* 不換行，讓它滑動 */
+                overflow-x: auto; /* 允許左右滑動 */
+                gap: 10px; /* 按鈕之間的距離 */
+                padding: 15px 20px; /* 上下左右留白，增加呼吸感 */
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* 隱藏捲軸 */
+            }
+            .nav-menu a {
+                background-color: #f3f3f3; /* 淺灰底色 */
+                padding: 8px 16px; /* 內距加大，好按 */
+                border-radius: 25px; /* 變圓角按鈕 (Pill shape) */
+                font-size: 0.9rem;
+                color: #555;
+                flex-shrink: 0; /* 防止被擠扁 */
+                margin: 0; /* 歸零 */
+            }
+
+            /* --- 問題 3 修正：日曆置中 & 正方形 --- */
             .calendar-grid {
-                gap: 2px !important; /* 格子之間的縫隙縮到最小 */
-                margin-bottom: 20px !important;
+                justify-content: center !important; /* ✅ 強制置中 */
+                gap: 5px !important; /* 格子間距 */
+                padding: 0 5px !important; /* 避免貼邊 */
             }
             .calendar-day {
                 height: auto !important;
-                aspect-ratio: 1 / 1;
-                font-size: 0.8rem !important; /* 日期數字縮小 */
-                padding: 0 !important; /* 拿掉內距 */
-                border-radius: 4px !important; /* 圓角改小一點 */
+                aspect-ratio: 1 / 1; /* 強制正方形 */
+                width: 100%; /* 填滿格子 */
+                font-size: 0.85rem !important;
+                padding: 0 !important;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
             .calendar-day span {
-                font-size: 0.55rem !important; /* 下面的小字縮到最小 */
-                transform: scale(0.9); /* 如果還是太大，用縮放再壓小一點 */
+                font-size: 0.6rem !important;
+                transform: scale(0.9);
             }
 
-            /* --- 4. 須知 & QA 滑動排版優化 --- */
+            /* --- 問題 4 修正：須知 & Q&A 卡片置中與切邊問題 --- */
             .info-grid, .qa-grid {
                 display: flex !important;
                 overflow-x: auto !important;
-                gap: 20px !important; /* 卡片間距加大一點點，比較舒服 */
-                padding: 10px 5px 30px 5px !important; /* 上下左右留空間給陰影 */
-                align-items: stretch; /* 讓所有卡片等高 */
-                margin: 0 -10px !important; /* 讓滑動區域往外擴一點，看起來像滿版 */
+                gap: 15px !important;
+                
+                /* 👇 關鍵修正：讓內容看起來像置中，但又可以滑動 */
+                padding: 10px 20px 30px 20px !important; /* 左右留 20px 空間 */
+                margin: 0 -20px !important; /* 負邊距把容器拉開，製造「滿版滑動」效果 */
+                
+                scroll-padding: 20px; /* 滑動停止時的邊距 */
+                align-items: stretch;
             }
             
             .info-card, .qa-card {
-                min-width: 80vw !important; /* 寬度改窄一點，讓使用者更容易看到「下一張」 */
-                margin: 0 !important;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; /* 加深陰影，讓卡片浮起來 */
+                min-width: 85vw !important; /* 卡片寬度佔螢幕 85% */
+                margin: 0 !important; /* 歸零 */
+                scroll-snap-align: center; /* 滑動停止時自動置中 */
+                box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+            }
+            /* 讓最後一張卡片右邊有空間，不會被切掉 */
+            .info-card:last-child, .qa-card:last-child {
+                margin-right: 20px !important; 
             }
 
-            /* --- 5. 聯絡我們：按鈕修復 & 地圖長高 --- */
-            .contact-container {
-                grid-template-columns: 1fr !important;
-                gap: 30px;
-            }
-            
-            /* 按鈕變直排且滿版 */
-            .contact-info .btn-main {
-                display: flex; /* 改用 flex 讓圖示居中 */
-                justify-content: center;
-                align-items: center;
-                width: 100%; /* 寬度佔滿 */
-                margin: 10px 0 !important; /* 上下留間距 */
-                box-sizing: border-box; /* 確保 padding 不會撐破寬度 */
-            }
-            /* 讓兩個按鈕不再並排，而是上下堆疊 */
-            .contact-info a {
-                margin-left: 0 !important; /* 修正原本 IG 按鈕的左邊距 */
-            }
-
-            /* 地圖變高 */
+            /* --- 問題 5 修正：地圖下方神秘黑條 --- */
             .map-box {
-                height: 350px !important; /* 加高地圖，看起來才不會瘦長 */
+                height: 300px !important;
+                background-color: #333; /* 背景設為黑色，防止破圖看到白底 */
+            }
+            .map-box iframe {
+                display: block !important; /* ✅ 消除 iframe 下方的空白基線 */
+                vertical-align: bottom !important; /* 雙重保險 */
+                height: 100% !important;
             }
 
-            .map-box iframe {
-                display: block !important; /* 消除底部白邊/黑條 */
-                vertical-align: bottom; /* 雙重保險 */
-            }
-            
-            /* 其他原本的縮小設定 (保留) */
-            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn {
-                display: none !important; 
-            }
+            /* --- 其他必要的手機版設定 (保留) --- */
             .content-section {
                 padding: 40px 20px !important;
                 margin: 20px 15px !important;
                 width: auto !important;
+                border-radius: 20px !important;
             }
+            /* 隱藏大箭頭 */
+            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn {
+                display: none !important; 
+            }
+            /* 優惠區塊直排 */
             .offer-card-layout { flex-direction: column !important; }
             .offer-img-box { padding: 0 !important; }
+            .offer-text-box { padding: 25px !important; }
+            
+            /* 聯絡區塊直排 */
+            .contact-container { grid-template-columns: 1fr !important; gap: 30px; }
+            .contact-info .btn-main { width: 100%; box-sizing: border-box; margin: 10px 0 !important; }
+            .contact-info a { margin-left: 0 !important; }
+            
+            /* 關於我們區塊修正 */
+            #about { padding-left: 15px !important; padding-right: 15px !important; }
         }
         
         /* --- CSS 結束 --- */
@@ -1469,6 +1490,7 @@
 
 </body>
 </html>
+
 
 
 
