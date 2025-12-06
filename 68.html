@@ -820,152 +820,83 @@
         }
 
 /* ============================================= */
-        /* 📱 手機版專屬修正 V7.0 (自動隱藏導覽列版)      */
+        /* 📱 手機版專屬修正 V8.0 (細節強迫症版)         */
         /* ============================================= */
         @media (max-width: 768px) {
             
-            /* --- 1. 導覽列優化：縮小按鈕 --- */
-            header {
-                position: fixed !important;
-                top: 0;
-                left: 0;
-                width: 100%;
-                z-index: 1000;
-                background: rgba(255, 255, 255, 0.98);
-                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-                padding: 8px 0; /* 上下留白縮小 */
-                transition: transform 0.3s ease; /* ✨ 讓隱藏有動畫效果 */
+            /* --- 1. 包堂表格修復：禁止換行 --- */
+            table {
+                font-size: 0.75rem !important; /* ✅ 字體再縮小一點點 */
             }
-            /* 隱藏時的樣式 (往上移出畫面) */
-            header.nav-hidden {
-                transform: translateY(-100%);
+            th, td {
+                padding: 8px 4px !important; /* ✅ 減少左右內距，把空間讓給文字 */
+                white-space: nowrap !important; /* 🔥 關鍵指令：強制不換行！ */
             }
+            /* 針對 ($1,100/堂) 這種括號內的小字再縮小 */
+            td span {
+                font-size: 0.65rem !important;
+                display: inline-block; /* 確保它跟著前面的數字 */
+            }
+
+            /* --- 2. 聯絡資訊修復：時段換行 & 按鈕對齊 --- */
+            .contact-info p {
+                font-size: 0.95rem !important;
+                display: flex;
+                flex-direction: column; /* ✅ 改成直排：讓標題在上，內容在下 */
+                align-items: flex-start;
+                margin-bottom: 15px;
+                line-height: 1.6;
+            }
+            /* 針對「地址、LINE、IG」這些只有一行的，維持橫排 (用 CSS 選取器微調) */
+            /* 這裡稍微進階一點：我們只針對「每日可預約時段」那個 P 做特別處理 */
+            /* 但因為 HTML 沒給 class，我們用「內容」來判斷比較難，所以統一改成：標題跟內容分開 */
             
-            body { padding-top: 70px; }
+            /* 或者，我們直接用暴力法：讓內文的 <br> 生效，並且調整排版 */
+            .contact-info {
+                text-align: left;
+                width: 100%;
+            }
+            .contact-info strong {
+                display: block; /* 讓標題 (例如「每日可預約時段：」) 自己佔一行 */
+                margin-bottom: 5px;
+            }
 
-            .nav-menu {
+            /* --- 3. 按鈕對齊修復 --- */
+            .contact-info .btn-main {
+                width: 100% !important; /* ✅ 寬度佔滿 */
+                margin: 8px 0 !important; /* 上下留白 */
+                padding: 12px 0 !important; /* 增加高度，看起來更氣派 */
                 display: flex;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                gap: 8px; /* 間距縮小 */
-                padding: 5px 15px;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                align-items: center;
-            }
-            .nav-menu a {
-                background-color: #f3f3f3;
-                padding: 6px 12px; /* ✅ 內距縮小，讓按鈕變瘦 */
-                border-radius: 20px;
-                font-size: 0.8rem; /* ✅ 字體縮小 */
-                color: #555;
-                flex-shrink: 0;
-                margin: 0;
-                white-space: nowrap;
-            }
-
-            /* --- 2. 日曆修復：星期標題對齊 --- */
-            .booking-container {
-                padding: 20px 10px !important;
-                width: 100% !important;
-                box-sizing: border-box;
-            }
-            /* 星期標題也用 grid 排列，確保跟下面對齊 */
-            .calendar-grid {
-                display: grid !important;
-                grid-template-columns: repeat(7, 1fr) !important;
-                gap: 4px !important;
-                width: 100% !important;
-            }
-            /* 星期標題的樣式 (假設妳HTML裡有給它們 class 或 style) */
-            /* 這裡稍微暴力一點，選取 calendar-grid 裡面的前 7 個 div (如果是標題) */
-            .calendar-grid > div:nth-child(-n+7) {
-                text-align: center;
-                font-size: 0.7rem;
-                padding-bottom: 5px;
-            }
-
-            .calendar-day {
-                height: auto !important;
-                aspect-ratio: 1 / 1;
-                font-size: 0.75rem !important;
-                padding: 2px !important;
-                border-radius: 6px !important;
-                display: flex;
-                flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                box-sizing: border-box; /* 確保 padding 不會撐大 */
+                text-align: center;
             }
-            .calendar-day span {
-                font-size: 0.55rem !important;
-                transform: scale(0.9);
-                margin-top: 1px;
-            }
-
-            /* --- 3. Q&A 圖卡瘦身：露出灰色背景 --- */
-            .info-grid, .qa-grid {
-                display: flex !important;
-                overflow-x: auto !important;
-                gap: 15px !important;
-                padding: 30px 20px 30px 20px !important;
-                margin: 0 -20px !important;
-                scroll-snap-type: x mandatory;
-                scrollbar-width: none;
-                align-items: stretch;
-            }
-            
-            .info-card, .qa-card {
-                min-width: 70vw !important; /* ✅ 改成 70%！變更瘦，左右留白更多 */
-                margin: 0 !important;
-                scroll-snap-align: center;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
-                position: relative;
-                overflow: visible !important;
-            }
-            .info-card:last-child, .qa-card:last-child {
-                margin-right: 20px !important; 
+            .contact-info a {
+                margin-left: 0 !important; /* 歸零 */
+                text-decoration: none;
             }
 
-            /* --- 4. 聯絡我們修復：文字整齊 --- */
-            #contact {
-                margin: 20px 0 !important;
-                border-radius: 0 !important;
-                width: 100% !important;
-                padding: 40px 20px !important;
-                box-sizing: border-box;
-            }
-            .contact-container {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 30px !important;
-                width: 100% !important;
-            }
-            .contact-info, .map-box {
-                width: 100% !important;
-            }
-            .contact-info p {
-                font-size: 0.9rem !important; /* ✅ 字體縮小，避免換行 */
-                display: flex;
-                gap: 8px;
-                margin-bottom: 12px;
-                align-items: flex-start; /* 對齊頂部 */
-                line-height: 1.5;
-            }
-            .map-box {
-                height: 300px !important;
-                border-radius: 15px;
-                overflow: hidden;
-            }
-
-            /* --- 其他必要設定 (保留) --- */
+            /* --- 其他保留的修正 (導覽列、日曆、圖卡...) --- */
+            header { position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(255,255,255,0.98); box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 8px 0; transition: transform 0.3s ease; }
+            header.nav-hidden { transform: translateY(-100%); }
+            body { padding-top: 70px; }
+            .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 5px 15px; scrollbar-width: none; align-items: center; }
+            .nav-menu a { background-color: #f3f3f3; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; color: #555; flex-shrink: 0; margin: 0; white-space: nowrap; }
+            .booking-container { padding: 20px 10px !important; width: 100% !important; box-sizing: border-box; }
+            .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 4px !important; width: 100% !important; }
+            .calendar-grid > div:nth-child(-n+7) { text-align: center; font-size: 0.7rem; padding-bottom: 5px; }
+            .calendar-day { height: auto !important; aspect-ratio: 1 / 1; font-size: 0.75rem !important; padding: 2px !important; border-radius: 6px !important; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .calendar-day span { font-size: 0.55rem !important; transform: scale(0.9); margin-top: 1px; }
+            .info-grid, .qa-grid { display: flex !important; overflow-x: auto !important; gap: 15px !important; padding: 30px 20px 30px 20px !important; margin: 0 -20px !important; scroll-snap-type: x mandatory; scrollbar-width: none; align-items: stretch; }
+            .info-card, .qa-card { min-width: 70vw !important; margin: 0 !important; scroll-snap-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; position: relative; overflow: visible !important; }
+            .info-card:last-child, .qa-card:last-child { margin-right: 20px !important; }
+            #contact { margin: 20px 0 !important; border-radius: 0 !important; width: 100% !important; padding: 40px 20px !important; box-sizing: border-box; }
+            .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
+            .contact-info, .map-box { width: 100% !important; }
+            .map-box { height: 300px !important; border-radius: 15px; overflow: hidden; }
             html, body { overflow-x: hidden; position: relative; }
-            .content-section {
-                padding: 30px 20px !important;
-                margin: 20px 15px !important;
-                width: auto !important;
-                border-radius: 20px !important;
-                box-sizing: border-box;
-            }
+            .content-section { padding: 30px 20px !important; margin: 20px 15px !important; width: auto !important; border-radius: 20px !important; box-sizing: border-box; }
             .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
             .offer-card-layout { flex-direction: column !important; }
             .offer-img-box { padding: 0 !important; }
@@ -1548,6 +1479,7 @@
 
 </body>
 </html>
+
 
 
 
