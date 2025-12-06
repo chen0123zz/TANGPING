@@ -12,7 +12,7 @@
     
     <style>
         /* ========================================= */
-        /* 🎨 全域設定                               */
+        /* 🎨 全域設定 (Global Styles)               */
         /* ========================================= */
         :root {
             --brand-color: #efb748;
@@ -24,44 +24,76 @@
         section, .content-section { scroll-margin-top: 100px; }
 
         /* ========================================= */
-        /* 💻 電腦版樣式 (Desktop)                    */
+        /* 💻 電腦版樣式 (Desktop Styles)             */
         /* ========================================= */
-        header { background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; display: block; transition: transform 0.3s ease; }
+
+        /* --- 1. 導覽列 --- */
+        header {
+            background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed; /* 🔥 強制固定！ */
+            top: 0; left: 0; width: 100%;
+            z-index: 1000; display: block; transition: transform 0.3s ease;
+            box-sizing: border-box; /* 確保寬度正確 */
+        }
+        /* 電腦版要往下推，不然會被 fixed header 擋住 */
+        body { padding-top: 80px; } 
+        
         header.nav-hidden { transform: translateY(-100%); }
         .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; }
         .logo-img { height: 50px; width: auto; }
-        .nav-menu a { text-decoration: none; color: #333; margin-left: 20px; font-weight: bold; font-size: 0.95rem; transition: color 0.3s; white-space: nowrap; }
+        .nav-menu a {
+            text-decoration: none; color: #333; margin-left: 20px;
+            font-weight: bold; font-size: 0.95rem; transition: color 0.3s;
+            white-space: nowrap; 
+        }
         .nav-menu a:hover { color: var(--brand-color); }
 
+        /* --- 2. 通用區塊 --- */
         .content-section { padding: 40px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
         .section-title { color: var(--brand-color); font-size: 2rem; margin-bottom: 10px; }
         .section-desc { color: #666; margin-bottom: 40px; }
-        .btn-main { display: inline-block; background-color: #fff; color: var(--brand-color); padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; }
+        .btn-main {
+            display: inline-block; background-color: #fff; color: var(--brand-color);
+            padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease;
+        }
         .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
-        /* 優惠區 */
+        /* --- 3. 最新優惠 --- */
         .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
-        .offer-card-layout { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; max-width: 900px; margin: 0 auto; }
+        .offer-card-layout {
+            background: #fff; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex;
+            max-width: 900px; margin: 0 auto;
+        }
         .offer-img-box { flex: 1; min-height: 300px; display: flex; align-items: center; justify-content: center; background-color: #fff; padding: 30px; }
         .offer-img-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
         .offer-text-box { flex: 1; padding: 40px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
         .offer-text-box h3 { font-size: 1.8rem; color: #333; margin: 15px 0; }
         .offer-text-box p { color: #666; line-height: 1.6; margin-bottom: 20px; }
-        .tag-pill { display: inline-block; background-color: #ff4757; color: #fff; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; align-self: flex-start; margin-bottom: 10px; }
+        .tag-pill {
+            display: inline-block; background-color: #ff4757; color: #fff;
+            padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold;
+            align-self: flex-start; margin-bottom: 10px;
+        }
         .offer-list { list-style: none; padding: 0; margin-bottom: 20px; color: #555; }
         .offer-list li { margin-bottom: 8px; }
         .price-highlight { display: flex; gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--brand-color); }
 
-        /* 輪播區 */
+        /* --- 4. 關於運動按摩 --- */
         .swiper { width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; padding-top: 20px; }
         .swiper-slide { background-position: center; background-size: cover; width: auto; height: auto; }
         .slide-img { display: block; width: 100%; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .swiper-pagination-bullet-active { background-color: var(--brand-color) !important; }
-        .my-prev-btn, .my-next-btn { position: absolute; top: 60%; transform: translateY(-50%); width: 40px; height: 40px; background-color: #fff; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
+        .my-prev-btn, .my-next-btn {
+            position: absolute; top: 60%; transform: translateY(-50%); width: 40px; height: 40px; background-color: #fff;
+            border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer;
+        }
         .my-prev-btn { left: 10px; } .my-next-btn { right: 10px; }
         .my-prev-btn::after, .my-next-btn::after { font-size: 1.2rem; font-weight: bold; }
 
-        /* 價目表 */
+        /* --- 5. 價目表 --- */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: left; }
         .service-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
         .service-card:hover { transform: translateY(-5px); }
@@ -69,21 +101,25 @@
         .card-body h3 { margin: 0 0 10px 0; color: #333; }
         .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
 
-        /* 日曆區 */
-        .booking-container { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; margin: 0 auto; text-align: left; }
-        
-        /* 🔥 1. 刪除黃色條條：拿掉 border-left */
+        /* --- 6. 預約日曆 (電腦版：正方形) --- */
+        .booking-container {
+            background: #fff; padding: 30px; border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px;
+            margin: 0 auto; text-align: left;
+        }
         .booking-container h3 { 
-            /* border-left: 5px solid var(--brand-color); */ /* 註解掉這行 */
-            padding-left: 0; /* 拿掉內距 */
-            margin-bottom: 15px; color: #333; text-align: center; /* 標題置中 */
+            /* border-left: 5px solid var(--brand-color); */ 
+            padding-left: 0; margin-bottom: 15px; color: #333; text-align: center;
         }
         .month-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .month-btn { background: none; border: 1px solid #ddd; padding: 5px 10px; border-radius: 5px; cursor: pointer; color: #666; }
         .month-btn:hover { background: #f0f0f0; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; justify-items: center; align-items: center; }
         .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; width: 100%; text-align: center; }
-        .calendar-day { border: 1px solid #ddd; border-radius: 12px; width: 75px; height: 75px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0; }
+        .calendar-day {
+            border: 1px solid #ddd; border-radius: 12px; width: 75px; height: 75px; text-align: center; cursor: pointer; transition: all 0.2s;
+            font-size: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0;
+        }
         .calendar-day span { font-size: 0.8rem; color: #888; margin-top: 3px; }
         .calendar-day.active, .calendar-day:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .calendar-day.active span, .calendar-day:hover span { color: #fff; }
@@ -93,7 +129,7 @@
         .time-btn:hover, .time-btn.selected { background-color: var(--brand-color); color: #fff; }
         .time-btn.disabled { background-color: #f0f0f0; color: #ccc; cursor: not-allowed; pointer-events: none; }
 
-        /* 圖卡區 */
+        /* --- 7. 預約須知 & Q&A --- */
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
         .info-card { background: #fff; padding: 20px 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: left; transition: transform 0.2s; border-left: 5px solid transparent; }
         .info-card:hover { transform: translateY(-3px); border-left: 5px solid var(--brand-color); box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
@@ -112,43 +148,41 @@
         .contact-info { text-align: left; }
         .map-box { height: 300px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .map-box iframe { display: block; }
+
+        /* 項目通用 */
         .contact-item { font-size: 1.1rem; margin: 15px 0; line-height: 1.6; }
         .contact-item strong { display: inline; margin-right: 5px; color: #efb748; font-size: 1rem; }
         .contact-item span, .contact-item a { display: inline; }
-        .time-item strong { display: block; margin-bottom: 5px; } 
         
-        /* 🔥 2. 電腦版時段強制不換行 */
-        .time-list-desktop {
-            white-space: nowrap !important; /* 強制同行 */
-            display: inline-block; /* 確保 nowrap 生效 */
-            width: 100%; /* 確保容器夠寬 */
-        }
+        /* 標題與內容強制設定 */
+        .contact-title-block { display: block; margin-bottom: 5px; } /* 電腦版標題換行 (時間) */
         
-        .social-row { display: block; } 
-        .social-row .contact-item { margin-bottom: 10px; margin-top: 0; }
-        .mobile-break { display: none; }
-        .mobile-break::after { content: " | "; display: inline; }
+        /* 社交帳號電腦版：橫排 */
+        .social-item { display: inline-block; margin-right: 20px; }
         
-        /* 其他 */
+        /* 手機版換行控制 (電腦版隱藏) */
+        .mobile-br { display: none; }
+
+        /* --- 9. 其他 --- */
         .floating-btn-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 999; transition: opacity 0.5s ease; }
         .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
         .float-btn:hover { background-color: #333; transform: scale(1.1); }
         footer { text-align: center; padding: 5px 5px; background-color: transparent; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
         /* ============================================= */
-        /* 📱 手機版專屬修正 V20.0 (最終完美版)           */
+        /* 📱 手機版專屬修正 V21.0 (完美排版)             */
         /* ============================================= */
         @media (max-width: 768px) {
             
-            /* 1. 導覽列 */
-            header { padding: 10px 0; }
+            /* 1. 導覽列：Logo 置中 + 按鈕不換行 */
+            header { padding: 10px 0; position: fixed !important; }
             body { padding-top: 110px; }
             .header-content { flex-direction: column !important; gap: 10px; }
             .logo-img { height: 45px; }
             .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; scrollbar-width: none; }
             .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
 
-            /* 2. 日曆 */
+            /* 2. 日曆：絕對防爆 */
             .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
             .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 2px !important; width: 100% !important; }
             .calendar-day { width: 100% !important; height: auto !important; aspect-ratio: 1 / 1 !important; font-size: 0.75rem !important; padding: 0 !important; border-radius: 4px !important; min-height: 0 !important; }
@@ -156,52 +190,44 @@
             .time-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
             .time-btn { width: 100% !important; padding: 10px 0 !important; font-size: 0.9rem !important; }
 
-            /* 3. 聯絡資訊 (LINE/IG 同行 + 時段換行 + 按鈕對齊) */
+            /* 3. 聯絡資訊：LINE/IG 分行 + 時段換行 */
             .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
             
-            /* 通用項目：直排 */
-            .contact-info p.contact-item {
-                font-size: 0.95rem !important; display: flex !important; flex-direction: column !important;
-                align-items: flex-start !important; margin-bottom: 15px !important; gap: 0px !important;
-                text-align: left !important;
+            /* 強制標題和內容分行 */
+            .contact-item { 
+                display: flex !important; 
+                flex-direction: column !important; /* 標題上，內容下 */
+                align-items: flex-start !important; 
+                margin-bottom: 15px !important; 
+                gap: 0 !important;
             }
-            .contact-info strong {
-                display: block !important; width: 100% !important; margin-bottom: 0px !important;
-                padding-bottom: 2px !important; line-height: 1.2 !important;
+            .contact-item strong { 
+                display: block !important; 
+                margin-bottom: 2px !important; /* 標題跟內容的縫隙 */
+                width: 100% !important;
             }
-            .contact-info span { display: block !important; margin-top: 0 !important; }
+            
+            /* LINE 和 IG 區塊 */
+            .social-item { 
+                display: flex !important; /* 讓內容變橫排 (標題+帳號) */
+                flex-direction: row !important; 
+                align-items: center !important;
+                margin-bottom: 5px !important; /* 兩行之間的距離 */
+                width: 100% !important;
+            }
+            .social-item strong { 
+                width: auto !important; /* 標題寬度自動 */
+                margin-bottom: 0 !important;
+                margin-right: 5px !important;
+            }
+            
+            /* 手機版換行生效 */
+            .mobile-br { display: block !important; }
+            
+            /* 按鈕 */
+            .contact-info .btn-main { width: 100% !important; margin: 8px 0 !important; text-align: center; display: flex; justify-content: center; }
 
-            /* 🔥 社交專區 (LINE/IG) */
-            .social-row {
-                display: flex !important; flex-direction: column !important; gap: 5px !important;
-                margin-bottom: 15px !important; width: 100% !important;
-            }
-            /* 🔥 LINE/IG 項目內：橫排！ (標題左，內容右) */
-            .social-row .contact-item {
-                margin-bottom: 0 !important; display: flex !important; 
-                flex-direction: row !important; /* 橫排 */
-                align-items: center !important; gap: 5px !important; width: 100%;
-            }
-            /* 標題不換行 */
-            .social-row strong { width: auto !important; margin-bottom: 0 !important; white-space: nowrap !important; }
-            /* 內容靠左 */
-            .social-row a { margin-left: 0 !important; }
-
-            /* 🔥 預約時段：強制換行 */
-            .time-list-desktop {
-                white-space: normal !important; /* 允許換行 */
-                display: block !important;
-            }
-            .mobile-break { display: inline; }
-            .mobile-break::after { display: none; }
-
-            /* 按鈕修復：100% 寬 + 置中 */
-            .contact-info .btn-main { 
-                width: 100% !important; margin: 8px 0 !important; box-sizing: border-box; text-align: center;
-                display: flex !important; justify-content: center !important; align-items: center !important;
-            }
-
-            /* 4. 其他 */
+            /* 4. 其他修正 */
             .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
             .info-grid, .qa-grid { display: flex !important; overflow-x: auto !important; gap: 15px !important; padding: 30px 20px 30px 20px !important; margin: 0 -20px !important; scroll-snap-type: x mandatory; scrollbar-width: none; grid-template-columns: none !important; }
             .info-card, .qa-card { min-width: 70vw !important; margin: 0 !important; scroll-snap-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; position: relative; overflow: visible !important; }
@@ -209,8 +235,8 @@
             #contact { margin: 20px 15px !important; border-radius: 20px !important; width: auto !important; padding: 30px 20px !important; box-sizing: border-box; }
             .map-box { order: 2; height: 250px !important; width: 100% !important; }
             .contact-info { order: 1; }
-            
             .services-grid + div p { font-size: 0.75rem !important; white-space: nowrap !important; letter-spacing: -0.5px; }
+            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
             .content-section { padding: 30px 20px !important; margin: 20px 15px !important; width: auto !important; border-radius: 20px !important; }
             .offer-card-layout { flex-direction: column !important; }
             .offer-img-box { padding: 0 !important; }
@@ -219,7 +245,6 @@
             table { font-size: 0.75rem !important; }
             th, td { padding: 8px 4px !important; white-space: nowrap !important; }
             td span { font-size: 0.65rem !important; display: inline-block; }
-            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
         }
     </style>
 </head>
@@ -241,52 +266,37 @@
     <section class="content-section" id="news" style="background-color: #f9f5f0; padding-bottom: 40px;">
         <h2 class="section-title">🎉 最新活動 & 獨家優惠</h2>
         <p class="section-desc">為您準備的專屬放鬆提案 👇</p>
-
         <div class="swiper offerSwiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <div class="offer-card-layout">
-                        <div class="offer-img-box">
-                            <img src="images/當月壽星優惠.png" alt="生日優惠">
-                        </div>
+                        <div class="offer-img-box"><img src="images/當月壽星優惠.png" alt="生日優惠"></div>
                         <div class="offer-text-box">
                             <span class="tag-pill">壽星獨享 🎂</span>
                             <h3>當月壽星折抵 $200</h3>
                             <p>生日是專屬於自己的日子，值得被好好慶祝！<br>歡迎來躺平運動按摩，卸下疲憊，給身心一份放鬆的禮物。</p>
-                            <ul class="offer-list">
-                                <li>✨ 只要出示身分證即可折抵</li>
-                                <li>✨ 當月不限次數（依店家規定為準）</li>
-                            </ul>
                             <a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 立即預約生日禮</a>
                         </div>
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="offer-card-layout">
-                        <div class="offer-img-box">
-                            <img src="images/學生優惠.png" alt="學生優惠">
-                        </div>
+                        <div class="offer-img-box"><img src="images/學生優惠.png" alt="學生優惠"></div>
                         <div class="offer-text-box">
                             <span class="tag-pill" style="background:#e67e22;">學生限定 🎓</span>
                             <h3>憑學生證折抵 $200</h3>
                             <p>不論你是在操場揮汗，還是在考場中拼搏。<br>快來放鬆肌肉與壓力，重整身心，補好能量再出發！</p>
-                            <ul class="offer-list">
-                                <li>✨ 適用於所有在學學生</li>
-                                <li>✨ 需出示有效學生證</li>
-                            </ul>
                             <a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 學生專屬預約</a>
                         </div>
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="offer-card-layout">
-                        <div class="offer-img-box">
-                            <img src="images/包堂優惠方案.png" alt="包堂優惠">
-                        </div>
+                        <div class="offer-img-box"><img src="images/包堂優惠方案.png" alt="包堂優惠"></div>
                         <div class="offer-text-box">
                             <span class="tag-pill" style="background:#d35400;">最划算 🔥</span>
                             <h3>包堂優惠方案</h3>
-                            <p>想要定期保養身體嗎？包堂方案讓您省更多！<br>運動按摩單堂 $1200，包十堂平均只要 $1000。</p>
+                            <p>想要定期保養身體嗎？包堂方案讓您省更多！</p>
                             <div class="price-highlight">
                                 <div><strong>包五堂</strong> <br> 省 $500</div>
                                 <div style="border-left: 1px solid #ddd; padding-left: 15px;"><strong>包十堂</strong> <br> 省 $2000</div>
@@ -302,20 +312,9 @@
         </div>
     </section>
 
-    <section class="content-section" id="about" style="
-        background-color: #fffaf0; 
-        padding-bottom: 50px; 
-        border-radius: 20px; 
-        margin: 40px auto; 
-        max-width: 900px; 
-        position: relative;
-        padding-left: 60px;
-        padding-right: 60px;
-        box-sizing: border-box;
-    ">
+    <section class="content-section" id="about" style="background-color: #fffaf0; padding-bottom: 50px; border-radius: 20px; margin: 40px auto; max-width: 900px; position: relative; padding-left: 60px; padding-right: 60px; box-sizing: border-box;">
         <h2 class="section-title" style="padding-top: 20px;">關於運動按摩</h2>
         <p class="section-desc" style="margin-bottom: 30px;">左右滑動卡片，了解我們如何幫助您的身體 👇</p>
-
         <div class="swiper mySwiper" style="width: 100%; height: 100%; overflow: hidden; border-radius: 10px;">
             <div class="swiper-wrapper">
                 <div class="swiper-slide"><img src="images/按摩效果.png" alt="按摩效果" class="slide-img"></div>
@@ -324,9 +323,6 @@
                 <div class="swiper-slide"><img src="images/徒手按摩.png" alt="徒手按摩" class="slide-img"></div>
                 <div class="swiper-slide"><img src="images/筋膜刀.png" alt="筋膜刀" class="slide-img"></div>
                 <div class="swiper-slide"><img src="images/拔罐.png" alt="拔罐" class="slide-img"></div>
-                <div class="swiper-slide"><img src="images/不是萬靈丹1.png" alt="不是萬靈丹1" class="slide-img"></div>
-                <div class="swiper-slide"><img src="images/不是萬靈丹2.png" alt="不是萬靈丹2" class="slide-img"></div>
-                <div class="swiper-slide"><img src="images/不是萬靈丹3.png" alt="不是萬靈丹3" class="slide-img"></div>
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -340,31 +336,19 @@
             <div class="service-card">
                 <div class="card-body">
                     <h3 style="color: var(--brand-color);">專業運動按摩</h3>
-                    <p class="desc">以美式深壓手法、PNF 伸展等技術，必要時使用拔罐，有效釋放深層肌肉的緊繃與痠痛。適合運動員、健身族群及久站久坐上班族。</p>
+                    <p class="desc">適合運動員、健身族群及久站久坐上班族。</p>
                     <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span>基礎方案 (60分鐘)</span>
-                        <strong style="font-size: 1.2rem; color: #333;">$ 1,200</strong>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>大樂方案 (90分鐘)</span>
-                        <strong style="font-size: 1.2rem; color: #333;">$ 1,800</strong>
-                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span>基礎方案 (60分鐘)</span><strong>$ 1,200</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>大樂方案 (90分鐘)</span><strong>$ 1,800</strong></div>
                 </div>
             </div>
             <div class="service-card">
                 <div class="card-body">
                     <h3 style="color: var(--brand-color);">張力調整</h3>
-                    <p class="desc">透過精準放鬆技巧，結合筋膜刀、拔罐與簡易運動，有效達到張力平衡，改善沾黏。幫助提升活動度、優化身體協調性。</p>
+                    <p class="desc">透過精準放鬆技巧，改善沾黏，提升活動度。</p>
                     <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span>基礎方案 (60分鐘)</span>
-                        <strong style="font-size: 1.2rem; color: #333;">$ 1,400</strong>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>大樂方案 (90分鐘)</span>
-                        <strong style="font-size: 1.2rem; color: #333;">$ 2,000</strong>
-                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span>基礎方案 (60分鐘)</span><strong>$ 1,400</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>大樂方案 (90分鐘)</span><strong>$ 2,000</strong></div>
                 </div>
             </div>
         </div>
@@ -372,22 +356,13 @@
             <h3 style="text-align: center; margin-bottom: 20px;">💰 包堂優惠方案 (最划算!)</h3>
             <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                 <tr style="background: #efb748; color: #fff;">
-                    <th style="padding: 15px; border: 1px solid #ddd;">項目</th>
-                    <th style="padding: 15px; border: 1px solid #ddd;">單堂</th>
-                    <th style="padding: 15px; border: 1px solid #ddd;">包五堂</th>
-                    <th style="padding: 15px; border: 1px solid #ddd;">包十堂</th>
+                    <th style="padding: 15px; border: 1px solid #ddd;">項目</th><th style="padding: 15px; border: 1px solid #ddd;">單堂</th><th style="padding: 15px; border: 1px solid #ddd;">包五堂</th><th style="padding: 15px; border: 1px solid #ddd;">包十堂</th>
                 </tr>
                 <tr>
-                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">專業運動按摩</td>
-                    <td style="padding: 15px; border: 1px solid #ddd;">$1,200</td>
-                    <td style="padding: 15px; border: 1px solid #ddd;">$5,500 <br><span style="font-size:0.8rem; color:#888;">($1,100/堂)</span></td>
-                    <td style="padding: 15px; border: 1px solid #ddd; color: #d35400; font-weight:bold;">$10,000 <br><span style="font-size:0.8rem;">($1,000/堂)</span></td>
+                    <td style="padding: 15px; border: 1px solid #ddd;">專業運動按摩</td><td style="padding: 15px; border: 1px solid #ddd;">$1,200</td><td style="padding: 15px; border: 1px solid #ddd;">$5,500 <br><span style="font-size:0.8rem; color:#888;">($1,100/堂)</span></td><td style="padding: 15px; border: 1px solid #ddd; color: #d35400; font-weight:bold;">$10,000 <br><span style="font-size:0.8rem;">($1,000/堂)</span></td>
                 </tr>
-                <tr style="background-color: #fcfcfc;">
-                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">張力調整</td>
-                    <td style="padding: 15px; border: 1px solid #ddd;">$1,400</td>
-                    <td style="padding: 15px; border: 1px solid #ddd;">$6,500 <br><span style="font-size:0.8rem; color:#888;">($1,300/堂)</span></td>
-                    <td style="padding: 15px; border: 1px solid #ddd; color: #d35400; font-weight:bold;">$12,000 <br><span style="font-size:0.8rem;">($1,200/堂)</span></td>
+                <tr>
+                    <td style="padding: 15px; border: 1px solid #ddd;">張力調整</td><td style="padding: 15px; border: 1px solid #ddd;">$1,400</td><td style="padding: 15px; border: 1px solid #ddd;">$6,500 <br><span style="font-size:0.8rem; color:#888;">($1,300/堂)</span></td><td style="padding: 15px; border: 1px solid #ddd; color: #d35400; font-weight:bold;">$12,000 <br><span style="font-size:0.8rem;">($1,200/堂)</span></td>
                 </tr>
             </table>
             <p style="text-align: right; color: #666; font-size: 0.9rem; margin-top: 10px;">※ 包堂方案如欲加時，每加 30 分鐘以 500 元計。</p>
@@ -396,23 +371,13 @@
 
     <section class="content-section" id="booking">
         <h2 class="section-title">線上預約</h2>
-        <p class="section-desc">請選擇您想放鬆的日期與時段，我們將為您保留專屬時光。</p>
         <div class="booking-container">
             <div class="date-selector">
                 <div class="month-selector">
-                    <button class="month-btn" onclick="alert('暫無上個月資料')">❮</button>
-                    <h3>12月 (2025)</h3>
-                    <button class="month-btn" onclick="alert('下個月班表尚未開放')">❯</button>
+                    <button class="month-btn" onclick="alert('暫無資料')">❮</button><h3>12月 (2025)</h3><button class="month-btn" onclick="alert('尚未開放')">❯</button>
                 </div>
-                
                 <div class="calendar-grid">
-                    <div class="cal-header">MON</div>
-                    <div class="cal-header">TUE</div>
-                    <div class="cal-header">WED</div>
-                    <div class="cal-header">THU</div>
-                    <div class="cal-header">FRI</div>
-                    <div class="cal-header">SAT</div>
-                    <div class="cal-header">SUN</div>
+                    <div class="cal-header">MON</div><div class="cal-header">TUE</div><div class="cal-header">WED</div><div class="cal-header">THU</div><div class="cal-header">FRI</div><div class="cal-header">SAT</div><div class="cal-header">SUN</div>
                     <div class="calendar-day" onclick="selectDate(this)">1<br><span>可約</span></div>
                     <div class="calendar-day" onclick="selectDate(this)">2<br><span>可約</span></div>
                     <div class="calendar-day" onclick="selectDate(this)">3<br><span>可約</span></div>
@@ -444,7 +409,6 @@
                     <div class="calendar-day" onclick="selectDate(this)">29<br><span>可約</span></div>
                     <div class="calendar-day" onclick="selectDate(this)">30<br><span>可約</span></div>
                     <div class="calendar-day" onclick="selectDate(this)">31<br><span>跨年</span></div>
-                    <div style="border:none;"></div> <div style="border:none;"></div> <div style="border:none;"></div> <div style="border:none;"></div>
                 </div>
             </div>
             <div class="time-selector">
@@ -461,113 +425,30 @@
             </div>
         </div>
         <div style="margin-top: 30px;">
-            <button class="btn-main" onclick="alert('恭喜冠穎！這是模擬預約成功！下一步我們就要接資料庫囉！')">確認預約資訊</button>
+            <button class="btn-main" onclick="alert('恭喜冠穎！這是模擬預約成功！')">確認預約資訊</button>
         </div>
     </section>
 
-    <section class="content-section" id="notice" style="
-        background-color: #f9f9f9; 
-        padding: 50px 40px; 
-        border-radius: 30px; 
-        max-width: 1000px; 
-        margin: 40px auto; 
-        box-shadow: 0 5px 20px rgba(0,0,0,0.03);
-    ">
+    <section class="content-section" id="notice" style="background-color: #f9f9f9; padding: 50px 40px; border-radius: 30px; max-width: 1000px; margin: 40px auto;">
         <h2 class="section-title">⚠️ 預約須知</h2>
         <div class="info-grid">
-            <div class="info-card">
-                <div class="card-header">
-                    <div class="info-icon">🎽</div>
-                    <h4>穿著建議</h4>
-                </div>
-                <p>請穿著或攜帶<strong>運動服裝</strong>，女性建議穿著運動內衣，方便伸展與放鬆。</p>
-            </div>
-            <div class="info-card">
-                <div class="card-header">
-                    <div class="info-icon">🍱</div>
-                    <h4>飲食建議</h4>
-                </div>
-                <p>按摩前可稍微進食，但<strong>切勿飽腹前來</strong>，以免趴臥時造成腹部不適。</p>
-            </div>
-            <div class="info-card">
-                <div class="card-header">
-                    <div class="info-icon">💪</div>
-                    <h4>心理準備</h4>
-                </div>
-                <p>運動按摩不同於一般放鬆，針對沾黏處處理時<strong>偶有痠痛感</strong>，屬正常現象。</p>
-            </div>
-            <div class="info-card">
-                <div class="card-header">
-                    <div class="info-icon">🤕</div>
-                    <h4>主動告知</h4>
-                </div>
-                <p>若有手術舊疾、懷孕或身體不適部位，請<strong>務必主動告知</strong>師傅。</p>
-            </div>
-            <div class="info-card">
-                <div class="card-header">
-                    <div class="info-icon">🕒</div>
-                    <h4>首次體驗</h4>
-                </div>
-                <p>建議預約 <strong>90 分鐘方案</strong>，包含完整評估與測試，較能充分感受成效。</p>
-            </div>
-            <div class="info-card">
-                <div class="card-header">
-                    <div class="info-icon">🏥</div>
-                    <h4>醫療聲明</h4>
-                </div>
-                <p>運動按摩<strong>無法替代醫療行為</strong>，若有急性發炎或嚴重不適，請先就醫。</p>
-            </div>
+            <div class="info-card"><div class="card-header"><div class="info-icon">🎽</div><h4>穿著建議</h4></div><p>請穿著或攜帶<strong>運動服裝</strong>。</p></div>
+            <div class="info-card"><div class="card-header"><div class="info-icon">🍱</div><h4>飲食建議</h4></div><p>按摩前可稍微進食，但<strong>切勿飽腹前來</strong>。</p></div>
+            <div class="info-card"><div class="card-header"><div class="info-icon">💪</div><h4>心理準備</h4></div><p>運動按摩不同於一般放鬆，針對沾黏處<strong>偶有痠痛感</strong>。</p></div>
+            <div class="info-card"><div class="card-header"><div class="info-icon">🤕</div><h4>主動告知</h4></div><p>若有手術舊疾、懷孕或身體不適部位，請<strong>務必主動告知</strong>。</p></div>
+            <div class="info-card"><div class="card-header"><div class="info-icon">🕒</div><h4>首次體驗</h4></div><p>建議預約 <strong>90 分鐘方案</strong>，包含完整評估。</p></div>
+            <div class="info-card"><div class="card-header"><div class="info-icon">🏥</div><h4>醫療聲明</h4></div><p>運動按摩<strong>無法替代醫療行為</strong>。</p></div>
         </div>
-
         <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
-        <p class="section-desc">關於「運動按摩」與「延遲性肌肉痠痛 (DOMS)」，你需要知道的事 👇</p>
-
         <div class="qa-grid">
-            <div class="qa-card">
-                <div class="qa-badge" style="background-color: #d35400;">Question 1</div>
-                <h3>跟一般按摩差在哪？</h3>
-                <hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;">
-                <p><strong>A: 目的完全不同！</strong></p>
-                <p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p>
-            </div>
-            <div class="qa-card">
-                <div class="qa-badge">Question 2</div>
-                <h3>按摩後隔天，身體有點痠痛正常嗎？</h3>
-                <hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;">
-                <p><strong>A: 是正常的喔！👌</strong></p>
-                <p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛(DOMS)」。</p>
-            </div>
-            <div class="qa-card">
-                <div class="qa-badge" style="background-color: #88c1b8;">Question 3</div>
-                <h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3>
-                <hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;">
-                <p><strong>A: 這是修復的信號！🛠️</strong></p>
-                <p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p>
-            </div>
-            <div class="qa-card">
-                <div class="qa-badge" style="background-color: #e67e22;">Question 4</div>
-                <h3>該如何緩解痠痛感？</h3>
-                <hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;">
-                <p><strong>A: 這些方法很有用！🛁</strong></p>
-                <ul style="text-align: left; color: #666; font-size: 0.95rem; line-height: 1.6;">
-                    <li>♨️ 熱敷或泡熱水澡</li>
-                    <li>💧 多補充水分代謝廢物</li>
-                    <li>🚶‍♂️ 輕微活動 (如散步)</li>
-                    <li>🛌 充分休息，避免疲勞</li>
-                </ul>
-            </div>
-        </div> 
+            <div class="qa-card"><div class="qa-badge">Question 1</div><h3>跟一般按摩差在哪？</h3><p>一般按摩是舒壓，運動按摩是<strong>恢復肌肉功能</strong>。</p></div>
+            <div class="qa-card"><div class="qa-badge">Question 2</div><h3>隔天痠痛正常嗎？</h3><p><strong>是正常的喔！</strong> 這稱為「延遲性肌肉痠痛」。</p></div>
+            <div class="qa-card"><div class="qa-badge">Question 3</div><h3>痠痛原因？</h3><p><strong>這是修復的信號！</strong> 肌肉產生細微損傷進行修復。</p></div>
+            <div class="qa-card"><div class="qa-badge">Question 4</div><h3>如何緩解？</h3><p>熱敷、多喝水、輕微活動。</p></div>
+        </div>
     </section>
 
-    <section class="content-section" id="contact" style="
-        background-color: #333; 
-        color: #fff; 
-        border-radius: 30px; 
-        max-width: 900px; 
-        margin: 30px auto; 
-        padding: 20px 20px; 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    ">
+    <section class="content-section" id="contact" style="background-color: #333; color: #fff; border-radius: 30px; max-width: 900px; margin: 30px auto; padding: 20px 20px;">
         <h2 class="section-title" style="color: #efb748;">📍 聯絡我們</h2>
         <div class="contact-container">
             <div class="contact-info">
@@ -577,45 +458,35 @@
                 </p>
 
                 <div class="social-row">
-                    <p class="contact-item">
+                    <p class="social-item">
                         <strong>📞 LINE：</strong> 
                         <a href="https://line.me/R/ti/p/@tangping" target="_blank" style="color: #fff; text-decoration: underline;">@tangping</a>
                     </p>
-                    <p class="contact-item">
+                    <p class="social-item">
                         <strong>📷 IG：</strong> 
                         <a href="https://instagram.com/tangping_68" target="_blank" style="color: #fff; text-decoration: underline;">tangping_68</a>
                     </p>
                 </div>
 
                 <p class="contact-item time-item">
-                    <strong>⏰ 每日可預約時段：</strong>
-                    <span class="time-list-desktop">
-                        10:00 | 12:00 | 14:00 | 15:40 <span class="mobile-break"><br></span>
+                    <strong class="contact-title-block">⏰ 每日可預約時段：</strong>
+                    <span>
+                        10:00 | 12:00 | 14:00 | 15:40 <br class="mobile-br">
                         17:10 | 19:30 | 21:10
                     </span>
                 </p>
                 
                 <br> 
-                <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="border:none; background-color:#00B900; color:white;">加入 LINE 預約</a>
-                <a href="https://instagram.com/tangping_68" target="_blank" class="btn-main" style="border:none; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color:white; margin-left: 10px;">追蹤 Instagram</a>
+                <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="border:none; background-color:#00B900; color:white; width: 100%;">加入 LINE 預約</a>
+                <a href="https://instagram.com/tangping_68" target="_blank" class="btn-main" style="border:none; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color:white; margin-left: 10px; width: 100%;">追蹤 Instagram</a>
             </div>
             <div class="map-box">
-                <iframe 
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.370022826966!2d121.46770401095526!3d25.08933283596854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90055f62f55%3A0x9cc567681495fd17!2z6Lq65bmz6YGL5YuV5oyJ5pGp!5e0!3m2!1szh-TW!2stw!4v1765006184538!5m2!1szh-TW!2stw">
-                </iframe>
+                <iframe width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.370022826966!2d121.46770401095526!3d25.08933283596854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90055f62f55%3A0x9cc567681495fd17!2z6Lq65bmz6YGL5YuV5oyJ5pGp!5e0!3m2!1szh-TW!2stw!4v1765006184538!5m2!1szh-TW!2stw"></iframe>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>© 2025 TANG PING Sport Massage.</p>
-    </footer>
+    <footer><p>© 2025 TANG PING Sport Massage.</p></footer>
 
     <div class="floating-btn-container">
         <button onclick="scrollToTop()" class="float-btn" title="回到最上方">▲</button>
@@ -623,99 +494,37 @@
     </div>
 
     <script>
-        // 1. 日期選擇功能
         function selectDate(element) {
             let days = document.querySelectorAll('.calendar-day');
             days.forEach(day => day.classList.remove('active'));
             element.classList.add('active');
         }
-
-        // 2. 時間選擇功能
         function selectTime(element) {
             let times = document.querySelectorAll('.time-btn');
             times.forEach(time => time.classList.remove('selected'));
             element.classList.add('selected');
         }
-
-        // 3. 懸浮按鈕：回到最上方/最下方
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        function scrollToBottom() {
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        }
-
-        // 4. 啟動 Swiper 輪播 (介紹區)
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 1,
-            slidesPerGroup: 1,
-            spaceBetween: 20,
-            loop: true,
-            breakpoints: {
-                768: {
-                    slidesPerView: 3,
-                    slidesPerGroup: 3,
-                    spaceBetween: 30,
-                }
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".my-next-btn",
-                prevEl: ".my-prev-btn",
-            },
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-            },
-        });
-
-        // 5. 啟動 Swiper 輪播 (優惠區)
-        var offerSwiper = new Swiper(".offerSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 30, 
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".offerSwiper .swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".offerSwiper .swiper-button-next",
-                prevEl: ".offerSwiper .swiper-button-prev",
-            },
-        });
-
-        // 6. 懸浮按鈕自動隱藏
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function scrollToBottom() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
+        
+        var swiper = new Swiper(".mySwiper", { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 20, loop: true, breakpoints: { 768: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 30 } }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".my-next-btn", prevEl: ".my-prev-btn" }, autoplay: { delay: 4000, disableOnInteraction: false } });
+        var offerSwiper = new Swiper(".offerSwiper", { slidesPerView: 1, spaceBetween: 30, loop: true, autoplay: { delay: 5000, disableOnInteraction: false }, pagination: { el: ".offerSwiper .swiper-pagination", clickable: true }, navigation: { nextEl: ".offerSwiper .swiper-button-next", prevEl: ".offerSwiper .swiper-button-prev" } });
+        
         let isScrolling;
         const floatBtns = document.querySelector('.floating-btn-container');
         window.addEventListener('scroll', function() {
-            floatBtns.style.opacity = '1';
-            floatBtns.style.pointerEvents = 'auto'; 
+            floatBtns.style.opacity = '1'; floatBtns.style.pointerEvents = 'auto'; 
             window.clearTimeout(isScrolling);
-            isScrolling = setTimeout(function() {
-                floatBtns.style.opacity = '0.3'; 
-            }, 2000); 
+            isScrolling = setTimeout(function() { floatBtns.style.opacity = '0.3'; }, 2000); 
         }, false);
-
-        // 7. 導覽列自動隱藏 (手機版)
+        
         let lastScrollTop = 0;
         const header = document.querySelector('header');
         window.addEventListener('scroll', function() {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop && scrollTop > 50) {
-                header.classList.add('nav-hidden');
-            } else {
-                header.classList.remove('nav-hidden');
-            }
+            if (scrollTop > lastScrollTop && scrollTop > 50) { header.classList.add('nav-hidden'); } else { header.classList.remove('nav-hidden'); }
             lastScrollTop = scrollTop;
         });
     </script>
-
 </body>
 </html>
