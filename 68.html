@@ -162,63 +162,80 @@
             .time-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
             .time-btn { width: 100% !important; padding: 10px 0 !important; font-size: 0.9rem !important; }
 
-            /* --- 3. 聯絡資訊修復 --- */
-            .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
+            /* --- 3. 聯絡資訊修復 V24.0 (極限一行版 + 按鈕修復) --- */
             
-            .contact-info p.contact-item {
-                font-size: 0.95rem !important; display: flex !important; flex-direction: column !important;
-                align-items: flex-start !important; margin-bottom: 15px !important; gap: 0px !important;
-                text-align: left !important;
-            }
-            .contact-info strong {
-                display: block !important; width: 100% !important; margin-bottom: 0px !important;
-                padding-bottom: 2px !important; line-height: 1.2 !important;
-            }
-            .contact-info span { display: block !important; margin-top: 0 !important; }
-
+            /* 1. LINE / IG 社交專區：維持橫排 (標題+內容同行) */
             .social-row {
-                display: flex !important; flex-direction: column !important; gap: 5px !important;
-                margin-bottom: 15px !important; width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important; /* LINE 一行、IG 一行 */
+                gap: 5px !important;
+                margin-bottom: 15px !important;
+                width: 100% !important;
             }
             .social-row .contact-item {
-                margin-bottom: 0 !important; display: flex !important; 
-                flex-direction: row !important; align-items: center !important; 
-                gap: 5px !important; width: 100%;
+                margin-bottom: 0 !important;
+                display: flex !important;
+                flex-direction: row !important; /* 🔥 橫排！ */
+                flex-wrap: nowrap !important; 
+                align-items: center !important;
+                gap: 5px !important;
+                width: 100%;
             }
-            .social-row strong { width: auto !important; margin-bottom: 0 !important; }
+            .social-row strong { 
+                white-space: nowrap !important; 
+                width: auto !important; 
+                margin-bottom: 0 !important; 
+            }
+            .social-row a { 
+                white-space: nowrap !important; 
+                margin-left: 0 !important; 
+            }
 
-            /* 🔥 手機版按鈕：直排 */
+            /* 2. 預約時段：極限挑戰一行 (字體縮小 + 間距縮小) */
+            .time-item { width: 100%; }
+            .time-item strong {
+                display: block !important;
+                margin-bottom: 2px !important;
+            }
+            .time-item span {
+                display: block !important;
+                
+                /* 🔥 關鍵設定：強制不換行 */
+                white-space: nowrap !important; 
+                
+                /* 👇 為了塞進去，字體必須縮小！ */
+                font-size: 0.75rem !important; /* 從 0.95rem 縮到 0.75rem */
+                letter-spacing: -0.5px !important; /* 字距縮緊 */
+                transform: scale(0.95); /* 再稍微壓扁一點點 */
+                transform-origin: left center; /* 從左邊開始縮 */
+                
+                /* 萬一真的塞不下，讓它左右滑動 (保底機制) */
+                overflow-x: auto !important; 
+                padding-bottom: 5px; /* 留空間給滑動條 (如果出現的話) */
+            }
+            
+            /* 隱藏換行符號 */
+            .mobile-break { display: none !important; } 
+
+            /* 3. 按鈕修復：強制對齊 */
+            /* 針對包住按鈕的容器 (如果有的話) */
             .btn-group {
-                display: flex !important; flex-direction: column !important; gap: 0 !important; width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important; /* 直排 */
+                gap: 10px !important;
+                width: 100% !important;
             }
-            .contact-info .btn-main { width: 100% !important; margin: 8px 0 !important; text-align: center; display: flex; justify-content: center; }
+            /* 針對按鈕本身 */
+            .contact-info .btn-main { 
+                width: 100% !important; /* 滿版 */
+                margin: 0 !important; /* 清除多餘邊距，改用 gap */
+                text-align: center;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+            /* 確保 IG 按鈕左邊沒有奇怪的 margin */
             .contact-info a { margin-left: 0 !important; }
-
-            .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
-            .info-grid, .qa-grid { display: flex !important; overflow-x: auto !important; gap: 15px !important; padding: 30px 20px 30px 20px !important; margin: 0 -20px !important; scroll-snap-type: x mandatory; scrollbar-width: none; grid-template-columns: none !important; }
-            .info-card, .qa-card { min-width: 70vw !important; margin: 0 !important; scroll-snap-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; position: relative; overflow: visible !important; }
-            .info-card:last-child, .qa-card:last-child { margin-right: 20px !important; }
-            #contact { margin: 20px 15px !important; border-radius: 20px !important; width: auto !important; padding: 30px 20px !important; box-sizing: border-box; }
-            .map-box { order: 2; height: 250px !important; width: 100% !important; }
-            .contact-info { order: 1; }
-            
-            .services-grid + div p { font-size: 0.75rem !important; white-space: nowrap !important; letter-spacing: -0.5px; }
-            
-            .mobile-break { display: inline; }
-            .mobile-break::after { display: none; }
-            .time-list-desktop { white-space: normal !important; display: block !important; }
-
-            html, body { overflow-x: hidden; position: relative; }
-            .content-section { padding: 30px 20px !important; margin: 20px 15px !important; width: auto !important; border-radius: 20px !important; }
-            .offer-card-layout { flex-direction: column !important; }
-            .offer-img-box { padding: 0 !important; }
-            .offer-text-box { padding: 25px !important; }
-            #about { padding-left: 15px !important; padding-right: 15px !important; }
-            table { font-size: 0.75rem !important; }
-            th, td { padding: 8px 4px !important; white-space: nowrap !important; }
-            td span { font-size: 0.65rem !important; display: inline-block; }
-            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
-        }
     </style>
 </head>
 <body>
@@ -588,4 +605,5 @@
     </script>
 </body>
 </html>
+
 
