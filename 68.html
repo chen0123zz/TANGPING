@@ -4,7 +4,7 @@
 <link rel="icon" href="images/logo2.png" type="image/png">
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>躺平運動按摩 TANG PING - 預約官網</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -810,7 +810,76 @@
             font-size: 1.3rem;
         }
 
+/* ============================================= */
+        /* 📱 手機版專屬微整形 (只在螢幕 < 768px 時生效) */
+        /* ============================================= */
+        @media (max-width: 768px) {
+            
+            /* 1. 全域字體縮小：讓畫面精緻一點，不要那麼擁擠 */
+            html {
+                font-size: 14px; /* 電腦版預設是 16px，手機改 14px */
+            }
+            h2.section-title {
+                font-size: 1.6rem !important; /* 標題變小 */
+                margin-bottom: 20px !important;
+            }
+            p, li {
+                font-size: 1rem !important; /* 內文變小 */
+                line-height: 1.6 !important;
+            }
 
+            /* 2. 輪播箭頭：在手機上太擋路了，直接隱藏！用滑的就好 */
+            .swiper-button-next, .swiper-button-prev,
+            .my-next-btn, .my-prev-btn {
+                display: none !important; 
+            }
+
+            /* 3. 區塊間距縮小：手機寸土寸金，不要留那麼多白邊 */
+            .content-section {
+                padding: 30px 20px !important; /* 內距縮小 */
+                margin: 20px 15px !important; /* 外距縮小 */
+                border-radius: 20px !important; /* 圓角稍微小一點 */
+                width: auto !important; /* 寬度自動 */
+                max-width: none !important;
+            }
+
+            /* 4. 最新優惠：圖片變滿版，文字縮小 */
+            .offer-card-layout {
+                flex-direction: column !important; /* 變直排 */
+            }
+            .offer-img-box {
+                padding: 0 !important; /* 圖片不留白，直接滿版 */
+                min-height: auto !important;
+            }
+            .offer-text-box {
+                padding: 20px !important;
+            }
+            .offer-text-box h3 { font-size: 1.4rem !important; }
+
+            /* 5. 預約須知 & Q&A：強制變成「直的一排」 (1欄) */
+            .info-grid, .qa-grid {
+                grid-template-columns: 1fr !important; /* 強制 1 欄 */
+                gap: 15px !important;
+            }
+            
+            /* 6. 關於運動按摩 (黃框)：修正留白 */
+            #about {
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+            }
+
+            /* 7. 日曆：縮小字體，避免爆掉 */
+            .calendar-day {
+                font-size: 0.8rem; 
+                padding: 5px 0;
+                height: 45px;
+            }
+            .calendar-day span {
+                font-size: 0.6rem;
+                display: block;
+            }
+        }
+        
         /* --- CSS 結束 --- */
     </style>
 </head>
@@ -1345,6 +1414,7 @@
 
 </body>
 </html>
+
 
 
 
