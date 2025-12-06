@@ -362,38 +362,75 @@
             .time-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
             .time-btn { width: 100% !important; padding: 10px 0 !important; font-size: 0.9rem !important; }
 
-            /* --- 3. 聯絡資訊：LINE/IG 同行 + 消滅空行 --- */
-            .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; }
+            /* --- 2. 聯絡資訊修復 V18.0 (針對妳的需求精修) --- */
             
-            /* 標題與內容設定 */
+            /* A. 預設：標題在上，內容在下 (適用於地址、時間) */
             .contact-info p.contact-item {
-                font-size: 0.95rem !important; display: flex !important; flex-direction: column !important;
-                align-items: flex-start !important; margin-bottom: 15px !important; gap: 0px !important;
-                text-align: left !important;
+                font-size: 0.95rem !important;
+                display: flex !important;
+                flex-direction: column !important; /* 直排 */
+                align-items: flex-start !important;
+                margin-bottom: 15px !important;
+                padding: 0 !important;
+                gap: 0 !important; /* 確保沒有縫隙 */
             }
+
+            /* B. 針對標題 (每日可預約時段...) - 消滅空行 */
             .contact-info strong {
-                display: block !important; width: 100% !important; margin-bottom: 0px !important; /* 🔥 消滅空行 */
-                padding-bottom: 2px !important; line-height: 1.2 !important;
+                display: block !important;
+                width: 100% !important;
+                margin-bottom: 0px !important; /* 🔥 關鍵：歸零！ */
+                padding-bottom: 2px !important; /* 只留 2px 呼吸空間 */
+                line-height: 1.4 !important;
             }
-            .contact-info span { display: block !important; margin-top: 0 !important; }
+            
+            /* C. 針對內容 (時間表) */
+            .contact-info span {
+                display: block !important;
+                margin-top: 0 !important; /* 確保緊貼標題 */
+                line-height: 1.6 !important;
+            }
 
-            /* 社交專區 (LINE/IG) */
+            /* D. 社交專區 (LINE/IG) - 特殊處理：改成橫排！ */
             .social-row {
-                display: flex !important; flex-direction: column !important; /* 整個區塊直排 */
-                gap: 5px !important; margin-bottom: 15px !important; width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important; /* 兩組帳號還是上下排 */
+                gap: 5px !important; 
+                margin-bottom: 15px !important;
+                width: 100% !important;
             }
-            /* 讓 LINE 和 IG 每一行內部是「橫排」的 */
+            
+            /* 🔥 讓 LINE 和 IG 內部變成「左右並排」 */
             .social-row .contact-item {
-                margin-bottom: 0 !important; display: flex !important; 
-                flex-direction: row !important; /* 🔥 關鍵：這裡改回橫排 */
-                align-items: center !important; gap: 5px !important; width: 100%;
+                margin-bottom: 0 !important;
+                display: flex !important;
+                flex-direction: row !important; /* ✅ 改回橫排 (標題在左，內容在右) */
+                align-items: center !important; 
+                gap: 5px !important;
+                width: 100%;
             }
-            .social-row strong { width: auto !important; margin-bottom: 0 !important; }
+            /* 讓社交區的標題 (LINE:, IG:) 寬度自動縮小，不要佔滿一行 */
+            .social-row strong {
+                width: auto !important; /* ✅ 自動寬度 */
+                margin-bottom: 0 !important;
+                white-space: nowrap; /* 標題不換行 */
+            }
+            /* 內容也靠左 */
+            .social-row a {
+                margin-left: 0 !important;
+            }
 
-            /* 按鈕對齊 */
-            .contact-info .btn-main { width: 100% !important; margin: 8px 0 !important; box-sizing: border-box; text-align: center; }
-            .contact-info a { margin-left: 0 !important; }
-
+            /* E. 按鈕對齊 */
+            .contact-info .btn-main {
+                width: 100% !important; /* 滿版 */
+                margin: 5px 0 !important; /* 上下間距 */
+                padding: 12px 0 !important;
+                display: flex;
+                justify-content: center; /* 文字置中 */
+                align-items: center;
+                box-sizing: border-box; 
+                text-align: center;
+            }
             /* --- 4. 其他修正 --- */
             .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
             .info-grid, .qa-grid {
@@ -928,4 +965,5 @@
 
 </body>
 </html>
+
 
