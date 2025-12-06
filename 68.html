@@ -839,6 +839,84 @@
             font-size: 1.3rem;
         }
 
+        /* ========================================= */
+        /* 📱 手機版專屬修正 (Mobile Responsive)      */
+        /* 當螢幕寬度小於 768px 時，執行以下設定      */
+        /* ========================================= */
+        @media (max-width: 768px) {
+
+            /* 1. 全域設定：防止左右滑動爆版 */
+            body, html {
+                overflow-x: hidden; /* 禁止左右捲動 (除非是我們允許的區塊) */
+            }
+            .content-section {
+                padding: 40px 20px !important; /* 縮小區塊上下的留白 */
+                width: auto !important; /* 強制寬度自動適應 */
+                margin: 20px 15px !important; /* 左右留一點邊距就好 */
+                box-sizing: border-box;
+            }
+
+            /* 2. 主視覺 (Hero) 文字變小 */
+            .hero-title { font-size: 1.8rem; }
+            .hero-subtitle { font-size: 1rem; }
+
+            /* 3. 最新優惠 (Offer)：變成「上圖下文」 */
+            .offer-card-layout {
+                flex-direction: column !important; /* 變成直排 */
+                height: auto;
+            }
+            .offer-img-box {
+                padding: 0; /* 圖片滿版 */
+                min-height: 200px; /* 圖片高度縮小 */
+            }
+            .offer-text-box {
+                padding: 25px; /* 文字區內距縮小 */
+            }
+            .offer-text-box h3 { font-size: 1.4rem; }
+
+            /* 4. 關於運動按摩 (黃底框)：縮小留白，箭頭貼邊 */
+            #about {
+                padding-left: 30px !important;  /* 原本60px太寬，改30px */
+                padding-right: 30px !important;
+            }
+            /* 手機版箭頭稍微變小 */
+            .my-prev-btn, .my-next-btn {
+                width: 30px; height: 30px;
+            }
+            .my-prev-btn::after, .my-next-btn::after { font-size: 0.8rem; }
+            .my-prev-btn { left: 0px !important; } /* 緊貼邊緣 */
+            .my-next-btn { right: 0px !important; }
+
+            /* 5. 預約日曆：格子縮小，字體縮小 */
+            .calendar-day {
+                padding: 5px 2px; /* 內距縮到最小 */
+                font-size: 0.9rem; /* 日期數字 */
+                height: 50px; /* 固定高度 */
+            }
+            .calendar-day span {
+                font-size: 0.6rem; /* 「可約/店休」字體變很小 */
+                display: block; /* 強制換行 */
+            }
+
+            /* 6. 聯絡我們 (黑底框)：變成直排 */
+            .contact-container {
+                grid-template-columns: 1fr !important; /* 變單欄 */
+                gap: 30px;
+            }
+            .map-box {
+                height: 250px; /* 地圖不用太高 */
+                order: -1; /* 讓地圖跑到上面 (可選) */
+            }
+            
+            /* 7. 懸浮按鈕：位置調整 */
+            .floating-btn-container {
+                bottom: 20px;
+                right: 20px;
+            }
+            .float-btn {
+                width: 40px; height: 40px;
+            }
+        }
         /* --- CSS 結束 --- */
     </style>
 </head>
@@ -1373,4 +1451,5 @@
 
 </body>
 </html>
+
 
