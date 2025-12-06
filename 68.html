@@ -842,23 +842,23 @@
             .contact-info p {
                 font-size: 0.95rem !important;
                 display: flex;
-                flex-direction: column; /* ✅ 改成直排：讓標題在上，內容在下 */
+                flex-direction: column; /* 讓標題與內容直排 */
                 align-items: flex-start;
                 margin-bottom: 15px;
                 line-height: 1.6;
+                gap: 2px !important; /* ✅ 減少圖示跟文字的垂直間距 */
             }
-            /* 針對「地址、LINE、IG」這些只有一行的，維持橫排 (用 CSS 選取器微調) */
-            /* 這裡稍微進階一點：我們只針對「每日可預約時段」那個 P 做特別處理 */
-            /* 但因為 HTML 沒給 class，我們用「內容」來判斷比較難，所以統一改成：標題跟內容分開 */
             
-            /* 或者，我們直接用暴力法：讓內文的 <br> 生效，並且調整排版 */
             .contact-info {
                 text-align: left;
                 width: 100%;
             }
+
+            /* 👇 關鍵修正：針對「每日可預約時段：」 */
             .contact-info strong {
-                display: block; /* 讓標題 (例如「每日可預約時段：」) 自己佔一行 */
-                margin-bottom: 5px;
+                display: block;
+                margin-bottom: 0px !important; /* ✅ 強制歸零！不准有空行 */
+                line-height: 1.2; /* 行高縮小，讓它跟下面更緊密 */
             }
 
             /* --- 3. 按鈕對齊修復 --- */
@@ -1479,6 +1479,7 @@
 
 </body>
 </html>
+
 
 
 
