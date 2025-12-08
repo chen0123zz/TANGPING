@@ -27,7 +27,7 @@
         section, .content-section { scroll-margin-top: 100px; }
 
         /* ========================================= */
-        /* 🏠 前台樣式 (保持 V37/V40 完美版型)       */
+        /* 🏠 前台樣式 (保持完美版型)                */
         /* ========================================= */
         header { background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; display: block; transition: transform 0.3s ease; }
         header.nav-hidden { transform: translateY(-100%); }
@@ -550,12 +550,17 @@
             
             <div class="form-group">
                 <label class="form-label">姓名</label>
-                <input type="text" id="booking-name" class="form-input" placeholder="請輸入您的姓名">
+                <input type="text" id="booking-name" class="form-input" placeholder="請輸入真實姓名">
             </div>
             <div class="form-group">
                 <label class="form-label">聯絡電話</label>
                 <input type="tel" id="booking-phone" class="form-input" placeholder="09xx-xxx-xxx">
             </div>
+            <div class="form-group">
+                <label class="form-label">LINE ID (選填)</label>
+                <input type="text" id="booking-line" class="form-input" placeholder="方便我們聯繫您">
+            </div>
+            
             <div class="form-group">
                 <label class="form-label">選擇服務項目</label>
                 <select id="booking-service" class="form-select">
@@ -649,7 +654,7 @@
     </div>
 
     <script>
-        // 🔥 這裡換上妳的 GAS 網址
+        // 🔥 這裡換上妳的 GAS 網址 (確認是 V3.0 新版的部署網址喔！)
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnQHXbyaGgTVdnjIfxf88QnL6HA2k70_PDQxNDDeYPXqLl056MAxMsBZ2NQQS5TkySKQ/exec"; 
 
         let currentDate = new Date();
@@ -676,8 +681,8 @@
             .then(res => res.json())
             .then(data => {
                 allOrders = data; // 存入全域變數
-                updateDashboard(); // 更新後台儀表板
-                updateCalendars(); // 更新前後台日曆 (讓綠點出現)
+                updateDashboard(); // 更新營收
+                updateCalendars(); // 更新綠點
             })
             .catch(err => console.error("資料讀取失敗", err));
         }
@@ -789,10 +794,20 @@
 
         function confirmBooking() {
             const name = document.getElementById('booking-name').value;
-            const phone = document.getElementById('booking-phone').value;
+            const phone = document.getElementById('booking-phone').value.trim(); // 移除前後空白
+            const lineId = document.getElementById('booking-line').value; // 新增 LINE ID
             const service = document.getElementById('booking-service').value;
 
-            if(!name || !phone) { alert("請填寫完整資料！"); return; }
+            // 基本必填檢查
+            if(!name || !phone) { alert("請填寫姓名和電話喔！"); return; }
+            
+            // 🔥 電話格式檢查 (防呆)
+            // 規則：09開頭，且總共10碼數字 (允許中間有橫線，但我會把它拿掉再檢查)
+            const cleanPhone = phone.replace(/-/g, ""); // 拿掉橫線
+            if (!/^09\d{8}$/.test(cleanPhone)) {
+                alert("❌ 手機號碼格式錯誤！\n請輸入 09 開頭的 10 碼數字");
+                return;
+            }
 
             const btn = document.getElementById('confirm-btn');
             btn.innerText = "處理中...";
@@ -803,7 +818,16 @@
             if(match) amount = match[1].replace(',', '');
             if(service.includes("包堂")) amount = "包堂扣1";
 
-            const data = { date: selectedDate, time: selectedTime, name, phone, service, amount };
+            // 打包資料 (包含 LINE ID)
+            const data = { 
+                date: selectedDate, 
+                time: selectedTime, 
+                name: name, 
+                phone: phone, 
+                lineId: lineId, // 新增
+                service: service, 
+                amount: amount 
+            };
 
             fetch(SCRIPT_URL, {
                 method: "POST",
@@ -811,13 +835,16 @@
                 mode: "no-cors",
                 headers: { "Content-Type": "text/plain" }
             }).then(() => {
-                // 🔥 修改後的文案 (極簡流暢)
                 alert("✅ 預約成功！\n我們已收到您的預約，請準時前往工作室即可！");
                 closeBookingForm();
                 btn.innerText = "確認送出";
                 btn.disabled = false;
                 
-                // 為了讓阿庠不用重整就能看到剛下的單，我們可以偷偷再抓一次資料
+                // 清空表單
+                document.getElementById('booking-name').value = "";
+                document.getElementById('booking-phone').value = "";
+                document.getElementById('booking-line').value = "";
+                
                 setTimeout(fetchOrders, 2000); 
 
             }).catch(e => {
@@ -875,13 +902,16 @@
             } else {
                 let html = "";
                 dailyOrders.forEach(o => {
+                    // 顯示 LINE ID (如果有的話)
+                    const lineDisplay = o.lineId ? `<br>LINE: ${o.lineId}` : "";
+                    
                     html += `
                     <div class="order-item">
                         <div class="order-time">${o.time}</div>
                         <div class="order-info">
-                            ${o.name} (${o.phone})<br>
+                            ${o.name} (${o.phone})${lineDisplay}<br>
                             ${o.service}<br>
-                            <span class="order-price">💰 ${o.amount}</span>
+                            <span class="order-price">💰 ${o.amount} (未付款)</span>
                         </div>
                          <div class="action-btns">
                             <button class="status-btn btn-done" onclick="showToast('✅ 訂單已結案')">結案 (已付款)</button>
