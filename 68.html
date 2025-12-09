@@ -27,7 +27,7 @@
         section, .content-section { scroll-margin-top: 100px; }
 
         /* ========================================= */
-        /* 🏠 前台樣式 (Front-End)                   */
+        /* 🏠 前台樣式                               */
         /* ========================================= */
         header { background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; display: block; transition: transform 0.3s ease; }
         header.nav-hidden { transform: translateY(-100%); }
@@ -85,16 +85,10 @@
         .calendar-day span { font-size: 0.8rem; color: #888; margin-top: 3px; }
         .calendar-day.active, .calendar-day:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .calendar-day.active span, .calendar-day:hover span { color: #fff; }
-        
-        /* 🔥 關鍵：過去日期反灰 (disabled) */
-        .calendar-day.disabled { background-color: #f9f9f9; color: #ddd; cursor: default; pointer-events: none; }
-        .calendar-day.disabled span { display: none; } /* 過去日期不顯示文字 */
-        
+        .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
         .calendar-day.today { border: 2px solid var(--brand-color); color: var(--brand-color); font-weight: bold; }
-        
-        /* 🔥 關鍵：店休樣式 (同步後台) */
         .calendar-day.holiday { background-color: #fff0f0 !important; border-color: #ffcccc !important; color: #d63031 !important; pointer-events: none; }
-        .calendar-day.holiday span { color: #d63031 !important; display: block; } /* 店休文字要顯示 */
+        .calendar-day.holiday span { color: #d63031 !important; }
 
         .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: all 0.2s; }
@@ -137,24 +131,26 @@
         .float-btn:hover { background-color: #333; transform: scale(1.1); }
         footer { text-align: center; padding: 5px 5px; background-color: transparent; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
-        /* 預約填寫彈窗樣式 */
-        #booking-modal-overlay { 
+        /* Modal & Admin Styles */
+        #booking-modal-overlay, #admin-login-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.5); backdrop-filter: blur(3px);
             z-index: 10002; display: none; flex-direction: column; justify-content: center; align-items: center; 
         }
-        .booking-modal { 
+        .booking-modal, .admin-login-box { 
             background: #fff; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; text-align: left;
         }
-        .booking-modal h3 { margin-top: 0; color: var(--brand-color); text-align: center; }
+        .booking-modal h3, .admin-login-box h2 { margin-top: 0; color: var(--brand-color); text-align: center; }
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; font-size: 0.9rem; color: #666; margin-bottom: 5px; }
-        .form-input, .form-select { 
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 1rem; 
+        .form-input, .form-select, .login-input { 
+            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 1rem; margin-bottom: 10px;
         }
         .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
-        
+        .login-btn { background: var(--brand-color); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .login-btn:hover { opacity: 0.9; }
+
         /* Toast */
         #toast-msg {
             position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
@@ -162,79 +158,9 @@
             font-size: 0.9rem; z-index: 20000; opacity: 0; transition: opacity 0.3s; pointer-events: none;
         }
 
-        /* ============================================= */
-        /* 📱 手機版專屬修正 (Front-End Mobile)           */
-        /* ============================================= */
-        @media (max-width: 768px) {
-            header { padding: 10px 0; position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; }
-            body { padding-top: 110px; }
-            .header-content { flex-direction: column !important; gap: 10px; }
-            .logo-img { height: 45px; }
-            .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; scrollbar-width: none; }
-            .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
-
-            .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
-            .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 2px !important; width: 100% !important; }
-            .calendar-day { width: 100% !important; height: auto !important; aspect-ratio: 1 / 1 !important; font-size: 0.75rem !important; padding: 0 !important; border-radius: 4px !important; min-height: 0 !important; }
-            .calendar-day span { font-size: 0.5rem !important; transform: scale(0.85); margin-top: 0px; }
-            .time-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
-            .time-btn { width: 100% !important; padding: 10px 0 !important; font-size: 0.9rem !important; }
-
-            .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
-            .contact-item { display: flex !important; flex-direction: column !important; align-items: flex-start !important; margin-bottom: 15px !important; }
-            .contact-item strong { display: block !important; margin-bottom: 2px !important; width: 100%; }
-            .social-row { display: flex !important; flex-direction: column !important; gap: 5px !important; margin-bottom: 15px !important; width: 100% !important; }
-            .social-row .contact-item { margin-bottom: 0 !important; display: flex !important; flex-direction: row !important; align-items: center !important; gap: 5px !important; width: 100%; margin-right: 0 !important; }
-            .social-row strong { width: auto !important; margin-bottom: 0 !important; white-space: nowrap !important; }
-            .btn-group { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; }
-            .contact-info .btn-main { width: 100% !important; margin: 8px 0 !important; text-align: center; display: flex !important; justify-content: center !important; box-sizing: border-box !important; }
-
-            .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
-            .info-grid, .qa-grid { display: flex !important; overflow-x: auto !important; gap: 15px !important; padding: 30px 20px 30px 20px !important; margin: 0 -20px !important; scroll-snap-type: x mandatory; scrollbar-width: none; grid-template-columns: none !important; }
-            .info-card, .qa-card { min-width: 70vw !important; margin: 0 !important; scroll-snap-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; position: relative; overflow: visible !important; }
-            .info-card:last-child, .qa-card:last-child { margin-right: 20px !important; }
-            #contact { margin: 20px 15px !important; border-radius: 20px !important; width: auto !important; padding: 30px 20px !important; box-sizing: border-box; }
-            .map-box { order: 2; height: 250px !important; width: 100% !important; }
-            .contact-info { order: 1; }
-            .services-grid + div p { font-size: 0.75rem !important; white-space: nowrap !important; letter-spacing: -0.5px; }
-            .mobile-break { display: inline; }
-            .mobile-break::after { display: none; }
-            .time-list-desktop { white-space: normal !important; display: block !important; }
-            .content-section { padding: 30px 20px !important; margin: 20px 15px !important; width: auto !important; border-radius: 20px !important; }
-            .offer-card-layout { flex-direction: column !important; }
-            .offer-img-box { padding: 0 !important; }
-            .offer-text-box { padding: 25px !important; }
-            #about { padding-left: 15px !important; padding-right: 15px !important; }
-            table { font-size: 0.75rem !important; }
-            th, td { padding: 8px 4px !important; white-space: nowrap !important; }
-            td span { font-size: 0.65rem !important; display: inline-block; }
-            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
-        }
-
-        /* ========================================= */
-        /* 🔐 亮色系後台 CSS (Admin Styles - Light)  */
-        /* ========================================= */
-        #admin-login-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
-            z-index: 10001; display: none; flex-direction: column; justify-content: center; align-items: center; 
-        }
-        .admin-login-box { 
-            background: #fff; padding: 30px; border-radius: 15px; text-align: center; width: 80%; max-width: 300px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .login-input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ddd; background:#fff; color:#333; border-radius: 5px; box-sizing: border-box; font-size: 1rem; }
-        .login-btn { background: var(--brand-color); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
-        .login-btn:hover { opacity: 0.9; }
-
-        #admin-panel { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: var(--admin-bg); z-index: 10000; overflow-y: auto; color: var(--admin-text);
-        }
-        .admin-header { 
-            background-color: #fff; color: #333; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
-        }
+        /* Admin Light Mode */
+        #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--admin-bg); z-index: 10000; overflow-y: auto; color: var(--admin-text); }
+        .admin-header { background-color: #fff; color: #333; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .admin-header h1 { margin: 0; font-size: 1.2rem; color: var(--brand-color); }
         .admin-container { max-width: 600px; margin: 20px auto; padding: 0 15px; padding-bottom: 60px; }
         
@@ -246,33 +172,23 @@
         .admin-card { background: var(--admin-card); border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .admin-month-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .admin-month-title { font-size: 1.2rem; font-weight: bold; color: #333; }
+        .admin-toolbar { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .admin-tool-btn { background-color: #fff; border: 1px solid #ddd; color: #666; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; }
+        .admin-tool-btn:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
+
         .admin-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
         .admin-cal-head { font-size: 0.7rem; color: #888; margin-bottom: 5px; }
-        
-        .admin-cal-cell {
-            aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            border-radius: 8px; border: 1px solid #eee; font-size: 0.9rem; cursor: pointer; position: relative;
-            background: #fff; transition: all 0.2s; color: #333;
-        }
+        .admin-cal-cell { aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; border: 1px solid #eee; font-size: 0.9rem; cursor: pointer; position: relative; background: #fff; transition: all 0.2s; color: #333; }
         .admin-cal-cell.today { border: 2px solid var(--brand-color); color: var(--brand-color); font-weight: bold; }
         .admin-cal-cell.selected { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .admin-cal-cell.holiday { background-color: #fff0f0; color: #d63031; text-decoration: none; }
-        
-        .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 2px; }
-        .dot.has-order { background-color: #2ecc71; }
-        .event-text { display: none; } 
+        .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 2px; background-color: #2ecc71; display: none; }
+        .dot.active { display: block; }
+        .event-text { display: none; }
 
-        .admin-cal-grid.detail-mode .admin-cal-cell {
-            aspect-ratio: auto; min-height: 80px; 
-            justify-content: flex-start; padding-top: 5px;
-            align-items: stretch; 
-        }
+        .admin-cal-grid.detail-mode .admin-cal-cell { aspect-ratio: auto; min-height: 80px; justify-content: flex-start; padding-top: 5px; align-items: stretch; }
         .admin-cal-grid.detail-mode .dot { display: none; } 
-        .admin-cal-grid.detail-mode .event-text { 
-            display: block; font-size: 0.65rem; color: #fff; 
-            background-color: #2ecc71; margin: 2px 0; padding: 2px 4px; border-radius: 3px; 
-            text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-        }
+        .admin-cal-grid.detail-mode .event-text { display: block; font-size: 0.65rem; color: #fff; background-color: #2ecc71; margin: 2px 0; padding: 2px 4px; border-radius: 3px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
         .admin-cal-grid.detail-mode .admin-cal-cell.holiday .event-text { display: none; }
 
         #day-detail { display: none; animation: slideUp 0.3s ease; }
@@ -283,39 +199,29 @@
         .order-time { font-weight: bold; color: #333; font-size: 1rem; }
         .order-info { color: #666; font-size: 0.95rem; margin-top: 5px; line-height: 1.5; }
         .order-price { font-weight: bold; color: #e67e22; }
-        
         .action-btns { display: flex; gap: 10px; margin-top: 10px; }
         .status-btn { padding: 5px 10px; border: none; border-radius: 5px; font-size: 0.8rem; cursor: pointer; color: #fff; }
         .btn-done { background: #27ae60; }
         .btn-cancel { background: #e74c3c; }
 
         .admin-big-btn-group { display: flex; gap: 10px; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
-        .admin-big-btn {
-            flex: 1; padding: 15px; border: none; border-radius: 10px; 
-            font-size: 1rem; font-weight: bold; cursor: pointer; color: #fff;
-            display: flex; align-items: center; justify-content: center; gap: 5px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        .admin-big-btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .btn-holiday-big { background-color: #e74c3c; }
         .btn-open-big { background-color: #2ecc71; }
-
         .admin-time-management { margin-top: 20px; background: #fafafa; padding: 15px; border-radius: 10px; }
         .admin-time-title { font-size: 0.95rem; font-weight: bold; margin-bottom: 10px; color: #555; }
         .admin-time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .time-switch {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #fff; padding: 8px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 0.85rem;
-        }
+        .time-switch { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 0.85rem; }
         .switch-input { margin-left: 5px; transform: scale(1.2); cursor: pointer; }
-
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
-        .admin-toolbar { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .admin-tool-btn { 
-            background-color: #fff; border: 1px solid #ddd; color: #666; 
-            padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; 
-            display: flex; align-items: center; gap: 5px; transition: 0.2s;
+        
+        @media (max-width: 768px) {
+            .offer-card-layout { flex-direction: column; }
+            .contact-container { display: flex; flex-direction: column; gap: 30px; }
+            .btn-group { flex-direction: column; }
+            .contact-info .btn-main { width: 100%; margin: 0; }
+            .calendar-day { width: 100%; height: auto; aspect-ratio: 1/1; font-size: 0.75rem; }
         }
-        .admin-tool-btn:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
     </style>
 </head>
 <body>
@@ -407,7 +313,7 @@
                     <button class="time-btn" onclick="openBookingForm('12:00')">12:00</button>
                     <button class="time-btn" onclick="openBookingForm('14:00')">14:00</button>
                     <button class="time-btn" onclick="openBookingForm('15:40')">15:40</button>
-                    <button class="time-btn disabled">17:10 (已預約)</button> 
+                    <button class="time-btn" onclick="openBookingForm('17:10')">17:10</button>
                     <button class="time-btn" onclick="openBookingForm('19:30')">19:30</button>
                     <button class="time-btn" onclick="openBookingForm('21:10')">21:10</button>
                 </div>
@@ -420,17 +326,17 @@
         <div class="info-grid">
             <div class="info-card"><div class="card-header"><div class="info-icon">🎽</div><h4>穿著建議</h4></div><p>請穿著或攜帶<strong>運動服裝</strong>，女性建議穿著運動內衣，方便伸展與放鬆。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🍱</div><h4>飲食建議</h4></div><p>按摩前可稍微進食，但<strong>切勿飽腹前來</strong>，以免趴臥時造成腹部不適。</p></div>
-            <div class="info-card"><div class="card-header"><div class="info-icon">💪</div><h4>心理準備</h4></div><p>運動按摩不同於一般放鬆，針對沾黏處<strong>偶有痠痛感</strong>，屬正常現象。</p></div>
+            <div class="info-card"><div class="card-header"><div class="info-icon">💪</div><h4>心理準備</h4></div><p>運動按摩不同於一般放鬆，針對沾黏處处理時<strong>偶有痠痛感</strong>，屬正常現象。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🤕</div><h4>主動告知</h4></div><p>若有手術舊疾、懷孕或身體不適部位，請<strong>務必主動告知</strong>師傅。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🕒</div><h4>首次體驗</h4></div><p>建議預約 <strong>90 分鐘方案</strong>，包含完整評估與測試，較能充分感受成效。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🏥</div><h4>醫療聲明</h4></div><p>運動按摩<strong>無法替代醫療行為</strong>，若有急性發炎或嚴重不適，請先就醫。</p></div>
         </div>
         <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
         <div class="qa-grid">
-            <div class="qa-card"><div class="qa-badge" style="background-color: #d35400;">Question 1</div><h3>跟一般按摩差在哪？</h3><p><strong>A: 目的完全不同！</strong></p><p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛(DOMS)」。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #5e4b35;">Question 3</div><h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3><p><strong>A: 這是修復的信號！🛠️</strong></p><p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #e67e22;">Question 4</div><h3>該如何緩解痠痛感？</h3><p><strong>A: 這些方法很有用！🛁</strong></p><ul><li>♨️ 熱敷或泡熱水澡</li><li>💧 多補充水分代謝廢物</li><li>🚶‍♂️ 輕微活動 (如散步)</li><li>🛌 充分休息，避免疲勞</li></ul></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #d35400;">Question 1</div><h3>跟一般按摩差在哪？</h3><hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;"><p><strong>A: 目的完全不同！</strong></p><p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;"><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛 (DOMS)」。這是深層按摩後自然的修復過程。</p></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #5e4b35;">Question 3</div><h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3><hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;"><p><strong>A: 這是修復的信號！🛠️</strong></p><p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #e67e22;">Question 4</div><h3>該如何緩解痠痛感？</h3><hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;"><p><strong>A: 這些方法很有用！🛁</strong></p><ul style="text-align: left; color: #666; font-size: 0.95rem; line-height: 1.6; padding-left: 20px;"><li>♨️ 熱敷或泡熱水澡，促進循環</li><li>💧 多補充水分，幫助代謝廢物</li><li>🚶‍♂️ 輕微活動 (如散步)</li><li>🛌 充分休息，避免過度疲勞</li></ul></div>
         </div>
     </section>
 
@@ -633,14 +539,12 @@
                 const hasOrder = allOrders.some(o => o.date === dateStr);
                 const isHoliday = holidays.includes(dateStr); 
                 const checkDate = new Date(year, month, i);
-                // 過去日期判斷：只在非admin模式下且不是今天才套用disabled
                 const isPast = checkDate < new Date(today.setHours(0,0,0,0));
 
                 if(year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
                     cell.classList.add('today');
                     cell.innerHTML = `${i}<br><span style="font-size:0.6rem">今天</span>`;
                 } else if (isPast) {
-                     // 過去日期
                     cell.classList.add('disabled');
                     cell.innerHTML = `${i}`;
                 } else if(isHoliday) {
@@ -660,7 +564,6 @@
 
                 if(isAdmin) { cell.onclick = function() { showAdminDetail(i, this); }; } 
                 else { 
-                    // 只有未來的非店休日期可點
                     if(!isHoliday && !isPast) cell.onclick = function() { selectDate(i, this); }; 
                 }
                 container.appendChild(cell);
