@@ -65,12 +65,15 @@
         .calendar-day.active { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
         
+        /* 🔥 V63: 今天樣式 (僅黃框，不改字) */
         .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; color: var(--text-dark); }
         .calendar-day.today.active { background-color: var(--brand-color) !important; color: #fff !important; }
 
+        /* 🔥 V63: 店休樣式 */
         .calendar-day.holiday { background-color: #fff0f0 !important; border: 2px solid #ffcccc !important; color: #d63031 !important; pointer-events: auto !important; }
         .calendar-day.holiday span { color: #d63031 !important; display: block; }
         
+        /* 🔥 V63: 額滿樣式 (灰底，顯示額滿) */
         .calendar-day.full { background-color: #e0e0e0 !important; color: #888 !important; pointer-events: none; }
         .calendar-day.full span { color: #888 !important; }
 
