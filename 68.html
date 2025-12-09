@@ -116,11 +116,11 @@
         .calendar-day.active span, .calendar-day:hover span { color: #fff; }
         .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
         
-        /* 🔥 V54: 今天樣式 (僅黃框，不改字) */
+        /* 🔥 V55: 今天樣式 (僅黃框，不改字) */
         .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; }
         .calendar-day.today.active { background-color: var(--brand-color) !important; color: #fff !important; }
         
-        /* 🔥 V54: 店休樣式 */
+        /* 🔥 V55: 店休樣式 */
         .calendar-day.holiday { background-color: #fff0f0 !important; border: 2px solid #ffcccc !important; color: #d63031 !important; pointer-events: auto !important; }
         .calendar-day.holiday span { color: #d63031 !important; display: block; }
 
@@ -300,8 +300,6 @@
         /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
         /* ============================================= */
         @media (max-width: 768px) {
-            
-            /* 1. 導覽列：Logo 置中 + 選單在下 */
             header { padding: 10px 0; position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; }
             body { padding-top: 110px; }
             .header-content { flex-direction: column !important; gap: 10px; }
@@ -309,7 +307,6 @@
             .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; scrollbar-width: none; }
             .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
 
-            /* 2. 日曆：取消固定寬度，防止爆框 */
             .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
             .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 2px !important; width: 100% !important; }
             .calendar-day { width: 100% !important; height: auto !important; aspect-ratio: 1 / 1 !important; font-size: 0.75rem !important; padding: 0 !important; border-radius: 4px !important; min-height: 0 !important; }
@@ -317,41 +314,15 @@
             .time-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
             .time-btn { width: 100% !important; padding: 10px 0 !important; font-size: 0.9rem !important; }
 
-            /* 3. 聯絡資訊修復 (重點) */
             .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
-            
-            /* 一般項目直排 */
-            .contact-item { 
-                display: flex !important; flex-direction: column !important; 
-                align-items: flex-start !important; margin-bottom: 15px !important; 
-            }
+            .contact-item { display: flex !important; flex-direction: column !important; align-items: flex-start !important; margin-bottom: 15px !important; }
             .contact-item strong { display: block !important; margin-bottom: 2px !important; width: 100%; }
-
-            /* 社交專區：直排 (LINE 一行, IG 一行) */
-            .social-row { 
-                display: flex !important; flex-direction: column !important; 
-                gap: 5px !important; margin-bottom: 15px !important; width: 100% !important; 
-            }
-            /* 社交專區內部：橫排 (標題+內容) */
-            .social-row .contact-item {
-                margin-bottom: 0 !important; display: flex !important; flex-direction: row !important;
-                align-items: center !important; gap: 5px !important; width: 100%; margin-right: 0 !important;
-            }
+            .social-row { display: flex !important; flex-direction: column !important; gap: 5px !important; margin-bottom: 15px !important; width: 100% !important; }
+            .social-row .contact-item { margin-bottom: 0 !important; display: flex !important; flex-direction: row !important; align-items: center !important; gap: 5px !important; width: 100%; margin-right: 0 !important; }
             .social-row strong { width: auto !important; margin-bottom: 0 !important; white-space: nowrap !important; }
-            
-            /* 按鈕 */
             .btn-group { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; }
-            /* 按鈕修復：防止爆框 */
-            .contact-info .btn-main { 
-                width: 100% !important; 
-                margin: 8px 0 !important; 
-                text-align: center; 
-                display: flex !important; 
-                justify-content: center !important; 
-                box-sizing: border-box !important; 
-            }
+            .contact-info .btn-main { width: 100% !important; margin: 8px 0 !important; text-align: center; display: flex !important; justify-content: center !important; box-sizing: border-box !important; }
 
-            /* 4. 其他修正 */
             .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
             .info-grid, .qa-grid { display: flex !important; overflow-x: auto !important; gap: 15px !important; padding: 30px 20px 30px 20px !important; margin: 0 -20px !important; scroll-snap-type: x mandatory; scrollbar-width: none; grid-template-columns: none !important; }
             .info-card, .qa-card { min-width: 70vw !important; margin: 0 !important; scroll-snap-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; position: relative; overflow: visible !important; }
@@ -423,7 +394,7 @@
             <div class="swiper-pagination"></div>
         </div>
         <div class="swiper-button-next my-next-btn" style="color: var(--brand-color);"></div>
-        <div class="swiper-button-prev my-next-btn" style="color: var(--brand-color);"></div>
+        <div class="swiper-button-prev my-prev-btn" style="color: var(--brand-color);"></div>
     </section>
 
     <section class="content-section" id="services">
@@ -477,9 +448,9 @@
         <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
         <div class="qa-grid">
             <div class="qa-card"><div class="qa-badge" style="background-color: #d35400;">Question 1</div><h3>跟一般按摩差在哪？</h3><p><strong>A: 目的完全不同！</strong></p><p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛 (DOMS)」。這是深層按摩後自然的修復過程。</p></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛(DOMS)」。</p></div>
             <div class="qa-card"><div class="qa-badge" style="background-color: #5e4b35;">Question 3</div><h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3><p><strong>A: 這是修復的信號！🛠️</strong></p><p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #e67e22;">Question 4</div><h3>該如何緩解痠痛感？</h3><p><strong>A: 這些方法很有用！🛁</strong></p><ul><li>♨️ 熱敷或泡熱水澡，促進循環</li><li>💧 多補充水分，幫助代謝廢物</li><li>🚶‍♂️ 輕微活動 (如散步)</li><li>🛌 充分休息，避免過度疲勞</li></ul></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #e67e22;">Question 4</div><h3>該如何緩解痠痛感？</h3><p><strong>A: 這些方法很有用！🛁</strong></p><ul><li>♨️ 熱敷或泡熱水澡</li><li>💧 多補充水分代謝廢物</li><li>🚶‍♂️ 輕微活動 (如散步)</li><li>🛌 充分休息，避免疲勞</li></ul></div>
         </div>
     </section>
 
@@ -520,9 +491,7 @@
             <p id="booking-info-text" style="color:#666; font-size:0.9rem; margin-bottom:15px; text-align:center;"></p>
             
             <div class="form-group"><label class="form-label">姓名 <span class="required">*</span></label><input type="text" id="booking-name" class="form-input" placeholder="請輸入真實姓名"></div>
-            
             <div class="form-group"><label class="form-label">聯絡電話 <span class="required">*</span></label><input type="tel" id="booking-phone" class="form-input" placeholder="09xx-xxx-xxx" maxlength="12" oninput="this.value = formatPhone(this.value)"></div>
-            
             <div class="form-group"><label class="form-label">LINE ID (選填)</label><input type="text" id="booking-line" class="form-input" placeholder="方便我們聯繫您"></div>
             
             <div class="form-group">
@@ -545,7 +514,6 @@
     <div id="admin-login-overlay">
         <div class="admin-login-box">
             <h2 style="color:var(--brand-color);">後台管理系統</h2>
-            <p>請輸入管理員密碼</p>
             <input type="password" id="admin-password" class="login-input" placeholder="密碼">
             <button class="login-btn" onclick="checkAdminLogin()">登入</button>
             <button class="login-btn" onclick="closeAdmin()" style="background:#ccc; margin-top:10px; color:#555;">取消</button>
@@ -555,51 +523,32 @@
     <div id="admin-panel">
         <div class="admin-header">
             <h1>管理後台</h1>
-            <div>
-                <button onclick="logoutAdmin()" class="control-btn" style="margin-right:10px;">離開後台</button>
-            </div>
+            <div><button onclick="logoutAdmin()" class="control-btn" style="margin-right:10px;">離開後台</button></div>
         </div>
         <div class="admin-container">
             <div class="dashboard-grid">
-                <div class="dash-card">
-                    <div class="dash-num" id="today-count">0</div>
-                    <div class="dash-label">今日預約</div>
-                </div>
-                <div class="dash-card">
-                    <div class="dash-num" id="month-revenue" style="color:#e67e22;">$0</div>
-                    <div class="dash-label">本月預估營收</div>
-                </div>
+                <div class="dash-card"><div class="dash-num" id="today-count">0</div><div class="dash-label">今日預約</div></div>
+                <div class="dash-card"><div class="dash-num" id="month-revenue" style="color:#e67e22;">$0</div><div class="dash-label">本月預估營收</div></div>
             </div>
-
             <div class="admin-card">
                 <div class="admin-month-header">
                     <button class="month-btn" onclick="prevMonth()">❮</button>
                     <div class="month-title-group">
-                        <div class="admin-month-title" id="adminMonthYear" style="margin-bottom:0;">12月 (2025)</div>
+                        <div class="admin-month-title" id="adminMonthYear"></div>
                         <button class="today-btn" onclick="resetToToday()">回到今天</button>
                     </div>
                     <button class="month-btn" onclick="nextMonth()">❯</button>
                 </div>
-                
-                <div class="admin-toolbar">
-                    <button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button>
-                </div>
-
+                <div class="admin-toolbar"><button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button></div>
                 <div class="admin-cal-grid" id="admin-cal-grid"></div>
             </div>
-
             <div id="day-detail">
-                <div class="detail-header">
-                    <div class="date-title" id="admin-date-title"></div>
-                </div>
+                <div class="detail-header"><div class="date-title" id="admin-date-title"></div></div>
                 <div id="order-list-container">載入中...</div>
-                
                 <div class="admin-time-management">
                     <div class="admin-time-title" id="admin-time-mgmt-title">⚙️ 時段開放管理</div>
-                    <div class="admin-time-grid" id="admin-time-switches">
-                        </div>
+                    <div class="admin-time-grid" id="admin-time-switches"></div>
                 </div>
-
                 <div class="admin-big-btn-group">
                     <button id="btn-set-holiday" class="admin-big-btn btn-holiday-big" onclick="toggleHoliday()">❌ 設為全日店休</button>
                     <button id="btn-open-holiday" class="admin-big-btn btn-open-big" onclick="toggleHoliday()">✅ 恢復全日開放</button>
@@ -609,7 +558,8 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnQHXbyaGgTVdnjIfxf88QnL6HA2k70_PDQxNDDeYPXqLl056MAxMsBZ2NQQS5TkySKQ/exec"; 
+        // 🔥 V55.0: 確認 URL 正確
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxbVu5bJpMhGEo5EM7bHioSR3YtqJmt07he_WjysJ-czcTic0lUDE6fBbi0FEqNPzPo6w/exec"; 
 
         let currentDate = new Date();
         let selectedDate = null;
@@ -618,7 +568,7 @@
         let holidays = [];
         let lockedSlots = [];
         const timeSlots = ['10:00', '12:00', '14:00', '15:40', '17:10', '19:30', '21:10'];
-        const dayNames = ['日', '一', '二', '三', '四', '五', '六']; // 🔥 Tweak 4 輔助
+        const dayNames = ['日', '一', '二', '三', '四', '五', '六'];
 
         window.onload = function() {
             const frontGrid = document.querySelector('.calendar-grid');
@@ -627,7 +577,6 @@
             fetchOrders();
         };
 
-        // 🔥 Tweak 2: 電話自動格式化
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
             if(val.length > 4) val = val.slice(0,4) + '-' + val.slice(4);
@@ -728,7 +677,6 @@
                 const checkDate = new Date(year, month, i);
                 const isPast = checkDate < new Date(today.setHours(0,0,0,0));
 
-                // 🔥 Tweak 5: 今天樣式 (僅黃框)
                 if(year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
                     cell.classList.add('today');
                 }
@@ -899,7 +847,7 @@
                 let html = "";
                 dailyOrders.forEach(o => {
                     const lineInfo = o.lineId ? `<br>LINE: ${o.lineId}` : "";
-                    // 🔥 Tweak 1: 加回結案/取消按鈕
+                    // 🔥 Tweak 1: 按鈕回歸
                     html += `
                     <div class="order-item">
                         <div class="order-time">${o.time}</div>
@@ -921,7 +869,6 @@
             const container = document.getElementById('admin-time-switches');
             container.innerHTML = "";
             
-            // 🔥 Tweak 4: 顯示日期 (方便確認)
             const dateObj = new Date(new Date().getFullYear(), date.split('/')[0]-1, date.split('/')[1]);
             const dayOfWeek = dayNames[dateObj.getDay()];
             document.getElementById('admin-time-mgmt-title').innerText = `⚙️ 時段開放管理：${date} (${dayOfWeek})`;
@@ -959,7 +906,6 @@
                 updateCalendars(); 
                 setTimeout(fetchOrders, 1000);
                 
-                // 這裡要稍微延遲更新，不然會抓到舊狀態
                 const cell = document.querySelector('.admin-cal-cell.selected');
                 if(cell) showAdminDetail(parseInt(dateStr.split('/')[1]), cell);
             }).catch(e => alert("錯誤：" + e));
