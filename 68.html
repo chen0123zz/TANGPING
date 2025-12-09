@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>躺平運動按摩 TANG PING 官方網站</title>
+    <title>躺平運動按摩 TANG PING - 預約官網</title>
     <link rel="icon" href="images/LOGO2.png" type="image/png">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -12,13 +12,13 @@
     
     <style>
         /* ========================================= */
-        /* 🎨 全域設定                               */
+        /* 🎨 V25 原始樣式 (完整保留)                */
         /* ========================================= */
         :root {
             --brand-color: #efb748;
             --bg-beige: #f9f5f0;
             --text-dark: #333333;
-            /* 後台變數 */
+            /* 後台變數補入 */
             --admin-bg: #f0f2f5; 
             --admin-card: #ffffff;
             --admin-text: #333333;
@@ -85,13 +85,11 @@
         .today-btn { font-size: 0.75rem; padding: 2px 10px; margin-top: 5px; background: #eee; color: #666; border: none; border-radius: 15px; cursor: pointer; transition: 0.2s; }
         .today-btn:hover { background: var(--brand-color); color: #fff; }
 
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; justify-items: center; align-items: center; }
-        .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; width: 100%; text-align: center; }
-        .calendar-day { border: 1px solid #ddd; border-radius: 12px; width: 75px; height: 75px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0; }
-        .calendar-day span { font-size: 0.8rem; color: #888; margin-top: 3px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; }
+        .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; text-align: center; }
+        .calendar-day { border: 1px solid #ddd; border-radius: 12px; height: 75px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.2s; }
         
-        /* 🔥 V71: 修正樣式優先級，讓店休選取變黃 (功能性 CSS) */
-        /* 1. 被選取 (最高權重) */
+        /* 🔥 V71: 樣式優先級確保 */
         .calendar-day.active, 
         .calendar-day.holiday.active, 
         .calendar-day.today.active { 
@@ -99,21 +97,13 @@
             color: #fff !important; 
             border-color: var(--brand-color) !important; 
         }
-        .calendar-day.active span, 
-        .calendar-day.holiday.active span,
-        .calendar-day.today.active span { color: #fff !important; }
+        .calendar-day.active span, .calendar-day.holiday.active span, .calendar-day.today.active span { color: #fff !important; }
 
-        /* 2. 店休 (紅色) */
         .calendar-day.holiday { background-color: #fff0f0 !important; border: 2px solid #ffcccc !important; color: #d63031 !important; pointer-events: auto !important; }
         .calendar-day.holiday span { color: #d63031 !important; display: block; }
         
-        /* 3. 今天 (僅黃框) */
         .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; color: var(--text-dark); }
-        
-        /* 4. 過去日期 */
         .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
-        
-        /* 5. 額滿 */
         .calendar-day.full { background-color: #e0e0e0 !important; color: #888 !important; pointer-events: none; }
         .calendar-day.full span { color: #888 !important; }
 
@@ -139,17 +129,14 @@
         .qa-card h3 { margin-top: 10px; color: #333; font-size: 1.3rem; }
 
         /* --- 8. 聯絡我們 (電腦版：左右並排) --- */
-        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; width: 100%; }
-        .contact-info, .map-box { width: 100%; }
-        .contact-info { text-align: left; }
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         .map-box { height: 300px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .map-box iframe { display: block; }
         .contact-item { font-size: 1.1rem; margin: 15px 0; line-height: 1.6; }
-        .contact-item strong, .social-row strong { display: inline; margin-right: 5px; color: #efb748; font-size: 1rem; }
+        .contact-item strong { display: inline; margin-right: 5px; color: #efb748; font-size: 1rem; }
         .contact-item span, .contact-item a { display: inline; }
-        .time-item strong { display: block; margin-bottom: 5px; } 
         .time-list-desktop { white-space: nowrap !important; display: block !important; }
-        .social-row { display: block; } 
+        .social-row { display: block; }
         .social-row .contact-item { margin-bottom: 10px; margin-top: 0; display: inline-block; margin-right: 20px; }
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
         .contact-info .btn-main { width: auto; }
@@ -160,8 +147,8 @@
         .floating-btn-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 999; transition: opacity 0.5s ease; }
         .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
         .float-btn:hover { background-color: #333; transform: scale(1.1); }
-        /* V68: 後台鎖頭按鈕移到最下方 */
-        .admin-float-btn { background-color: #333; font-size: 1rem; margin-top: 5px; } 
+        /* V68: 鎖頭按鈕樣式 */
+        .admin-float-btn { background-color: #333; font-size: 1rem; margin-top: 5px; }
         footer { text-align: center; padding: 5px 5px; background-color: transparent; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
         /* ============================================= */
@@ -255,59 +242,22 @@
             .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
             .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 2px !important; width: 100% !important; }
             
-            /* 🔥 V71: 手機版月曆字體加大 */
-            .calendar-day { 
-                width: 100% !important; 
-                height: auto !important; 
-                aspect-ratio: 1 / 1 !important; 
-                font-size: 1rem !important; /* 加大 */
-                padding: 0 !important; 
-                border-radius: 4px !important; 
-                min-height: 0 !important; 
-            }
-            /* 🔥 V71: 狀態文字也加大 */
-            .calendar-day span { 
-                font-size: 0.7rem !important; /* 加大 */
-                transform: none !important; 
-                margin-top: 2px !important; 
-            }
-
+            /* 🔥 V71: 手機版月曆字體加大，狀態文字放大 */
+            .calendar-day { width: 100% !important; height: auto !important; aspect-ratio: 1 / 1 !important; font-size: 1rem !important; padding: 0 !important; border-radius: 4px !important; min-height: 0 !important; }
+            .calendar-day span { font-size: 0.75rem !important; transform: none !important; margin-top: 2px; }
+            
             .time-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
             .time-btn { width: 100% !important; padding: 10px 0 !important; font-size: 0.9rem !important; }
 
             /* 3. 聯絡資訊修復 (重點) */
             .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
-            
-            /* 一般項目直排 */
-            .contact-item { 
-                display: flex !important; flex-direction: column !important; 
-                align-items: flex-start !important; margin-bottom: 15px !important; 
-            }
+            .contact-item { display: flex !important; flex-direction: column !important; align-items: flex-start !important; margin-bottom: 15px !important; }
             .contact-item strong { display: block !important; margin-bottom: 2px !important; width: 100%; }
-
-            /* 社交專區：直排 (LINE 一行, IG 一行) */
-            .social-row { 
-                display: flex !important; flex-direction: column !important; 
-                gap: 5px !important; margin-bottom: 15px !important; width: 100% !important; 
-            }
-            /* 社交專區內部：橫排 (標題+內容) */
-            .social-row .contact-item {
-                margin-bottom: 0 !important; display: flex !important; flex-direction: row !important;
-                align-items: center !important; gap: 5px !important; width: 100%; margin-right: 0 !important;
-            }
+            .social-row { display: flex !important; flex-direction: column !important; gap: 5px !important; margin-bottom: 15px !important; width: 100% !important; }
+            .social-row .contact-item { margin-bottom: 0 !important; display: flex !important; flex-direction: row !important; align-items: center !important; gap: 5px !important; width: 100%; margin-right: 0 !important; }
             .social-row strong { width: auto !important; margin-bottom: 0 !important; white-space: nowrap !important; }
-            
-            /* 按鈕 */
             .btn-group { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; }
-            /* 按鈕修復：防止爆框 */
-            .contact-info .btn-main { 
-                width: 100% !important; 
-                margin: 8px 0 !important; 
-                text-align: center; 
-                display: flex !important; 
-                justify-content: center !important; 
-                box-sizing: border-box !important; 
-            }
+            .contact-info .btn-main { width: 100% !important; margin: 8px 0 !important; text-align: center; display: flex !important; justify-content: center !important; box-sizing: border-box !important; }
 
             /* 4. 其他修正 */
             .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
@@ -331,12 +281,12 @@
             td span { font-size: 0.65rem !important; display: inline-block; }
             .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
 
-            /* 🔥 V71: 手機版送出按鈕醒目化 */
+            /* 🔥 V71: 手機版「確認送出」按鈕醒目化 */
             #confirm-btn {
-                padding: 15px !important; 
-                font-size: 1.1rem !important; 
+                padding: 15px 0 !important;
+                font-size: 1.1rem !important;
+                box-shadow: 0 5px 15px rgba(239, 183, 72, 0.5) !important; /* 加強陰影 */
                 margin-top: 15px !important;
-                box-shadow: 0 4px 12px rgba(239, 183, 72, 0.4) !important;
             }
         }
     </style>
@@ -521,45 +471,31 @@
         </div>
         <div class="admin-container">
             <div class="dashboard-grid">
-                <div class="dash-card">
-                    <div class="dash-num" id="today-count">...</div><div class="dash-label">今日預約</div>
-                </div>
-                <div class="dash-card">
-                    <div class="dash-num" id="month-revenue">...</div><div class="dash-label">本月預估營收</div>
-                </div>
+                <div class="dash-card"><div class="dash-num" id="today-count">...</div><div class="dash-label">今日預約</div></div>
+                <div class="dash-card"><div class="dash-num" id="month-revenue">...</div><div class="dash-label">本月預估營收</div></div>
             </div>
-
             <div class="admin-card">
                 <div class="admin-month-header">
                     <button class="month-btn" onclick="prevMonth()">❮</button>
                     <div class="month-title-group">
-                        <div class="admin-month-title" id="adminMonthYear" style="margin-bottom:0;">12月 (2025)</div>
+                        <div class="admin-month-title" id="adminMonthYear"></div>
                         <button class="today-btn" onclick="resetToToday()">回到今天</button>
                     </div>
                     <button class="month-btn" onclick="nextMonth()">❯</button>
                 </div>
-                
-                <div class="admin-toolbar">
-                    <button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button>
-                </div>
-
-                <div class="admin-cal-grid" id="admin-cal-grid">
-                    </div>
+                <div class="admin-toolbar"><button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button></div>
+                <div class="admin-cal-grid" id="admin-cal-grid"></div>
             </div>
-
             <div id="day-detail">
                 <div class="detail-header">
                     <div class="date-title" id="admin-date-title"></div>
                     <span class="daily-revenue-box" id="daily-revenue-text">💰 計算中...</span>
                 </div>
                 <div id="order-list-container">載入中...</div>
-                
                 <div class="admin-time-management">
                     <div class="admin-time-title" id="admin-time-mgmt-title">⚙️ 時段開放管理</div>
-                    <div class="admin-time-grid" id="admin-time-switches">
-                        </div>
+                    <div class="admin-time-grid" id="admin-time-switches"></div>
                 </div>
-
                 <div class="admin-big-btn-group">
                     <button class="admin-big-btn btn-holiday-big" id="btn-set-holiday" onclick="toggleHoliday()">❌ 設為全日店休</button>
                     <button class="admin-big-btn btn-open-big" id="btn-open-holiday" style="display:none;" onclick="toggleHoliday()">✅ 恢復全日開放</button>
@@ -589,16 +525,11 @@
             fetchOrders();
         };
 
-        // 🔥 電話自動格式化 (放寬輸入限制)
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
             if(val.length > 10) val = val.slice(0, 10);
-            
-            if(val.length > 7) {
-                return val.slice(0,4) + '-' + val.slice(4,7) + '-' + val.slice(7);
-            } else if(val.length > 4) {
-                return val.slice(0,4) + '-' + val.slice(4);
-            }
+            if(val.length > 7) { return val.slice(0,4) + '-' + val.slice(4,7) + '-' + val.slice(7); } 
+            else if(val.length > 4) { return val.slice(0,4) + '-' + val.slice(4); }
             return val;
         }
 
@@ -650,7 +581,8 @@
                     if(document.getElementById('day-detail').style.display === 'block') {
                         // V68: 確保元素存在再刷新
                         const cell = document.querySelector('.admin-cal-cell.selected');
-                        if(cell) showAdminDetail(parseInt(selectedDate.split('/')[1]), cell);
+                        // V68: 防止 null 錯誤，如果沒有選中 cell 就不傳
+                        showAdminDetail(parseInt(selectedDate.split('/')[1]), cell);
                     }
                 }
             })
