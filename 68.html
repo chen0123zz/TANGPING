@@ -62,34 +62,16 @@
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; }
         .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; text-align: center; }
         .calendar-day { border: 1px solid #ddd; border-radius: 12px; height: 75px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.2s; }
-        
-        /* 🔥 V57: 日曆狀態樣式優先級 (解決顏色打架問題) */
-        
-        /* 1. 基本選取 (最高優先級，覆蓋店休和今天) */
-        .calendar-day.active { 
-            background-color: var(--brand-color) !important; 
-            color: #fff !important; 
-            border-color: var(--brand-color) !important; 
-        }
-        
-        /* 2. 店休 (紅色) */
-        .calendar-day.holiday { 
-            background-color: #fff0f0; 
-            border: 2px solid #ffcccc; 
-            color: #d63031; 
-            pointer-events: auto; /* 允許點擊 */
-        }
-        .calendar-day.holiday span { color: #d63031; display: block; }
-        
-        /* 3. 今天 (無底色，黃框) */
-        .calendar-day.today { 
-            border: 2px solid var(--brand-color); 
-            font-weight: bold; 
-            /* 移除底色和文字顏色設定，讓它繼承或被 holiday 覆蓋 */
-        }
-        
-        /* 4. 過去日期 (反灰) */
+        .calendar-day.active { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
+        .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; color: var(--text-dark); }
+        .calendar-day.today.active { background-color: var(--brand-color) !important; color: #fff !important; }
+        .calendar-day.holiday { background-color: #fff0f0 !important; border: 2px solid #ffcccc !important; color: #d63031 !important; pointer-events: auto !important; }
+        .calendar-day.holiday span { color: #d63031 !important; display: block; }
+
+        .time-selector h3 { display: flex; align-items: center; gap: 10px; }
+        /* 🔥 V58: 日期提示樣式 */
+        #selected-date-display { font-size: 1rem; color: var(--brand-color); font-weight: bold; background: #fffaf0; padding: 2px 10px; border-radius: 15px; }
 
         .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: 0.2s; }
@@ -136,11 +118,13 @@
         .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
         .login-btn { background: var(--brand-color); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
         #toast-msg { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; z-index: 20000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        
+        /* 🔥 V58: 彈窗文字加大 */
+        #booking-info-text { font-size: 1.1rem !important; color: var(--brand-color) !important; font-weight: bold; margin-bottom: 20px !important; }
 
         /* Admin UI */
         #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--admin-bg); z-index: 10000; overflow-y: auto; color: var(--admin-text); }
         .admin-header { background-color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .admin-header h1 { margin: 0; font-size: 1.2rem; color: var(--brand-color); }
         .admin-container { max-width: 600px; margin: 20px auto; padding: 0 15px; padding-bottom: 60px; }
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
@@ -189,9 +173,6 @@
             .btn-group { flex-direction: column; }
             .contact-info .btn-main { width: 100%; margin: 0; }
             .calendar-day { width: 100%; height: auto; aspect-ratio: 1/1; font-size: 0.75rem; }
-            .social-row { flex-direction: column; gap: 5px; }
-            .social-row .contact-item { margin-bottom: 0; }
-            .time-list-desktop { white-space: normal !important; }
         }
     </style>
 </head>
@@ -278,7 +259,7 @@
                 <div class="calendar-grid" id="calendar-grid-front"></div>
             </div>
             <div class="time-selector">
-                <h3>2. 選擇時段</h3>
+                <h3>2. 選擇時段 <span id="selected-date-display"></span></h3>
                 <div class="time-grid" id="time-grid"></div>
             </div>
         </div>
@@ -337,7 +318,7 @@
         <div class="booking-modal">
             <button class="modal-close" onclick="closeBookingForm()">×</button>
             <h3>預約確認</h3>
-            <p id="booking-info-text" style="color:#666; font-size:0.9rem; margin-bottom:15px; text-align:center;"></p>
+            <p id="booking-info-text" style="text-align:center;"></p>
             
             <div class="form-group"><label class="form-label">姓名 <span class="required">*</span></label><input type="text" id="booking-name" class="form-input" placeholder="請輸入真實姓名"></div>
             <div class="form-group"><label class="form-label">聯絡電話 <span class="required">*</span></label><input type="tel" id="booking-phone" class="form-input" placeholder="09xx-xxx-xxx" maxlength="15" oninput="this.value = formatPhone(this.value)"></div>
@@ -428,8 +409,7 @@
     </div>
 
     <script>
-        // 🔥 V56.0: 確認 ID 正確 (Po6w)
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxbVu5bJpMhGEo5EM7bHioSR3YtqJmt07he_WjysJ-czcTic0lUDE6fBbi0FEqNPzPo6w/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyKIcC5L3mykmLtOhE-6SaTbj1pKDuPNOfmA2JSH2hEwFSi_5g9-4iLU8JXyz7GjNKEVw/exec"; 
 
         let currentDate = new Date();
         let selectedDate = null;
@@ -448,11 +428,16 @@
             fetchOrders();
         };
 
-        // 🔥 電話自動格式化 (放寬輸入限制)
+        // 🔥 V58.0: 修復電話邏輯，允許 0909-123-123 (10碼)
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
-            if(val.length > 4) val = val.slice(0,4) + '-' + val.slice(4);
-            if(val.length > 8) val = val.slice(0,8) + '-' + val.slice(8,10);
+            if(val.length > 10) val = val.slice(0, 10); // 限制最多10碼數字
+            
+            if(val.length > 7) {
+                return val.slice(0,4) + '-' + val.slice(4,7) + '-' + val.slice(7);
+            } else if(val.length > 4) {
+                return val.slice(0,4) + '-' + val.slice(4);
+            }
             return val;
         }
 
@@ -561,7 +546,6 @@
                     cell.classList.add('holiday');
                     if(isAdmin) { cell.innerHTML = `${i}<br><span style="font-size:0.6rem;">店休</span>`; } 
                     else { 
-                        // 🔥 V57: 店休可點擊
                         cell.classList.remove('disabled'); 
                         cell.style.pointerEvents = "auto";
                         cell.innerHTML = `${i}<br><span>店休</span>`; 
@@ -594,6 +578,10 @@
             let days = document.querySelectorAll('.calendar-day');
             days.forEach(d => d.classList.remove('active'));
             element.classList.add('active');
+            
+            // 🔥 V58: 顯示選擇的日期 (解決眼殘問題)
+            const dateDisplay = document.getElementById('selected-date-display');
+            if(dateDisplay) dateDisplay.innerText = `${currentDate.getMonth()+1}月${day}日`;
             
             if(holidays.includes(selectedDate)) {
                  const container = document.getElementById('time-grid');
