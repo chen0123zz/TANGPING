@@ -17,38 +17,41 @@
         body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
         section, .content-section { scroll-margin-top: 100px; }
 
-        /* 🏠 前台樣式 */
+        /* 🏠 前台樣式 (V25 Base) */
         header { background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; }
-        .logo-img { height: 50px; width: auto; }
+        .logo-img { height: 50px; }
         .nav-menu a { text-decoration: none; color: #333; margin-left: 20px; font-weight: bold; font-size: 0.95rem; transition: color 0.3s; }
         .nav-menu a:hover { color: var(--brand-color); }
 
         .content-section { padding: 40px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
         .section-title { color: var(--brand-color); font-size: 2rem; margin-bottom: 10px; }
         .section-desc { color: #666; margin-bottom: 40px; }
-        .btn-main { display: inline-block; background-color: #fff; color: var(--brand-color); padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; }
-        .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
-
-        /* Swiper */
+        .btn-main { display: inline-block; background-color: #fff; color: var(--brand-color); padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
         .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
         .offer-card-layout { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; max-width: 900px; margin: 0 auto; }
         .offer-img-box { flex: 1; min-height: 300px; display: flex; align-items: center; justify-content: center; background-color: #fff; padding: 30px; }
         .offer-img-box img { width: 100%; height: 100%; object-fit: contain; }
         .offer-text-box { flex: 1; padding: 40px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
+        .offer-text-box h3 { font-size: 1.8rem; color: #333; margin: 15px 0; }
+        .offer-text-box p { color: #666; line-height: 1.6; margin-bottom: 20px; }
         .tag-pill { display: inline-block; background-color: #ff4757; color: #fff; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; }
         .price-highlight { display: flex; gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--brand-color); }
         .offer-list { list-style: none; padding: 0; margin-bottom: 20px; color: #555; text-align: left; }
+        .offer-list li { margin-bottom: 8px; }
 
         .swiper { width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; padding-top: 20px; }
         .swiper-slide { background-position: center; background-size: cover; width: auto; height: auto; }
         .slide-img { display: block; width: 100%; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .my-prev-btn, .my-next-btn { position: absolute; top: 60%; transform: translateY(-50%); width: 40px; height: 40px; background-color: #fff; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
         .my-prev-btn { left: 10px; } .my-next-btn { right: 10px; }
+        .my-prev-btn::after, .my-next-btn::after { font-size: 1.2rem; font-weight: bold; }
         
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: left; }
         .service-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .card-body { padding: 25px; }
+        .card-body h3 { margin: 0 0 10px 0; color: #333; }
         .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
         
         table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
@@ -66,10 +69,7 @@
         .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; text-align: center; }
         .calendar-day { border: 1px solid #ddd; border-radius: 12px; height: 75px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.2s; }
         
-        /* 🔥 V67: 解決店休選取不會變黃的問題 */
-        /* 優先級順序：active (黃) > holiday (紅) > today (黃框) > default */
-        
-        /* 1. 被選取 (最高權重) - 無論是不是店休、今天，選取就是黃底 */
+        /* 🔥 樣式優先級 */
         .calendar-day.active, 
         .calendar-day.holiday.active, 
         .calendar-day.today.active { 
@@ -77,35 +77,20 @@
             color: #fff !important; 
             border-color: var(--brand-color) !important; 
         }
-        /* 確保選取時文字是白色 */
         .calendar-day.active span, 
-        .calendar-day.holiday.active span { 
-            color: #fff !important; 
-        }
+        .calendar-day.holiday.active span,
+        .calendar-day.today.active span { color: #fff !important; }
 
-        /* 2. 店休 (紅色) */
-        .calendar-day.holiday { 
-            background-color: #fff0f0; 
-            border: 2px solid #ffcccc; 
-            color: #d63031; 
-            pointer-events: auto; /* 可點擊 */
-        }
+        .calendar-day.holiday { background-color: #fff0f0; border: 2px solid #ffcccc; color: #d63031; pointer-events: auto; }
         .calendar-day.holiday span { color: #d63031; display: block; }
-
-        /* 3. 今天 (僅黃框) */
-        .calendar-day.today { 
-            border: 2px solid var(--brand-color); 
-            font-weight: bold; 
-            background: transparent; 
-            color: var(--text-dark); 
-        }
-
-        /* 4. 過去日期 */
-        .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
         
-        /* 5. 額滿 */
-        .calendar-day.full { background-color: #e0e0e0; color: #888; pointer-events: none; }
-        .calendar-day.full span { color: #888; }
+        .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; color: var(--text-dark); }
+        .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
+        .calendar-day.full { background-color: #e0e0e0 !important; color: #888 !important; pointer-events: none; }
+        .calendar-day.full span { color: #888 !important; }
+
+        .time-selector h3 { display: flex; align-items: center; gap: 10px; }
+        #selected-date-display { font-size: 1rem; color: var(--brand-color); font-weight: bold; background: #fffaf0; padding: 2px 10px; border-radius: 15px; }
 
         .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: 0.2s; }
@@ -129,6 +114,8 @@
         .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         .map-box { height: 300px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .contact-item { font-size: 1.1rem; margin: 15px 0; line-height: 1.6; }
+        .contact-item strong { display: inline; margin-right: 5px; color: #efb748; font-size: 1rem; }
+        .contact-item span, .contact-item a { display: inline; }
         .time-list-desktop { white-space: nowrap !important; display: block !important; }
         .social-row { display: block; }
         .social-row .contact-item { margin-bottom: 10px; margin-top: 0; display: inline-block; margin-right: 20px; }
@@ -139,20 +126,21 @@
         /* Floating Btn */
         .floating-btn-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 999; transition: opacity 0.5s ease; }
         .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
+        .admin-float-btn { background-color: #333; font-size: 1rem; margin-top: 5px; } 
         footer { text-align: center; padding: 5px 5px; background-color: transparent; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
-        /* Modals & Admin */
+        /* Modals & Admin Styles */
         #booking-modal-overlay, #admin-login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 10002; display: none; flex-direction: column; justify-content: center; align-items: center; }
         .booking-modal, .admin-login-box { background: #fff; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; text-align: left; }
         .booking-modal h3, .admin-login-box h2 { margin-top: 0; color: var(--brand-color); text-align: center; }
         #booking-info-text { font-size: 1.1rem !important; color: var(--brand-color) !important; font-weight: bold; margin-bottom: 20px !important; text-align: center; }
-        
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; font-size: 0.9rem; color: #666; margin-bottom: 5px; }
         .required { color: red; margin-left: 3px; }
         .form-input, .form-select, .login-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 1rem; margin-bottom: 10px; }
         .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
         .login-btn { background: var(--brand-color); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .login-btn:hover { opacity: 0.9; }
         #toast-msg { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; z-index: 20000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
 
         /* Admin UI */
@@ -163,7 +151,10 @@
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .dash-num { font-size: 1.8rem; font-weight: bold; color: #333; margin: 5px 0; }
+        .dash-label { font-size: 0.8rem; color: #888; }
         .admin-card { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .admin-month-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .admin-month-title { font-size: 1.2rem; font-weight: bold; color: #333; }
         .admin-toolbar { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .admin-tool-btn { background-color: #fff; border: 1px solid #ddd; color: #666; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .admin-tool-btn:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
@@ -184,17 +175,14 @@
         .detail-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
         .date-title { font-size: 1.5rem; font-weight: bold; color: var(--brand-color); }
         .daily-revenue-box { background-color: #fff4e5; color: #d35400; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.95rem; }
-
         .order-item { background: #fff; border: 1px solid #eee; border-left: 5px solid var(--brand-color); padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
         .info-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.95rem; }
         .info-label { color: #888; min-width: 70px; }
         .info-value { color: #333; font-weight: 500; text-align: right; flex: 1; }
         .order-header { border-bottom: 1px dashed #eee; padding-bottom: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        
         .order-time-badge { background: #333; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 1rem; font-weight: bold; }
         .status-badge { font-size: 0.8rem; padding: 2px 8px; border-radius: 10px; background: #eee; color: #666; }
         .status-badge.paid { background: #d4edda; color: #155724; }
-
         .action-btns { display: flex; gap: 10px; margin-top: 15px; }
         .status-btn { flex: 1; padding: 10px; border: none; border-radius: 5px; font-size: 0.95rem; cursor: pointer; color: #fff; font-weight: bold; transition: 0.2s; }
         .btn-done { background: #27ae60; }
@@ -354,12 +342,12 @@
 
     <footer>
         <p>© 2025 TANG PING Sport Massage.</p>
-        <p style="margin-top:10px;"><span onclick="openAdmin()" style="opacity:0.2; cursor:pointer; font-size:1.2rem;">🔒</span></p>
     </footer>
 
     <div class="floating-btn-container">
         <button onclick="scrollToTop()" class="float-btn" title="回到最上方">▲</button>
         <button onclick="scrollToBottom()" class="float-btn" title="去最下方">▼</button>
+        <button onclick="openAdmin()" class="float-btn admin-float-btn" title="管理後台">🔒</button>
     </div>
 
     <div id="booking-modal-overlay">
@@ -409,11 +397,11 @@
         <div class="admin-container">
             <div class="dashboard-grid">
                 <div class="dash-card">
-                    <div class="dash-num" id="today-count">0</div>
+                    <div class="dash-num" id="today-count">...</div>
                     <div class="dash-label">今日預約</div>
                 </div>
                 <div class="dash-card">
-                    <div class="dash-num" id="month-revenue" style="color:#e67e22;">$0</div>
+                    <div class="dash-num" id="month-revenue">...</div>
                     <div class="dash-label">本月預估營收</div>
                 </div>
             </div>
@@ -422,7 +410,7 @@
                 <div class="admin-month-header">
                     <button class="month-btn" onclick="prevMonth()">❮</button>
                     <div class="month-title-group">
-                        <div class="admin-month-title" id="adminMonthYear"></div>
+                        <div class="admin-month-title" id="adminMonthYear" style="margin-bottom:0;">12月 (2025)</div>
                         <button class="today-btn" onclick="resetToToday()">回到今天</button>
                     </div>
                     <button class="month-btn" onclick="nextMonth()">❯</button>
@@ -458,8 +446,8 @@
     </div>
 
     <script>
-        // 🔥 V66.0: 確認 ID 正確
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHge3GVg0WSZGecXiQSWHdT_pr8WRWWqsShPCKah6RfrzgFsy2n-7L82mzh6BQn90YdA/exec"; 
+        // 🔥 V69.0: ID Po6w (確認)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCpL3OlrOQBAfIjly9VBjuUveEpJoWBArt0zgwrPzn36tLtHd1ZdDSV7WIM7-tlMUp9w/exec"; 
 
         let currentDate = new Date();
         let selectedDate = null;
@@ -474,20 +462,23 @@
             const frontGrid = document.querySelector('.calendar-grid');
             if(frontGrid) frontGrid.id = 'calendar-grid-front';
             updateCalendars(); 
+            checkLoginState();
             fetchOrders();
         };
 
-        // 🔥 電話自動格式化 (放寬輸入限制)
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
             if(val.length > 10) val = val.slice(0, 10);
-            
-            if(val.length > 7) {
-                return val.slice(0,4) + '-' + val.slice(4,7) + '-' + val.slice(7);
-            } else if(val.length > 4) {
-                return val.slice(0,4) + '-' + val.slice(4);
-            }
+            if(val.length > 7) { return val.slice(0,4) + '-' + val.slice(4,7) + '-' + val.slice(7); } 
+            else if(val.length > 4) { return val.slice(0,4) + '-' + val.slice(4); }
             return val;
+        }
+
+        function checkLoginState() {
+            if(sessionStorage.getItem('isAdmin') === 'true') {
+                document.getElementById('admin-panel').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function fetchOrders() {
@@ -507,33 +498,41 @@
                     return str;
                 };
 
-                // 分類資料
-                allOrders = data.filter(o => o.status !== 'holiday' && o.status !== 'locked' && o.status !== 'delete').map(o => ({...o, date: normalizeDate(o.date)}));
-                holidays = data.filter(o => o.status === 'holiday').map(o => normalizeDate(o.date));
-                const manualLocks = data.filter(o => o.status === 'locked').map(o => ({...o, date: normalizeDate(o.date)}));
-                lockedSlots = [...allOrders, ...manualLocks];
+                // V69: 增加 try catch 避免過濾失敗
+                try {
+                    const validData = data.filter(o => o.date && o.date !== "");
+                    
+                    allOrders = validData.filter(o => o.status !== 'holiday' && o.status !== 'locked' && o.status !== 'delete').map(o => ({...o, date: normalizeDate(o.date)}));
+                    holidays = validData.filter(o => o.status === 'holiday').map(o => normalizeDate(o.date));
+                    const manualLocks = validData.filter(o => o.status === 'locked').map(o => ({...o, date: normalizeDate(o.date)}));
+                    lockedSlots = [...allOrders, ...manualLocks];
 
-                updateDashboard(); 
-                updateCalendars(); 
-                
-                if(selectedDate) {
-                    if(holidays.includes(selectedDate)) {
-                         const container = document.getElementById('time-grid');
-                         if(container) container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:20px; color:#d63031; font-weight:bold; background:#fff0f0; border-radius:10px;">⛔ 本日店休，暫停服務</div>`;
-                    } else {
-                        renderTimeSlots(selectedDate);
-                    }
+                    updateDashboard(); 
+                    updateCalendars(); 
                     
-                    const adminTimeContainer = document.getElementById('admin-time-switches');
-                    if(adminTimeContainer && adminTimeContainer.innerHTML !== "") renderAdminTimeSwitches(selectedDate);
-                    
-                    if(document.getElementById('day-detail').style.display === 'block') {
-                        // V67: 修正刷新參數，避免 null 錯誤
-                        showAdminDetail(parseInt(selectedDate.split('/')[1]), null);
+                    if(selectedDate) {
+                        if(holidays.includes(selectedDate)) {
+                             const container = document.getElementById('time-grid');
+                             if(container) container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:20px; color:#d63031; font-weight:bold; background:#fff0f0; border-radius:10px;">⛔ 本日店休，暫停服務</div>`;
+                        } else {
+                            renderTimeSlots(selectedDate);
+                        }
+                        const adminTimeContainer = document.getElementById('admin-time-switches');
+                        if(adminTimeContainer && adminTimeContainer.innerHTML !== "") renderAdminTimeSwitches(selectedDate);
+                        
+                        if(document.getElementById('day-detail').style.display === 'block') {
+                            const cell = document.querySelector('.admin-cal-cell.selected');
+                            if(cell) showAdminDetail(parseInt(selectedDate.split('/')[1]), cell);
+                        }
                     }
+                } catch(e) {
+                    console.error("資料處理錯誤", e);
                 }
             })
-            .catch(err => console.error("資料讀取失敗", err));
+            .catch(err => {
+                console.error("資料讀取失敗", err);
+                updateCalendars(); 
+            });
         }
 
         function updateAdminDetailHeader(dateStr, dailyRevenue) {
@@ -550,8 +549,11 @@
             if(frontTitle) frontTitle.childNodes[0].nodeValue = titleText + " "; 
             const adminTitle = document.getElementById('adminMonthYear');
             if(adminTitle) adminTitle.innerText = titleText;
-            renderCalendar(y, m, 'calendar-grid-front', false);
-            renderCalendar(y, m, 'admin-cal-grid', true);
+            
+            try {
+                renderCalendar(y, m, 'calendar-grid-front', false);
+                renderCalendar(y, m, 'admin-cal-grid', true);
+            } catch(e) { console.error("月曆繪製錯誤", e); }
         }
 
         function renderCalendar(year, month, elementId, isAdmin) {
@@ -577,13 +579,12 @@
             for(let i=1; i<=daysInMonth; i++) {
                 const cell = document.createElement('div');
                 cell.className = isAdmin ? 'admin-cal-cell' : 'calendar-day';
+                
                 const dateStr = `${month+1}/${i}`;
                 const hasOrder = allOrders.some(o => o.date === dateStr);
                 const isHoliday = holidays.includes(dateStr); 
                 const checkDate = new Date(year, month, i);
                 const isPast = checkDate < new Date(today.setHours(0,0,0,0));
-                
-                // V60: 額滿邏輯
                 const dayLockedCount = lockedSlots.filter(o => o.date === dateStr).length;
                 const isFull = dayLockedCount >= timeSlots.length;
 
@@ -703,17 +704,11 @@
             }).then(() => {
                 alert("✅ 預約成功！\n我們已收到您的預約，請準時前往工作室即可！");
                 closeBookingForm();
-                
-                // V62: 瞬時鎖定
-                lockedSlots.push({ date: selectedDate, time: selectedTime, status: 'booked' });
-                renderTimeSlots(selectedDate);
-                
                 btn.innerText = "確認送出"; btn.disabled = false;
                 document.getElementById('booking-name').value = "";
                 document.getElementById('booking-phone').value = "";
                 document.getElementById('booking-line').value = "";
                 setTimeout(fetchOrders, 2000); 
-
             }).catch(e => { alert("錯誤：" + e); btn.disabled = false; });
         }
 
@@ -725,6 +720,7 @@
                 document.getElementById('admin-login-overlay').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
                 document.body.style.overflow = 'hidden'; 
+                sessionStorage.setItem('isAdmin', 'true');
                 fetchOrders(); 
             } else { alert('密碼錯誤！'); }
         }
@@ -732,6 +728,7 @@
             document.getElementById('admin-panel').style.display = 'none';
             document.body.style.overflow = 'auto';
             document.getElementById('admin-password').value = '';
+            sessionStorage.removeItem('isAdmin');
         }
 
         function updateDashboard() {
@@ -748,7 +745,6 @@
             document.getElementById('month-revenue').innerText = `$${total.toLocaleString()}`;
         }
 
-        // 🔥 V67: 解決取消訂單殘影問題 (直接操作本地資料)
         function updateOrderStatus(date, time, name, currentStatus, elementId) {
             let newStatus, actionText;
             
@@ -767,24 +763,23 @@
             
             showToast("⏳ 處理中...");
             
-            // 1. 本地立即更新資料陣列 (解決殘影核心)
+            // 本地立即更新
             const orderIndex = allOrders.findIndex(o => o.date === date && o.time === time && o.name === name);
             if(orderIndex > -1) {
                 if (newStatus === 'delete') {
-                    allOrders.splice(orderIndex, 1); // 直接從陣列移除
+                    allOrders.splice(orderIndex, 1);
                 } else {
-                    allOrders[orderIndex].status = newStatus; // 更新狀態
+                    allOrders[orderIndex].status = newStatus;
                 }
             }
 
-            // 2. UI 視覺效果
+            // UI 更新
             const orderCard = document.getElementById(elementId);
             if (orderCard) {
                 if (newStatus === 'delete') {
                     orderCard.style.opacity = '0.5';
                     setTimeout(() => orderCard.remove(), 500);
                 } else {
-                    // 如果只是改狀態，重新渲染一下詳情頁最快
                     showAdminDetail(parseInt(date.split('/')[1]), null);
                 }
             }
@@ -794,7 +789,6 @@
                 method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" }
             }).then(() => {
                 showToast(`✅ 已${actionText}`);
-                // 雖然本地已經改了，但還是要 fetch 確保跟雲端同步
                 setTimeout(fetchOrders, 1000); 
             }).catch(e => alert("錯誤：" + e));
         }
@@ -809,11 +803,9 @@
             document.getElementById('admin-date-title').innerText = selectedDate;
             document.getElementById('day-detail').style.display = 'block';
             
-            // 排序訂單
             const dailyOrders = allOrders.filter(o => o.date === selectedDate);
             dailyOrders.sort((a, b) => a.time.localeCompare(b.time));
 
-            // 計算當日營收
             let dailyRevenue = 0;
             dailyOrders.forEach(o => { if(o.status === '已付款') { const p = parseInt(o.amount); if(!isNaN(p)) dailyRevenue += p; }});
             updateAdminDetailHeader(selectedDate, dailyRevenue);
@@ -839,7 +831,6 @@
                     
                     const isPaid = o.status === '已付款';
                     const uniqueId = `order-${index}`;
-                    
                     const statusText = isPaid ? '已付款' : '未付款';
                     const btnText = isPaid ? '↩️ 改回未付款' : '💰 設為已付款';
 
