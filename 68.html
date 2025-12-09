@@ -17,20 +17,17 @@
         body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
         section, .content-section { scroll-margin-top: 100px; }
 
-        /* 🏠 前台樣式 */
+        /* 🏠 前台樣式 (V25 Base) */
         header { background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; }
-        .logo-img { height: 50px; width: auto; }
+        .logo-img { height: 50px; }
         .nav-menu a { text-decoration: none; color: #333; margin-left: 20px; font-weight: bold; font-size: 0.95rem; transition: color 0.3s; }
         .nav-menu a:hover { color: var(--brand-color); }
 
         .content-section { padding: 40px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
         .section-title { color: var(--brand-color); font-size: 2rem; margin-bottom: 10px; }
-        .section-desc { color: #666; margin-bottom: 40px; }
-        .btn-main { display: inline-block; background-color: #fff; color: var(--brand-color); padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; }
-        .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
-
-        /* Swiper */
+        .btn-main { display: inline-block; background-color: #fff; color: var(--brand-color); padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
         .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
         .offer-card-layout { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; max-width: 900px; margin: 0 auto; }
         .offer-img-box { flex: 1; min-height: 300px; display: flex; align-items: center; justify-content: center; background-color: #fff; padding: 30px; }
@@ -66,46 +63,30 @@
         .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; text-align: center; }
         .calendar-day { border: 1px solid #ddd; border-radius: 12px; height: 75px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.2s; }
         
-        /* 🔥 V67: 解決店休選取不會變黃的問題 */
-        /* 優先級順序：active (黃) > holiday (紅) > today (黃框) > default */
-        
-        /* 1. 被選取 (最高權重) - 無論是不是店休、今天，選取就是黃底 */
+        /* 🔥 V67: 修正樣式優先級，讓店休選取變黃 */
         .calendar-day.active, 
-        .calendar-day.holiday.active, 
+        .calendar-day.holiday.active,
         .calendar-day.today.active { 
             background-color: var(--brand-color) !important; 
             color: #fff !important; 
             border-color: var(--brand-color) !important; 
         }
-        /* 確保選取時文字是白色 */
         .calendar-day.active span, 
-        .calendar-day.holiday.active span { 
-            color: #fff !important; 
-        }
+        .calendar-day.holiday.active span,
+        .calendar-day.today.active span { color: #fff !important; }
 
-        /* 2. 店休 (紅色) */
-        .calendar-day.holiday { 
-            background-color: #fff0f0; 
-            border: 2px solid #ffcccc; 
-            color: #d63031; 
-            pointer-events: auto; /* 可點擊 */
-        }
-        .calendar-day.holiday span { color: #d63031; display: block; }
-
-        /* 3. 今天 (僅黃框) */
-        .calendar-day.today { 
-            border: 2px solid var(--brand-color); 
-            font-weight: bold; 
-            background: transparent; 
-            color: var(--text-dark); 
-        }
-
-        /* 4. 過去日期 */
         .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
         
-        /* 5. 額滿 */
-        .calendar-day.full { background-color: #e0e0e0; color: #888; pointer-events: none; }
-        .calendar-day.full span { color: #888; }
+        .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; color: var(--text-dark); }
+        
+        .calendar-day.holiday { background-color: #fff0f0; border: 2px solid #ffcccc; color: #d63031; pointer-events: auto !important; }
+        .calendar-day.holiday span { color: #d63031; display: block; }
+        
+        .calendar-day.full { background-color: #e0e0e0 !important; color: #888 !important; pointer-events: none; }
+        .calendar-day.full span { color: #888 !important; }
+
+        .time-selector h3 { display: flex; align-items: center; gap: 10px; }
+        #selected-date-display { font-size: 1rem; color: var(--brand-color); font-weight: bold; background: #fffaf0; padding: 2px 10px; border-radius: 15px; }
 
         .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: 0.2s; }
@@ -136,12 +117,14 @@
         .contact-info .btn-main { width: auto; }
         .mobile-break { display: none; }
 
-        /* Floating Btn */
+        /* Floating Btn (V67: 右下角後台入口) */
         .floating-btn-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 999; transition: opacity 0.5s ease; }
         .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
+        /* 獨立的後台按鈕樣式 */
+        .admin-float-btn { background-color: #333; font-size: 1rem; }
         footer { text-align: center; padding: 5px 5px; background-color: transparent; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
-        /* Modals & Admin */
+        /* Modals & Admin Styles */
         #booking-modal-overlay, #admin-login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 10002; display: none; flex-direction: column; justify-content: center; align-items: center; }
         .booking-modal, .admin-login-box { background: #fff; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; text-align: left; }
         .booking-modal h3, .admin-login-box h2 { margin-top: 0; color: var(--brand-color); text-align: center; }
@@ -153,6 +136,9 @@
         .form-input, .form-select, .login-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 1rem; margin-bottom: 10px; }
         .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
         .login-btn { background: var(--brand-color); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .login-btn:hover { opacity: 0.9; }
+
+        /* Toast */
         #toast-msg { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; z-index: 20000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
 
         /* Admin UI */
@@ -163,7 +149,11 @@
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .dash-num { font-size: 1.8rem; font-weight: bold; color: #333; margin: 5px 0; }
+        .dash-label { font-size: 0.8rem; color: #888; }
+
         .admin-card { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .admin-month-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .admin-month-title { font-size: 1.2rem; font-weight: bold; color: #333; }
         .admin-toolbar { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .admin-tool-btn { background-color: #fff; border: 1px solid #ddd; color: #666; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .admin-tool-btn:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
@@ -296,20 +286,10 @@
         <h2 class="section-title">線上預約</h2>
         <div class="booking-container">
             <div class="date-selector">
-                <div class="month-selector">
-                    <button class="month-btn" onclick="prevMonth()">❮</button>
-                    <div class="month-title-group">
-                        <h3 id="currentMonthYear" style="margin-bottom:0;">12月 (2025)</h3>
-                        <button class="today-btn" onclick="resetToToday()">回到今天</button>
-                    </div>
-                    <button class="month-btn" onclick="nextMonth()">❯</button>
-                </div>
+                <div class="month-selector"><button class="month-btn" onclick="prevMonth()">❮</button><div class="month-title-group"><h3 id="currentMonthYear"></h3><button class="today-btn" onclick="resetToToday()">回到今天</button></div><button class="month-btn" onclick="nextMonth()">❯</button></div>
                 <div class="calendar-grid" id="calendar-grid-front"></div>
             </div>
-            <div class="time-selector">
-                <h3>2. 選擇時段 <span id="selected-date-display"></span></h3>
-                <div class="time-grid" id="time-grid"></div>
-            </div>
+            <div class="time-selector"><h3>2. 選擇時段 <span id="selected-date-display"></span></h3><div class="time-grid" id="time-grid"></div></div>
         </div>
     </section>
 
@@ -325,10 +305,10 @@
         </div>
         <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
         <div class="qa-grid">
-            <div class="qa-card"><div class="qa-badge" style="background-color: #d35400;">Question 1</div><h3>跟一般按摩差在哪？</h3><p><strong>A: 目的完全不同！</strong></p><p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛 (DOMS)」。這是深層按摩後自然的修復過程。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #5e4b35;">Question 3</div><h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3><p><strong>A: 這是修復的信號！🛠️</strong></p><p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #e67e22;">Question 4</div><h3>該如何緩解痠痛感？</h3><p><strong>A: 這些方法很有用！🛁</strong></p><ul><li>♨️ 熱敷或泡熱水澡，促進循環</li><li>💧 多補充水分，幫助代謝廢物</li><li>🚶‍♂️ 輕微活動 (如散步)</li><li>🛌 充分休息，避免過度疲勞</li></ul></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #d35400;">Question 1</div><h3>跟一般按摩差在哪？</h3><hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;"><p><strong>A: 目的完全不同！</strong></p><p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;"><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛 (DOMS)」。這是深層按摩後自然的修復過程。</p></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #5e4b35;">Question 3</div><h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3><hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;"><p><strong>A: 這是修復的信號！🛠️</strong></p><p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #e67e22;">Question 4</div><h3>該如何緩解痠痛感？</h3><hr style="border:0; border-top:1px dashed #ccc; margin: 15px 0;"><p><strong>A: 這些方法很有用！🛁</strong></p><ul style="text-align: left; color: #666; font-size: 0.95rem; line-height: 1.6; padding-left: 20px;"><li>♨️ 熱敷或泡熱水澡，促進循環</li><li>💧 多補充水分，幫助代謝廢物</li><li>🚶‍♂️ 輕微活動 (如散步)</li><li>🛌 充分休息，避免過度疲勞</li></ul></div>
         </div>
     </section>
 
@@ -352,26 +332,22 @@
         </div>
     </section>
 
-    <footer>
-        <p>© 2025 TANG PING Sport Massage.</p>
-        <p style="margin-top:10px;"><span onclick="openAdmin()" style="opacity:0.2; cursor:pointer; font-size:1.2rem;">🔒</span></p>
-    </footer>
+    <footer><p>© 2025 TANG PING Sport Massage.</p></footer>
 
     <div class="floating-btn-container">
-        <button onclick="scrollToTop()" class="float-btn" title="回到最上方">▲</button>
-        <button onclick="scrollToBottom()" class="float-btn" title="去最下方">▼</button>
+        <button onclick="scrollToTop()" class="float-btn">▲</button>
+        <button onclick="openAdmin()" class="float-btn admin-float-btn" title="管理後台">🔒</button>
+        <button onclick="scrollToBottom()" class="float-btn">▼</button>
     </div>
 
     <div id="booking-modal-overlay">
         <div class="booking-modal">
             <button class="modal-close" onclick="closeBookingForm()">×</button>
             <h3>預約確認</h3>
-            <p id="booking-info-text" style="color:#666; font-size:0.9rem; margin-bottom:15px; text-align:center;"></p>
-            
+            <p id="booking-info-text"></p>
             <div class="form-group"><label class="form-label">姓名 <span class="required">*</span></label><input type="text" id="booking-name" class="form-input" placeholder="請輸入真實姓名"></div>
             <div class="form-group"><label class="form-label">聯絡電話 <span class="required">*</span></label><input type="tel" id="booking-phone" class="form-input" placeholder="09xx-xxx-xxx" maxlength="15" oninput="this.value = formatPhone(this.value)"></div>
             <div class="form-group"><label class="form-label">LINE ID (選填)</label><input type="text" id="booking-line" class="form-input" placeholder="方便我們聯繫您"></div>
-            
             <div class="form-group">
                 <label class="form-label">選擇服務項目 <span class="required">*</span></label>
                 <select id="booking-service" class="form-select">
@@ -382,7 +358,6 @@
                     <option value="使用包堂方案 (扣1堂)">使用包堂方案 (扣1堂)</option>
                 </select>
             </div>
-            
             <button id="confirm-btn" class="btn-main" style="width:100%; border:none; margin-top:10px;" onclick="confirmBooking()">確認送出</button>
         </div>
     </div>
@@ -392,7 +367,6 @@
     <div id="admin-login-overlay">
         <div class="admin-login-box">
             <h2 style="color:var(--brand-color);">後台管理系統</h2>
-            <p>請輸入管理員密碼</p>
             <input type="password" id="admin-password" class="login-input" placeholder="密碼">
             <button class="login-btn" onclick="checkAdminLogin()">登入</button>
             <button class="login-btn" onclick="closeAdmin()" style="background:#ccc; margin-top:10px; color:#555;">取消</button>
@@ -400,65 +374,30 @@
     </div>
 
     <div id="admin-panel">
-        <div class="admin-header">
-            <h1>管理後台</h1>
-            <div>
-                <button onclick="logoutAdmin()" class="control-btn" style="margin-right:10px;">離開後台</button>
-            </div>
-        </div>
+        <div class="admin-header"><h1>管理後台</h1><div><button onclick="logoutAdmin()" class="control-btn" style="margin-right:10px;">離開後台</button></div></div>
         <div class="admin-container">
             <div class="dashboard-grid">
-                <div class="dash-card">
-                    <div class="dash-num" id="today-count">0</div>
-                    <div class="dash-label">今日預約</div>
-                </div>
-                <div class="dash-card">
-                    <div class="dash-num" id="month-revenue" style="color:#e67e22;">$0</div>
-                    <div class="dash-label">本月預估營收</div>
-                </div>
+                <div class="dash-card"><div class="dash-num" id="today-count">...</div><div class="dash-label">今日預約</div></div>
+                <div class="dash-card"><div class="dash-num" id="month-revenue">...</div><div class="dash-label">本月預估營收</div></div>
             </div>
-
             <div class="admin-card">
-                <div class="admin-month-header">
-                    <button class="month-btn" onclick="prevMonth()">❮</button>
-                    <div class="month-title-group">
-                        <div class="admin-month-title" id="adminMonthYear"></div>
-                        <button class="today-btn" onclick="resetToToday()">回到今天</button>
-                    </div>
-                    <button class="month-btn" onclick="nextMonth()">❯</button>
-                </div>
-                
-                <div class="admin-toolbar">
-                    <button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button>
-                </div>
-
-                <div class="admin-cal-grid" id="admin-cal-grid">
-                    </div>
+                <div class="admin-month-header"><button class="month-btn" onclick="prevMonth()">❮</button><div class="month-title-group"><div class="admin-month-title" id="adminMonthYear"></div><button class="today-btn" onclick="resetToToday()">回到今天</button></div><button class="month-btn" onclick="nextMonth()">❯</button></div>
+                <div class="admin-toolbar"><button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button></div>
+                <div class="admin-cal-grid" id="admin-cal-grid"></div>
             </div>
-
             <div id="day-detail">
                 <div class="detail-header">
                     <div class="date-title" id="admin-date-title"></div>
                     <span class="daily-revenue-box" id="daily-revenue-text">💰 計算中...</span>
                 </div>
                 <div id="order-list-container">載入中...</div>
-                
-                <div class="admin-time-management">
-                    <div class="admin-time-title" id="admin-time-mgmt-title">⚙️ 時段開放管理</div>
-                    <div class="admin-time-grid" id="admin-time-switches">
-                        </div>
-                </div>
-
-                <div class="admin-big-btn-group">
-                    <button class="admin-big-btn btn-holiday-big" id="btn-set-holiday" onclick="toggleHoliday()">❌ 設為全日店休</button>
-                    <button class="admin-big-btn btn-open-big" id="btn-open-holiday" style="display:none;" onclick="toggleHoliday()">✅ 恢復全日開放</button>
-                </div>
+                <div class="admin-time-management"><div class="admin-time-title" id="admin-time-mgmt-title">⚙️ 時段開放管理</div><div class="admin-time-grid" id="admin-time-switches"></div></div>
+                <div class="admin-big-btn-group"><button class="admin-big-btn btn-holiday-big" id="btn-set-holiday" onclick="toggleHoliday()">❌ 設為全日店休</button><button class="admin-big-btn btn-open-big" id="btn-open-holiday" style="display:none;" onclick="toggleHoliday()">✅ 恢復全日開放</button></div>
             </div>
         </div>
     </div>
 
     <script>
-        // 🔥 V66.0: 確認 ID 正確
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHge3GVg0WSZGecXiQSWHdT_pr8WRWWqsShPCKah6RfrzgFsy2n-7L82mzh6BQn90YdA/exec"; 
 
         let currentDate = new Date();
@@ -470,24 +409,29 @@
         const timeSlots = ['10:00', '12:00', '14:00', '15:40', '17:10', '19:30', '21:10'];
         const dayNames = ['日', '一', '二', '三', '四', '五', '六'];
 
+        // 🔥 V67.0: 載入時先繪製月曆，再抓資料 (解決空白問題)
+        // 🔥 V67.0: 檢查是否已登入 (F5不登出)
         window.onload = function() {
             const frontGrid = document.querySelector('.calendar-grid');
             if(frontGrid) frontGrid.id = 'calendar-grid-front';
-            updateCalendars(); 
-            fetchOrders();
+            updateCalendars(); // 先畫空的
+            checkLoginState(); // 檢查登入狀態
+            fetchOrders();     // 抓資料
         };
 
-        // 🔥 電話自動格式化 (放寬輸入限制)
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
             if(val.length > 10) val = val.slice(0, 10);
-            
-            if(val.length > 7) {
-                return val.slice(0,4) + '-' + val.slice(4,7) + '-' + val.slice(7);
-            } else if(val.length > 4) {
-                return val.slice(0,4) + '-' + val.slice(4);
-            }
+            if(val.length > 7) { return val.slice(0,4) + '-' + val.slice(4,7) + '-' + val.slice(7); } 
+            else if(val.length > 4) { return val.slice(0,4) + '-' + val.slice(4); }
             return val;
+        }
+        
+        function checkLoginState() {
+            if(sessionStorage.getItem('isAdmin') === 'true') {
+                document.getElementById('admin-panel').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function fetchOrders() {
@@ -497,17 +441,13 @@
                 const normalizeDate = (d) => {
                     if(!d) return "";
                     let str = String(d);
-                    if(str.includes('T')) {
-                        let dateObj = new Date(str);
-                        if(!isNaN(dateObj.getTime())) return (dateObj.getMonth()+1) + "/" + dateObj.getDate();
-                    }
+                    if(str.includes('T')) { let dateObj = new Date(str); if(!isNaN(dateObj.getTime())) return (dateObj.getMonth()+1) + "/" + dateObj.getDate(); }
                     str = str.replace(/-/g, '/');
                     let parts = str.split('/');
                     if(parts.length >= 2) return parseInt(parts[parts.length-2]) + "/" + parseInt(parts[parts.length-1]);
                     return str;
                 };
 
-                // 分類資料
                 allOrders = data.filter(o => o.status !== 'holiday' && o.status !== 'locked' && o.status !== 'delete').map(o => ({...o, date: normalizeDate(o.date)}));
                 holidays = data.filter(o => o.status === 'holiday').map(o => normalizeDate(o.date));
                 const manualLocks = data.filter(o => o.status === 'locked').map(o => ({...o, date: normalizeDate(o.date)}));
@@ -523,13 +463,13 @@
                     } else {
                         renderTimeSlots(selectedDate);
                     }
-                    
                     const adminTimeContainer = document.getElementById('admin-time-switches');
                     if(adminTimeContainer && adminTimeContainer.innerHTML !== "") renderAdminTimeSwitches(selectedDate);
                     
                     if(document.getElementById('day-detail').style.display === 'block') {
-                        // V67: 修正刷新參數，避免 null 錯誤
-                        showAdminDetail(parseInt(selectedDate.split('/')[1]), null);
+                        // 重新呼叫顯示詳情以更新列表 (V63)
+                        const cell = document.querySelector('.admin-cal-cell.selected');
+                        showAdminDetail(parseInt(selectedDate.split('/')[1]), cell);
                     }
                 }
             })
@@ -582,70 +522,46 @@
                 const isHoliday = holidays.includes(dateStr); 
                 const checkDate = new Date(year, month, i);
                 const isPast = checkDate < new Date(today.setHours(0,0,0,0));
-                
-                // V60: 額滿邏輯
                 const dayLockedCount = lockedSlots.filter(o => o.date === dateStr).length;
                 const isFull = dayLockedCount >= timeSlots.length;
 
-                if(year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
-                    cell.classList.add('today');
-                }
-
-                if (isPast && !isAdmin) { 
-                    cell.classList.add('disabled');
-                    cell.innerHTML = `${i}`;
-                } else if(isHoliday) {
+                if(year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) { cell.classList.add('today'); }
+                if (isPast && !isAdmin) { cell.classList.add('disabled'); cell.innerHTML = `${i}`; } 
+                else if(isHoliday) {
                     cell.classList.add('holiday');
                     if(isAdmin) { cell.innerHTML = `${i}<br><span style="font-size:0.6rem;">店休</span>`; } 
-                    else { 
-                        cell.classList.remove('disabled'); 
-                        cell.style.pointerEvents = "auto";
-                        cell.innerHTML = `${i}<br><span>店休</span>`; 
-                    }
-                } else if (isFull && !isAdmin) {
-                    cell.classList.add('full'); 
-                    cell.innerHTML = `${i}<br><span>額滿</span>`;
-                    cell.style.pointerEvents = "none";
-                } else {
-                    cell.innerHTML = `${i}`;
-                    if(!isAdmin) cell.innerHTML += `<br><span>可約</span>`;
-                }
+                    else { cell.classList.remove('disabled'); cell.style.pointerEvents = "auto"; cell.innerHTML = `${i}<br><span>店休</span>`; }
+                } else if (isFull && !isAdmin) { cell.classList.add('full'); cell.innerHTML = `${i}<br><span>額滿</span>`; cell.style.pointerEvents = "none"; } 
+                else { cell.innerHTML = `${i}`; if(!isAdmin) cell.innerHTML += `<br><span>可約</span>`; }
 
                 if(isAdmin && hasOrder) {
                     cell.innerHTML += `<div class="dot active"></div>`;
                     const dailyOrders = allOrders.filter(o => o.date === dateStr);
                     dailyOrders.forEach(o => { cell.innerHTML += `<div class="event-text">${o.time} ${o.name}</div>`; });
                 }
-
                 if(isAdmin) { cell.onclick = function() { showAdminDetail(i, this); }; } 
                 else { 
+                    // 🔥 V67: 確保點擊邏輯正常
                     if(!isPast) cell.onclick = function() { selectDate(i, this); }; 
                 }
                 container.appendChild(cell);
             }
         }
-
         function prevMonth() { currentDate.setMonth(currentDate.getMonth() - 1); updateCalendars(); }
         function nextMonth() { currentDate.setMonth(currentDate.getMonth() + 1); updateCalendars(); }
         function resetToToday() { currentDate = new Date(); updateCalendars(); }
-
         function selectDate(day, element) {
             selectedDate = `${currentDate.getMonth()+1}/${day}`;
             let days = document.querySelectorAll('.calendar-day');
             days.forEach(d => d.classList.remove('active'));
-            element.classList.add('active');
-            
+            element.classList.add('active'); // 🔥 V67: 這行現在會觸發新的 CSS 權重
             const dateDisplay = document.getElementById('selected-date-display');
             if(dateDisplay) dateDisplay.innerText = `${currentDate.getMonth()+1}月${day}日`;
-            
             if(holidays.includes(selectedDate)) {
                  const container = document.getElementById('time-grid');
                  container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:20px; color:#d63031; font-weight:bold; background:#fff0f0; border-radius:10px;">⛔ 本日店休，暫停服務</div>`;
-            } else {
-                renderTimeSlots(selectedDate);
-            }
+            } else { renderTimeSlots(selectedDate); }
         }
-        
         function renderTimeSlots(date) {
             const container = document.getElementById('time-grid');
             if(!container) return;
@@ -655,17 +571,11 @@
                 btn.className = 'time-btn';
                 btn.innerText = time;
                 const isLocked = lockedSlots.some(o => o.date === date && o.time === time);
-                if(isLocked) {
-                    btn.classList.add('disabled');
-                    btn.innerText += " (已滿)";
-                    btn.disabled = true;
-                } else {
-                    btn.onclick = function() { openBookingForm(time, this); };
-                }
+                if(isLocked) { btn.classList.add('disabled'); btn.innerText += " (已滿)"; btn.disabled = true; } 
+                else { btn.onclick = function() { openBookingForm(time, this); }; }
                 container.appendChild(btn);
             });
         }
-
         function openBookingForm(time, btnElement) {
             if(!selectedDate) { alert("請先選擇日期喔！"); return; }
             selectedTime = time;
@@ -675,36 +585,26 @@
             document.getElementById('booking-modal-overlay').style.display = 'flex';
             document.getElementById('booking-info-text').innerText = `您選擇的時段：${selectedDate} ${time}`;
         }
-
         function closeBookingForm() { document.getElementById('booking-modal-overlay').style.display = 'none'; }
-
         function confirmBooking() {
             const name = document.getElementById('booking-name').value;
             const phone = document.getElementById('booking-phone').value.trim();
             const lineId = document.getElementById('booking-line').value;
             const service = document.getElementById('booking-service').value;
-
             if(!name || !phone) { alert("請填寫姓名和電話！"); return; }
             const cleanPhone = phone.replace(/-/g, "");
             if (!/^09\d{8}$/.test(cleanPhone)) { alert("❌ 手機號碼格式錯誤！\n請輸入 09 開頭的 10 碼數字"); return; }
-
             const btn = document.getElementById('confirm-btn');
             btn.innerText = "處理中..."; btn.disabled = true;
-
             let amount = "0";
             const match = service.match(/\$(\d+,?\d*)/);
             if(match) amount = match[1].replace(',', '');
             if(service.includes("包堂")) amount = "包堂扣1";
-
             const data = { action: "order", date: selectedDate, time: selectedTime, name, phone, lineId, service, amount };
-
-            fetch(SCRIPT_URL, {
-                method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" }
-            }).then(() => {
+            fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" } }).then(() => {
                 alert("✅ 預約成功！\n我們已收到您的預約，請準時前往工作室即可！");
                 closeBookingForm();
-                
-                // V62: 瞬時鎖定
+                // 預判UI
                 lockedSlots.push({ date: selectedDate, time: selectedTime, status: 'booked' });
                 renderTimeSlots(selectedDate);
                 
@@ -713,10 +613,8 @@
                 document.getElementById('booking-phone').value = "";
                 document.getElementById('booking-line').value = "";
                 setTimeout(fetchOrders, 2000); 
-
             }).catch(e => { alert("錯誤：" + e); btn.disabled = false; });
         }
-
         function openAdmin() { document.getElementById('admin-login-overlay').style.display = 'flex'; }
         function closeAdmin() { document.getElementById('admin-login-overlay').style.display = 'none'; }
         function checkAdminLogin() {
@@ -725,6 +623,8 @@
                 document.getElementById('admin-login-overlay').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
                 document.body.style.overflow = 'hidden'; 
+                // 🔥 V67: 登入成功寫入 Session
+                sessionStorage.setItem('isAdmin', 'true');
                 fetchOrders(); 
             } else { alert('密碼錯誤！'); }
         }
@@ -732,71 +632,52 @@
             document.getElementById('admin-panel').style.display = 'none';
             document.body.style.overflow = 'auto';
             document.getElementById('admin-password').value = '';
+            // 🔥 V67: 登出清除 Session
+            sessionStorage.removeItem('isAdmin');
         }
-
         function updateDashboard() {
             const todayStr = `${new Date().getMonth()+1}/${new Date().getDate()}`;
             const todayCount = allOrders.filter(o => o.date === todayStr).length;
             document.getElementById('today-count').innerText = todayCount;
             let total = 0;
-            allOrders.forEach(o => { 
-                if(o.status !== 'delete' && o.status !== 'locked') {
-                    const price = parseInt(o.amount); 
-                    if(!isNaN(price)) total += price; 
-                }
-            });
+            allOrders.forEach(o => { if(o.status !== 'delete' && o.status !== 'locked') { const price = parseInt(o.amount); if(!isNaN(price)) total += price; } });
             document.getElementById('month-revenue').innerText = `$${total.toLocaleString()}`;
         }
 
-        // 🔥 V67: 解決取消訂單殘影問題 (直接操作本地資料)
+        // 🔥 V67.0: 解決取消訂單殘影
         function updateOrderStatus(date, time, name, currentStatus, elementId) {
             let newStatus, actionText;
-            
-            if (currentStatus === 'delete') {
-                actionText = "取消訂單";
-                newStatus = 'delete';
-            } else if (currentStatus === '已付款') {
-                actionText = "回復為未付款";
-                newStatus = '未處理';
-            } else {
-                actionText = "設為已付款";
-                newStatus = '已付款';
-            }
+            if (currentStatus === 'delete') { actionText = "取消訂單"; newStatus = 'delete'; } 
+            else if (currentStatus === '已付款') { actionText = "回復為未付款"; newStatus = '未處理'; } // V65: 修正狀態文字
+            else { actionText = "設為已付款"; newStatus = '已付款'; }
             
             if(!confirm(`確定要${actionText}嗎？`)) return;
             
             showToast("⏳ 處理中...");
             
-            // 1. 本地立即更新資料陣列 (解決殘影核心)
+            // 1. 本地更新 (解決殘影)
             const orderIndex = allOrders.findIndex(o => o.date === date && o.time === time && o.name === name);
             if(orderIndex > -1) {
                 if (newStatus === 'delete') {
-                    allOrders.splice(orderIndex, 1); // 直接從陣列移除
+                    allOrders.splice(orderIndex, 1); // 🔥 直接移除
                 } else {
-                    allOrders[orderIndex].status = newStatus; // 更新狀態
+                    allOrders[orderIndex].status = newStatus;
                 }
             }
 
-            // 2. UI 視覺效果
+            // 2. UI 更新
             const orderCard = document.getElementById(elementId);
             if (orderCard) {
                 if (newStatus === 'delete') {
                     orderCard.style.opacity = '0.5';
                     setTimeout(() => orderCard.remove(), 500);
                 } else {
-                    // 如果只是改狀態，重新渲染一下詳情頁最快
-                    showAdminDetail(parseInt(date.split('/')[1]), null);
+                    showAdminDetail(parseInt(date.split('/')[1]), null); 
                 }
             }
-
             const data = { action: "update_status", date, time, name, newStatus };
-            fetch(SCRIPT_URL, {
-                method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" }
-            }).then(() => {
-                showToast(`✅ 已${actionText}`);
-                // 雖然本地已經改了，但還是要 fetch 確保跟雲端同步
-                setTimeout(fetchOrders, 1000); 
-            }).catch(e => alert("錯誤：" + e));
+            fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" } })
+            .then(() => { showToast(`✅ 已${actionText}`); setTimeout(fetchOrders, 1000); }).catch(e => alert("錯誤：" + e));
         }
 
         function showAdminDetail(day, element) {
@@ -805,33 +686,24 @@
                 element.classList.add('selected');
             }
             selectedDate = `${currentDate.getMonth()+1}/${day}`; 
-            
             document.getElementById('admin-date-title').innerText = selectedDate;
             document.getElementById('day-detail').style.display = 'block';
-            
-            // 排序訂單
+
             const dailyOrders = allOrders.filter(o => o.date === selectedDate);
             dailyOrders.sort((a, b) => a.time.localeCompare(b.time));
-
-            // 計算當日營收
+            
+            const listContainer = document.getElementById('order-list-container');
+            
             let dailyRevenue = 0;
             dailyOrders.forEach(o => { if(o.status === '已付款') { const p = parseInt(o.amount); if(!isNaN(p)) dailyRevenue += p; }});
             updateAdminDetailHeader(selectedDate, dailyRevenue);
 
-            const isHoliday = holidays.includes(selectedDate);
-            const btnHoliday = document.getElementById('btn-set-holiday');
-            const btnOpen = document.getElementById('btn-open-holiday');
-            if(isHoliday) { btnHoliday.style.display = 'none'; btnOpen.style.display = 'flex'; } 
-            else { btnHoliday.style.display = 'flex'; btnOpen.style.display = 'none'; }
-
-            const listContainer = document.getElementById('order-list-container');
-            
             if(dailyOrders.length === 0) {
                 listContainer.innerHTML = `<p style="text-align:center; color:#999; padding:20px;">今日無預約</p>`;
             } else {
                 let html = "";
                 dailyOrders.forEach((o, index) => {
-                    const lineInfo = o.lineId ? `<br>LINE: ${o.lineId}` : "";
+                    const lineInfo = o.lineId ? o.lineId : "無";
                     const [h, m] = o.time.split(':').map(Number);
                     const duration = o.service.includes('90') ? 90 : 60;
                     const endObj = new Date(0,0,0, h, m + duration);
@@ -839,7 +711,7 @@
                     
                     const isPaid = o.status === '已付款';
                     const uniqueId = `order-${index}`;
-                    
+
                     const statusText = isPaid ? '已付款' : '未付款';
                     const btnText = isPaid ? '↩️ 改回未付款' : '💰 設為已付款';
 
@@ -870,6 +742,12 @@
                 listContainer.innerHTML = html;
             }
             
+            const isHoliday = holidays.includes(selectedDate);
+            const btnHoliday = document.getElementById('btn-set-holiday');
+            const btnOpen = document.getElementById('btn-open-holiday');
+            if(isHoliday) { btnHoliday.style.display = 'none'; btnOpen.style.display = 'flex'; } 
+            else { btnHoliday.style.display = 'flex'; btnOpen.style.display = 'none'; }
+            
             renderAdminTimeSwitches(selectedDate);
             if(element) document.getElementById('day-detail').scrollIntoView({behavior: "smooth"});
         }
@@ -877,11 +755,9 @@
         function renderAdminTimeSwitches(date) {
             const container = document.getElementById('admin-time-switches');
             container.innerHTML = "";
-            
             const dateObj = new Date(new Date().getFullYear(), date.split('/')[0]-1, date.split('/')[1]);
             const dayOfWeek = dayNames[dateObj.getDay()];
             document.getElementById('admin-time-mgmt-title').innerText = `⚙️ 時段開放管理：${date} (${dayOfWeek})`;
-
             timeSlots.forEach(time => {
                 const order = allOrders.find(o => o.date === date && o.time === time);
                 const isManualLocked = lockedSlots.some(o => o.date === date && o.time === time && o.status === 'locked');
@@ -895,11 +771,8 @@
             const actionText = isChecked ? "開放" : "鎖定";
             showToast(`⏳ 正在${actionText}時段...`);
             const data = { action: "toggle_time_lock", date: selectedDate, time: time };
-            fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" } })
-            .then(() => { showToast(`✅ 時段已${actionText}`); setTimeout(fetchOrders, 1000); })
-            .catch(e => alert("錯誤：" + e));
+            fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" } }).then(() => { showToast(`✅ 時段已${actionText}`); setTimeout(fetchOrders, 1000); }).catch(e => alert("錯誤：" + e));
         }
-        
         function toggleHoliday() {
             if(!selectedDate) return;
             const dateStr = selectedDate; 
@@ -908,33 +781,27 @@
             if(!confirm(`確定要將 ${dateStr} ${actionText} 嗎？`)) return;
             showToast("⏳ 處理中...");
             const data = { action: "toggle_holiday", date: dateStr };
-            fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" } })
-            .then(() => {
+            fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" } }).then(() => {
                 showToast(`✅ ${dateStr} 已${actionText}！`);
                 if(isCurrentlyHoliday) { holidays = holidays.filter(d => d !== dateStr); } else { holidays.push(dateStr); }
                 updateCalendars(); 
                 setTimeout(fetchOrders, 1000);
-                
                 const cell = document.querySelector('.admin-cal-cell.selected');
                 if(cell) showAdminDetail(parseInt(dateStr.split('/')[1]), cell);
             }).catch(e => alert("錯誤：" + e));
         }
-        
         function toggleViewMode() {
             const grid = document.getElementById('admin-cal-grid');
             const btn = document.getElementById('viewToggleBtn');
             grid.classList.toggle('detail-mode');
-            if (grid.classList.contains('detail-mode')) { btn.innerText = "👁️ 切換簡易模式"; } 
-            else { btn.innerText = "👁️ 切換詳細模式"; }
+            if (grid.classList.contains('detail-mode')) { btn.innerText = "👁️ 切換簡易模式"; } else { btn.innerText = "👁️ 切換詳細模式"; }
         }
-        
         function showToast(msg) {
             const toast = document.getElementById('toast-msg');
             toast.innerText = msg;
             toast.style.opacity = '1';
             setTimeout(() => { toast.style.opacity = '0'; }, 2000);
         }
-
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
         function scrollToBottom() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
         
