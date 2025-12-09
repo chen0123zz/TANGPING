@@ -64,32 +64,26 @@
         .calendar-day { border: 1px solid #ddd; border-radius: 12px; height: 75px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.2s; }
         .calendar-day.active { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
+        
+        /* 🔥 V59: 今天樣式 (僅黃框，無字) */
         .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; color: var(--text-dark); }
         .calendar-day.today.active { background-color: var(--brand-color) !important; color: #fff !important; }
+
+        /* 🔥 V59: 店休樣式 */
         .calendar-day.holiday { background-color: #fff0f0 !important; border: 2px solid #ffcccc !important; color: #d63031 !important; pointer-events: auto !important; }
         .calendar-day.holiday span { color: #d63031 !important; display: block; }
+        
+        /* 🔥 V59: 額滿樣式 (灰底，顯示額滿) */
+        .calendar-day.full { background-color: #e0e0e0 !important; color: #888 !important; pointer-events: none; }
+        .calendar-day.full span { color: #888 !important; }
 
         .time-selector h3 { display: flex; align-items: center; gap: 10px; }
-        /* 🔥 V58: 日期提示樣式 */
         #selected-date-display { font-size: 1rem; color: var(--brand-color); font-weight: bold; background: #fffaf0; padding: 2px 10px; border-radius: 15px; }
 
         .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: 0.2s; }
-        .time-btn:hover, .time-btn.selected { background-color: var(--brand-color); color: #fff; }
+        .time-btn.hover, .time-btn.selected { background-color: var(--brand-color); color: #fff; }
         .time-btn.disabled { background-color: #f0f0f0; border-color: #ddd; color: #ccc; cursor: not-allowed; pointer-events: none; }
-
-        /* Info & QA */
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
-        .info-card { background: #fff; padding: 20px 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: left; transition: transform 0.2s; border-left: 5px solid transparent; }
-        .info-card:hover { transform: translateY(-3px); border-left: 5px solid var(--brand-color); box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
-        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .info-icon { font-size: 1.8rem; line-height: 1; }
-        .info-card h4 { margin: 0; font-size: 1.2rem; color: #333; }
-        .info-card p { margin: 0; color: #666; font-size: 0.95rem; line-height: 1.6; }
-        .qa-grid { display: grid; gap: 30px; margin-top: 40px; grid-template-columns: 1fr 1fr; }
-        .qa-card { background: #fff; padding: 30px; border-radius: 20px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; text-align: left; }
-        .qa-badge { position: absolute; top: -15px; left: 20px; background-color: #5e4b35; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .qa-card h3 { margin-top: 10px; color: #333; font-size: 1.3rem; }
 
         /* Contact */
         .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -111,6 +105,8 @@
         #booking-modal-overlay, #admin-login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 10002; display: none; flex-direction: column; justify-content: center; align-items: center; }
         .booking-modal, .admin-login-box { background: #fff; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; text-align: left; }
         .booking-modal h3, .admin-login-box h2 { margin-top: 0; color: var(--brand-color); text-align: center; }
+        #booking-info-text { font-size: 1.1rem !important; color: var(--brand-color) !important; font-weight: bold; margin-bottom: 20px !important; text-align: center; }
+        
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; font-size: 0.9rem; color: #666; margin-bottom: 5px; }
         .required { color: red; margin-left: 3px; }
@@ -118,13 +114,11 @@
         .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
         .login-btn { background: var(--brand-color); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
         #toast-msg { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; z-index: 20000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-        
-        /* 🔥 V58: 彈窗文字加大 */
-        #booking-info-text { font-size: 1.1rem !important; color: var(--brand-color) !important; font-weight: bold; margin-bottom: 20px !important; }
 
         /* Admin UI */
         #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--admin-bg); z-index: 10000; overflow-y: auto; color: var(--admin-text); }
         .admin-header { background-color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .admin-header h1 { margin: 0; font-size: 1.2rem; color: var(--brand-color); }
         .admin-container { max-width: 600px; margin: 20px auto; padding: 0 15px; padding-bottom: 60px; }
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
@@ -173,6 +167,9 @@
             .btn-group { flex-direction: column; }
             .contact-info .btn-main { width: 100%; margin: 0; }
             .calendar-day { width: 100%; height: auto; aspect-ratio: 1/1; font-size: 0.75rem; }
+            .social-row { flex-direction: column; gap: 5px; }
+            .social-row .contact-item { margin-bottom: 0; }
+            .time-list-desktop { white-space: normal !important; }
         }
     </style>
 </head>
@@ -318,7 +315,7 @@
         <div class="booking-modal">
             <button class="modal-close" onclick="closeBookingForm()">×</button>
             <h3>預約確認</h3>
-            <p id="booking-info-text" style="text-align:center;"></p>
+            <p id="booking-info-text" style="color:#666; font-size:0.9rem; margin-bottom:15px; text-align:center;"></p>
             
             <div class="form-group"><label class="form-label">姓名 <span class="required">*</span></label><input type="text" id="booking-name" class="form-input" placeholder="請輸入真實姓名"></div>
             <div class="form-group"><label class="form-label">聯絡電話 <span class="required">*</span></label><input type="tel" id="booking-phone" class="form-input" placeholder="09xx-xxx-xxx" maxlength="15" oninput="this.value = formatPhone(this.value)"></div>
@@ -344,7 +341,6 @@
     <div id="admin-login-overlay">
         <div class="admin-login-box">
             <h2 style="color:var(--brand-color);">後台管理系統</h2>
-            <p>請輸入管理員密碼</p>
             <input type="password" id="admin-password" class="login-input" placeholder="密碼">
             <button class="login-btn" onclick="checkAdminLogin()">登入</button>
             <button class="login-btn" onclick="closeAdmin()" style="background:#ccc; margin-top:10px; color:#555;">取消</button>
@@ -384,8 +380,7 @@
                     <button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button>
                 </div>
 
-                <div class="admin-cal-grid" id="admin-cal-grid">
-                    </div>
+                <div class="admin-cal-grid" id="admin-cal-grid"></div>
             </div>
 
             <div id="day-detail">
@@ -396,8 +391,7 @@
                 
                 <div class="admin-time-management">
                     <div class="admin-time-title" id="admin-time-mgmt-title">⚙️ 時段開放管理</div>
-                    <div class="admin-time-grid" id="admin-time-switches">
-                        </div>
+                    <div class="admin-time-grid" id="admin-time-switches"></div>
                 </div>
 
                 <div class="admin-big-btn-group">
@@ -409,7 +403,8 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyKIcC5L3mykmLtOhE-6SaTbj1pKDuPNOfmA2JSH2hEwFSi_5g9-4iLU8JXyz7GjNKEVw/exec"; 
+        // 🔥 V60.0: 確認 ID 正確
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHge3GVg0WSZGecXiQSWHdT_pr8WRWWqsShPCKah6RfrzgFsy2n-7L82mzh6BQn90YdA/exec"; 
 
         let currentDate = new Date();
         let selectedDate = null;
@@ -417,7 +412,6 @@
         let allOrders = []; 
         let holidays = [];
         let lockedSlots = [];
-        
         const timeSlots = ['10:00', '12:00', '14:00', '15:40', '17:10', '19:30', '21:10'];
         const dayNames = ['日', '一', '二', '三', '四', '五', '六'];
 
@@ -428,11 +422,9 @@
             fetchOrders();
         };
 
-        // 🔥 V58.0: 修復電話邏輯，允許 0909-123-123 (10碼)
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
-            if(val.length > 10) val = val.slice(0, 10); // 限制最多10碼數字
-            
+            if(val.length > 10) val = val.slice(0, 10);
             if(val.length > 7) {
                 return val.slice(0,4) + '-' + val.slice(4,7) + '-' + val.slice(7);
             } else if(val.length > 4) {
@@ -458,8 +450,9 @@
                     return str;
                 };
 
-                // 分類資料
-                allOrders = data.filter(o => o.status !== 'holiday' && o.status !== 'locked').map(o => ({...o, date: normalizeDate(o.date)}));
+                // 分類資料：只取一般訂單且非取消狀態
+                // V6.0 修正：排除狀態為 'delete' 的資料
+                allOrders = data.filter(o => o.status !== 'holiday' && o.status !== 'locked' && o.status !== 'delete').map(o => ({...o, date: normalizeDate(o.date)}));
                 holidays = data.filter(o => o.status === 'holiday').map(o => normalizeDate(o.date));
                 const manualLocks = data.filter(o => o.status === 'locked').map(o => ({...o, date: normalizeDate(o.date)}));
                 lockedSlots = [...allOrders, ...manualLocks];
@@ -535,6 +528,10 @@
                 const checkDate = new Date(year, month, i);
                 const isPast = checkDate < new Date(today.setHours(0,0,0,0));
 
+                // 🔥 V60: 額滿判斷 (當日所有時段都被佔用)
+                const dayLockedCount = lockedSlots.filter(o => o.date === dateStr).length;
+                const isFull = dayLockedCount >= timeSlots.length;
+
                 if(year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
                     cell.classList.add('today');
                 }
@@ -550,6 +547,10 @@
                         cell.style.pointerEvents = "auto";
                         cell.innerHTML = `${i}<br><span>店休</span>`; 
                     }
+                } else if (isFull && !isAdmin) { // 額滿
+                    cell.classList.add('full'); // 需CSS支援
+                    cell.innerHTML = `${i}<br><span>額滿</span>`;
+                    cell.style.pointerEvents = "none";
                 } else {
                     cell.innerHTML = `${i}`;
                     if(!isAdmin) cell.innerHTML += `<br><span>可約</span>`;
@@ -579,7 +580,7 @@
             days.forEach(d => d.classList.remove('active'));
             element.classList.add('active');
             
-            // 🔥 V58: 顯示選擇的日期 (解決眼殘問題)
+            // 顯示日期提示
             const dateDisplay = document.getElementById('selected-date-display');
             if(dateDisplay) dateDisplay.innerText = `${currentDate.getMonth()+1}月${day}日`;
             
@@ -678,8 +679,30 @@
             const todayCount = allOrders.filter(o => o.date === todayStr).length;
             document.getElementById('today-count').innerText = todayCount;
             let total = 0;
-            allOrders.forEach(o => { const price = parseInt(o.amount); if(!isNaN(price)) total += price; });
+            allOrders.forEach(o => { 
+                // 排除已取消的訂單計算金額 (status 不是 delete 且不是 locked)
+                if(o.status !== 'delete' && o.status !== 'locked') {
+                    const price = parseInt(o.amount); 
+                    if(!isNaN(price)) total += price; 
+                }
+            });
             document.getElementById('month-revenue').innerText = `$${total.toLocaleString()}`;
+        }
+
+        // 🔥 V60: 更新訂單狀態函式 (結案/取消)
+        function updateOrderStatus(date, time, name, newStatus) {
+            const actionText = newStatus === 'delete' ? "取消訂單" : "結案";
+            if(!confirm(`確定要${actionText}嗎？`)) return;
+            
+            showToast("⏳ 處理中...");
+            const data = { action: "update_status", date, time, name, newStatus };
+
+            fetch(SCRIPT_URL, {
+                method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" }
+            }).then(() => {
+                showToast(`✅ 已${actionText}`);
+                setTimeout(fetchOrders, 1000); 
+            }).catch(e => alert("錯誤：" + e));
         }
 
         function showAdminDetail(day, element) {
@@ -709,13 +732,15 @@
                 let html = "";
                 dailyOrders.forEach(o => {
                     const lineInfo = o.lineId ? `<br>LINE: ${o.lineId}` : "";
+                    
+                    // V60: 更新按鈕邏輯
                     html += `
                     <div class="order-item">
                         <div class="order-time">${o.time}</div>
-                        <div class="order-info">${o.name} (${o.phone})${lineInfo}<br>${o.service}<br><span class="order-price">💰 ${o.amount} (未付款)</span></div>
+                        <div class="order-info">${o.name} (${o.phone})${lineInfo}<br>${o.service}<br><span class="order-price">💰 ${o.amount} (${o.status})</span></div>
                         <div class="action-btns">
-                            <button class="status-btn btn-done" onclick="showToast('✅ 訂單已結案')">結案 (已付款)</button>
-                            <button class="status-btn btn-cancel" onclick="showToast('❌ 訂單已取消')">取消訂單</button>
+                            <button class="status-btn btn-done" onclick="updateOrderStatus('${o.date}', '${o.time}', '${o.name}', '已結案')">結案 (已付款)</button>
+                            <button class="status-btn btn-cancel" onclick="updateOrderStatus('${o.date}', '${o.time}', '${o.name}', 'delete')">取消訂單</button>
                         </div>
                     </div>`;
                 });
