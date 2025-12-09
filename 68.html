@@ -11,338 +11,171 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* ========================================= */
-        /* 🎨 全域設定 (Global Styles)               */
-        /* ========================================= */
-        :root {
-            --brand-color: #efb748;
-            --bg-beige: #f9f5f0;
-            --text-dark: #333333;
-            /* 後台變數 */
-            --admin-bg: #f0f2f5; 
-            --admin-card: #ffffff;
-            --admin-text: #333333;
-        }
+        /* 🎨 全域設定 */
+        :root { --brand-color: #efb748; --bg-beige: #f9f5f0; --text-dark: #333333; --admin-bg: #f0f2f5; --admin-card: #ffffff; --admin-text: #333333; }
         html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
         body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
         section, .content-section { scroll-margin-top: 100px; }
 
-        /* ========================================= */
-        /* 💻 電腦版優先樣式 (V25 Base)              */
-        /* ========================================= */
-
-        /* --- 1. 導覽列 --- */
-        header {
-            background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky; top: 0; z-index: 1000; display: block; transition: transform 0.3s ease;
-        }
-        header.nav-hidden { transform: translateY(-100%); }
+        /* 🏠 前台樣式 (V25 Base) */
+        header { background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; }
-        .logo-img { height: 50px; width: auto; }
-        .nav-menu a {
-            text-decoration: none; color: #333; margin-left: 20px;
-            font-weight: bold; font-size: 0.95rem; transition: color 0.3s;
-            white-space: nowrap; 
-        }
+        .logo-img { height: 50px; }
+        .nav-menu a { text-decoration: none; color: #333; margin-left: 20px; font-weight: bold; font-size: 0.95rem; transition: color 0.3s; }
         .nav-menu a:hover { color: var(--brand-color); }
 
-        /* --- 2. 通用區塊 --- */
         .content-section { padding: 40px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
         .section-title { color: var(--brand-color); font-size: 2rem; margin-bottom: 10px; }
-        .section-desc { color: #666; margin-bottom: 40px; }
-        .btn-main {
-            display: inline-block; background-color: #fff; color: var(--brand-color);
-            padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease;
-        }
-        .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
-
-        /* --- 3. 最新優惠 --- */
+        .btn-main { display: inline-block; background-color: #fff; color: var(--brand-color); padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
         .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
-        .offer-card-layout {
-            background: #fff; border-radius: 20px; overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex;
-            max-width: 900px; margin: 0 auto;
-        }
+        .offer-card-layout { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; max-width: 900px; margin: 0 auto; }
         .offer-img-box { flex: 1; min-height: 300px; display: flex; align-items: center; justify-content: center; background-color: #fff; padding: 30px; }
-        .offer-img-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .offer-img-box img { width: 100%; height: 100%; object-fit: contain; }
         .offer-text-box { flex: 1; padding: 40px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
-        .offer-text-box h3 { font-size: 1.8rem; color: #333; margin: 15px 0; }
-        .offer-text-box p { color: #666; line-height: 1.6; margin-bottom: 20px; }
-        .tag-pill { display: inline-block; background-color: #ff4757; color: #fff; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; align-self: flex-start; margin-bottom: 10px; }
-        .offer-list { list-style: none; padding: 0; margin-bottom: 20px; color: #555; }
-        .offer-list li { margin-bottom: 8px; }
+        .tag-pill { display: inline-block; background-color: #ff4757; color: #fff; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; }
         .price-highlight { display: flex; gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--brand-color); }
+        .offer-list { list-style: none; padding: 0; margin-bottom: 20px; color: #555; text-align: left; }
 
-        /* --- 4. 關於運動按摩 --- */
         .swiper { width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; padding-top: 20px; }
         .swiper-slide { background-position: center; background-size: cover; width: auto; height: auto; }
         .slide-img { display: block; width: 100%; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .swiper-pagination-bullet-active { background-color: var(--brand-color) !important; }
-        .my-prev-btn, .my-next-btn {
-            position: absolute; top: 60%; transform: translateY(-50%); width: 40px; height: 40px;
-            background-color: #fff; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer;
-        }
+        .my-prev-btn, .my-next-btn { position: absolute; top: 60%; transform: translateY(-50%); width: 40px; height: 40px; background-color: #fff; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
         .my-prev-btn { left: 10px; } .my-next-btn { right: 10px; }
-        .my-prev-btn::after, .my-next-btn::after { font-size: 1.2rem; font-weight: bold; }
-
-        /* --- 5. 價目表 --- */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: left; }
-        .service-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
-        .service-card:hover { transform: translateY(-5px); }
-        .card-body { padding: 25px; }
-        .card-body h3 { margin: 0 0 10px 0; color: #333; }
-        .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
-
-        /* --- 6. 預約日曆 (電腦版) --- */
-        .booking-container { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; margin: 0 auto; text-align: left; }
-        .booking-container h3 { padding-left: 0; margin-bottom: 15px; color: #333; text-align: center; }
-        .month-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .month-btn { background: none; border: 1px solid #ddd; padding: 5px 10px; border-radius: 5px; cursor: pointer; color: #666; font-size: 1.2rem; }
-        .month-btn:hover { background: #f0f0f0; }
         
-        /* 🔥 標題容器 (為了放回到今天按鈕) */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: left; }
+        .service-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .card-body { padding: 25px; }
+        .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
+        
+        table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        th, td { padding: 15px; border: 1px solid #ddd; }
+
+        /* Calendar */
+        .booking-container { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; margin: 0 auto; text-align: left; }
+        .month-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .month-btn { background: none; border: 1px solid #ddd; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 1.2rem; }
         .month-title-group { display: flex; flex-direction: column; align-items: center; }
         .today-btn { font-size: 0.75rem; padding: 2px 10px; margin-top: 5px; background: #eee; color: #666; border: none; border-radius: 15px; cursor: pointer; transition: 0.2s; }
         .today-btn:hover { background: var(--brand-color); color: #fff; }
 
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; justify-items: center; align-items: center; }
-        .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; width: 100%; text-align: center; }
-        /* 電腦版：75px正方形 */
-        .calendar-day { border: 1px solid #ddd; border-radius: 12px; width: 75px; height: 75px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0; }
-        .calendar-day span { font-size: 0.8rem; color: #888; margin-top: 3px; }
-        .calendar-day.active, .calendar-day:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
-        .calendar-day.active span, .calendar-day:hover span { color: #fff; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; }
+        .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; text-align: center; }
+        .calendar-day { border: 1px solid #ddd; border-radius: 12px; height: 75px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.2s; }
+        .calendar-day.active { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
         
-        /* 🔥 V55: 今天樣式 (僅黃框，不改字) */
-        .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; }
+        /* 🔥 今天樣式修正 (無底色，只有框) */
+        .calendar-day.today { 
+            border: 2px solid var(--brand-color); 
+            font-weight: bold; 
+            background: transparent; 
+            color: var(--text-dark);
+        }
         .calendar-day.today.active { background-color: var(--brand-color) !important; color: #fff !important; }
-        
-        /* 🔥 V55: 店休樣式 */
+
+        /* 🔥 店休樣式 */
         .calendar-day.holiday { background-color: #fff0f0 !important; border: 2px solid #ffcccc !important; color: #d63031 !important; pointer-events: auto !important; }
         .calendar-day.holiday span { color: #d63031 !important; display: block; }
 
         .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: all 0.2s; }
+        .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: 0.2s; }
         .time-btn:hover, .time-btn.selected { background-color: var(--brand-color); color: #fff; }
         .time-btn.disabled { background-color: #f0f0f0; border-color: #ddd; color: #ccc; cursor: not-allowed; pointer-events: none; }
 
-        /* --- 7. 預約須知 & Q&A --- */
+        /* Info & QA */
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
         .info-card { background: #fff; padding: 20px 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: left; transition: transform 0.2s; border-left: 5px solid transparent; }
         .info-card:hover { transform: translateY(-3px); border-left: 5px solid var(--brand-color); box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
         .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .info-icon { font-size: 1.8rem; line-height: 1; }
         .info-card h4 { margin: 0; font-size: 1.2rem; color: #333; }
-        .info-card p { margin: 0; color: #666; font-size: 0.95rem; line-height: 1.6; }
-        
         .qa-grid { display: grid; gap: 30px; margin-top: 40px; grid-template-columns: 1fr 1fr; }
         .qa-card { background: #fff; padding: 30px; border-radius: 20px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; text-align: left; }
         .qa-badge { position: absolute; top: -15px; left: 20px; background-color: #5e4b35; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .qa-card h3 { margin-top: 10px; color: #333; font-size: 1.3rem; }
 
-        /* --- 8. 聯絡我們 (電腦版：左右並排) --- */
-        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; width: 100%; }
-        .contact-info, .map-box { width: 100%; }
-        .contact-info { text-align: left; }
+        /* Contact */
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         .map-box { height: 300px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .map-box iframe { display: block; }
-        
         .contact-item { font-size: 1.1rem; margin: 15px 0; line-height: 1.6; }
-        .contact-item strong { display: inline; margin-right: 5px; color: #efb748; font-size: 1rem; }
-        .contact-item span, .contact-item a { display: inline; }
-        
-        /* 社交帳號 (電腦版：橫排) */
+        .time-list-desktop { white-space: nowrap !important; display: block !important; }
         .social-row { display: block; }
         .social-row .contact-item { margin-bottom: 10px; margin-top: 0; display: inline-block; margin-right: 20px; }
-        .social-row strong { color: #efb748; }
-
-        /* 時間表標題換行 */
-        .time-item strong { display: block; margin-bottom: 5px; }
-        /* 電腦版時間不換行 */
-        .time-list-desktop { white-space: nowrap !important; display: block !important; }
-        /* 電腦版按鈕區 */
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
         .contact-info .btn-main { width: auto; }
-        
-        /* 隱藏換行 */
         .mobile-break { display: none; }
-        .mobile-break::after { content: " | "; display: inline; }
 
-        /* --- 9. 其他 --- */
+        /* Floating Btn */
         .floating-btn-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 999; transition: opacity 0.5s ease; }
-        .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
-        .float-btn:hover { background-color: #333; transform: scale(1.1); }
+        .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
         footer { text-align: center; padding: 5px 5px; background-color: transparent; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
-
-        /* ============================================= */
-        /* 🚀 (新增) 預約彈窗 & 後台 CSS (Append)        */
-        /* ============================================= */
-        #booking-modal-overlay, #admin-login-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(3px);
-            z-index: 10002; display: none; flex-direction: column; justify-content: center; align-items: center; 
-        }
-        .booking-modal, .admin-login-box { 
-            background: #fff; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; text-align: left;
-        }
+        /* Modals & Admin */
+        #booking-modal-overlay, #admin-login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 10002; display: none; flex-direction: column; justify-content: center; align-items: center; }
+        .booking-modal, .admin-login-box { background: #fff; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; text-align: left; }
         .booking-modal h3, .admin-login-box h2 { margin-top: 0; color: var(--brand-color); text-align: center; }
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; font-size: 0.9rem; color: #666; margin-bottom: 5px; }
-        /* 🔥 V54: 必填星號樣式 */
         .required { color: red; margin-left: 3px; }
-        
-        .form-input, .form-select, .login-input { 
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 1rem; margin-bottom: 10px;
-        }
+        .form-input, .form-select, .login-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 1rem; margin-bottom: 10px; }
         .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
         .login-btn { background: var(--brand-color); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
-        .login-btn:hover { opacity: 0.9; }
+        #toast-msg { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; z-index: 20000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
 
-        /* Toast */
-        #toast-msg {
-            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 20px;
-            font-size: 0.9rem; z-index: 20000; opacity: 0; transition: opacity 0.3s; pointer-events: none;
-        }
-
-        /* 亮色系後台 */
-        #admin-panel { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: var(--admin-bg); z-index: 10000; overflow-y: auto; color: var(--admin-text);
-        }
-        .admin-header { 
-            background-color: #fff; color: #333; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
-        }
-        .admin-header h1 { margin: 0; font-size: 1.2rem; color: var(--brand-color); }
+        /* Admin UI */
+        #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--admin-bg); z-index: 10000; overflow-y: auto; color: var(--admin-text); }
+        .admin-header { background-color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .admin-container { max-width: 600px; margin: 20px auto; padding: 0 15px; padding-bottom: 60px; }
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .dash-card { background: var(--admin-card); padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .dash-num { font-size: 1.8rem; font-weight: bold; color: #333; margin: 5px 0; }
-        .dash-label { font-size: 0.8rem; color: #888; }
-        .admin-card { background: var(--admin-card); border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .admin-month-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .admin-month-title { font-size: 1.2rem; font-weight: bold; color: #333; }
+        .admin-card { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .admin-toolbar { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .admin-tool-btn { 
-            background-color: #fff; border: 1px solid #ddd; color: #666; 
-            padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; 
-            display: flex; align-items: center; gap: 5px; transition: 0.2s;
-        }
+        .admin-tool-btn { background-color: #fff; border: 1px solid #ddd; color: #666; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .admin-tool-btn:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .admin-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
-        .admin-cal-head { font-size: 0.7rem; color: #888; margin-bottom: 5px; }
-        .admin-cal-cell {
-            aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            border-radius: 8px; border: 1px solid #eee; font-size: 0.9rem; cursor: pointer; position: relative;
-            background: #fff; transition: all 0.2s; color: #333;
-        }
-        .admin-cal-cell.today { border: 2px solid var(--brand-color); color: var(--brand-color); font-weight: bold; }
+        .admin-cal-cell { aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; border: 1px solid #eee; font-size: 0.9rem; cursor: pointer; position: relative; background: #fff; transition: all 0.2s; color: #333; }
+        .admin-cal-cell.today { border: 2px solid var(--brand-color); font-weight: bold; }
         .admin-cal-cell.selected { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .admin-cal-cell.holiday { background-color: #fff0f0; color: #d63031; text-decoration: none; }
         .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 2px; background-color: #2ecc71; display: none; }
         .dot.active { display: block; }
         .event-text { display: none; } 
-
-        .admin-cal-grid.detail-mode .admin-cal-cell {
-            aspect-ratio: auto; min-height: 80px; 
-            justify-content: flex-start; padding-top: 5px; align-items: stretch; 
-        }
+        .admin-cal-grid.detail-mode .admin-cal-cell { aspect-ratio: auto; min-height: 80px; justify-content: flex-start; padding-top: 5px; align-items: stretch; }
         .admin-cal-grid.detail-mode .dot { display: none; } 
-        .admin-cal-grid.detail-mode .event-text { 
-            display: block; font-size: 0.65rem; color: #fff; 
-            background-color: #2ecc71; margin: 2px 0; padding: 2px 4px; border-radius: 3px; 
-            text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-        }
+        .admin-cal-grid.detail-mode .event-text { display: block; font-size: 0.65rem; color: #fff; background-color: #2ecc71; margin: 2px 0; padding: 2px 4px; border-radius: 3px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
         .admin-cal-grid.detail-mode .admin-cal-cell.holiday .event-text { display: none; }
 
-        #day-detail { display: none; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .detail-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
-        .date-title { font-size: 1.1rem; font-weight: bold; color: var(--brand-color); }
         .order-item { background: #f9f9f9; border-left: 4px solid var(--brand-color); padding: 10px 15px; margin-bottom: 10px; border-radius: 5px; }
         .order-time { font-weight: bold; color: #333; font-size: 1rem; }
         .order-info { color: #666; font-size: 0.95rem; margin-top: 5px; line-height: 1.5; }
         .order-price { font-weight: bold; color: #e67e22; }
-        
         .action-btns { display: flex; gap: 10px; margin-top: 10px; }
         .status-btn { padding: 5px 10px; border: none; border-radius: 5px; font-size: 0.8rem; cursor: pointer; color: #fff; }
         .btn-done { background: #27ae60; }
         .btn-cancel { background: #e74c3c; }
 
         .admin-big-btn-group { display: flex; gap: 10px; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
-        .admin-big-btn {
-            flex: 1; padding: 15px; border: none; border-radius: 10px; 
-            font-size: 1rem; font-weight: bold; cursor: pointer; color: #fff;
-            display: flex; align-items: center; justify-content: center; gap: 5px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        .admin-big-btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .btn-holiday-big { background-color: #e74c3c; }
         .btn-open-big { background-color: #2ecc71; }
-
         .admin-time-management { margin-top: 20px; background: #fafafa; padding: 15px; border-radius: 10px; }
         .admin-time-title { font-size: 0.95rem; font-weight: bold; margin-bottom: 10px; color: #555; }
         .admin-time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .time-switch {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #fff; padding: 8px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 0.85rem;
-        }
+        .time-switch { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 0.85rem; }
         .switch-input { margin-left: 5px; transform: scale(1.2); cursor: pointer; }
-
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
-
-        /* ============================================= */
-        /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
-        /* ============================================= */
+        
         @media (max-width: 768px) {
-            header { padding: 10px 0; position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; }
-            body { padding-top: 110px; }
-            .header-content { flex-direction: column !important; gap: 10px; }
-            .logo-img { height: 45px; }
-            .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; scrollbar-width: none; }
-            .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
-
-            .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
-            .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 2px !important; width: 100% !important; }
-            .calendar-day { width: 100% !important; height: auto !important; aspect-ratio: 1 / 1 !important; font-size: 0.75rem !important; padding: 0 !important; border-radius: 4px !important; min-height: 0 !important; }
-            .calendar-day span { font-size: 0.5rem !important; transform: scale(0.85); margin-top: 0px; }
-            .time-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
-            .time-btn { width: 100% !important; padding: 10px 0 !important; font-size: 0.9rem !important; }
-
-            .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
-            .contact-item { display: flex !important; flex-direction: column !important; align-items: flex-start !important; margin-bottom: 15px !important; }
-            .contact-item strong { display: block !important; margin-bottom: 2px !important; width: 100%; }
-            .social-row { display: flex !important; flex-direction: column !important; gap: 5px !important; margin-bottom: 15px !important; width: 100% !important; }
-            .social-row .contact-item { margin-bottom: 0 !important; display: flex !important; flex-direction: row !important; align-items: center !important; gap: 5px !important; width: 100%; margin-right: 0 !important; }
-            .social-row strong { width: auto !important; margin-bottom: 0 !important; white-space: nowrap !important; }
-            .btn-group { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; }
-            .contact-info .btn-main { width: 100% !important; margin: 8px 0 !important; text-align: center; display: flex !important; justify-content: center !important; box-sizing: border-box !important; }
-
-            .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
-            .info-grid, .qa-grid { display: flex !important; overflow-x: auto !important; gap: 15px !important; padding: 30px 20px 30px 20px !important; margin: 0 -20px !important; scroll-snap-type: x mandatory; scrollbar-width: none; grid-template-columns: none !important; }
-            .info-card, .qa-card { min-width: 70vw !important; margin: 0 !important; scroll-snap-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; position: relative; overflow: visible !important; }
-            .info-card:last-child, .qa-card:last-child { margin-right: 20px !important; }
-            #contact { margin: 20px 15px !important; border-radius: 20px !important; width: auto !important; padding: 30px 20px !important; box-sizing: border-box; }
-            .map-box { order: 2; height: 250px !important; width: 100% !important; }
-            .contact-info { order: 1; }
-            .services-grid + div p { font-size: 0.75rem !important; white-space: nowrap !important; letter-spacing: -0.5px; }
-            .mobile-break { display: inline; }
-            .mobile-break::after { display: none; }
-            .time-list-desktop { white-space: normal !important; display: block !important; }
-            .content-section { padding: 30px 20px !important; margin: 20px 15px !important; width: auto !important; border-radius: 20px !important; }
-            .offer-card-layout { flex-direction: column !important; }
-            .offer-img-box { padding: 0 !important; }
-            .offer-text-box { padding: 25px !important; }
-            #about { padding-left: 15px !important; padding-right: 15px !important; }
-            table { font-size: 0.75rem !important; }
-            th, td { padding: 8px 4px !important; white-space: nowrap !important; }
-            td span { font-size: 0.65rem !important; display: inline-block; }
-            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
+            .offer-card-layout { flex-direction: column; }
+            .contact-container { display: flex; flex-direction: column; gap: 30px; }
+            .btn-group { flex-direction: column; }
+            .contact-info .btn-main { width: 100%; margin: 0; }
+            .calendar-day { width: 100%; height: auto; aspect-ratio: 1/1; font-size: 0.75rem; }
+            .social-row { flex-direction: column; gap: 5px; }
+            .social-row .contact-item { margin-bottom: 0; }
+            .time-list-desktop { white-space: normal !important; }
         }
     </style>
 </head>
@@ -394,7 +227,7 @@
             <div class="swiper-pagination"></div>
         </div>
         <div class="swiper-button-next my-next-btn" style="color: var(--brand-color);"></div>
-        <div class="swiper-button-prev my-prev-btn" style="color: var(--brand-color);"></div>
+        <div class="swiper-button-prev my-next-btn" style="color: var(--brand-color);"></div>
     </section>
 
     <section class="content-section" id="services">
@@ -440,7 +273,7 @@
         <div class="info-grid">
             <div class="info-card"><div class="card-header"><div class="info-icon">🎽</div><h4>穿著建議</h4></div><p>請穿著或攜帶<strong>運動服裝</strong>，女性建議穿著運動內衣，方便伸展與放鬆。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🍱</div><h4>飲食建議</h4></div><p>按摩前可稍微進食，但<strong>切勿飽腹前來</strong>，以免趴臥時造成腹部不適。</p></div>
-            <div class="info-card"><div class="card-header"><div class="info-icon">💪</div><h4>心理準備</h4></div><p>運動按摩不同於一般放鬆，針對沾黏處处理時<strong>偶有痠痛感</strong>，屬正常現象。</p></div>
+            <div class="info-card"><div class="card-header"><div class="info-icon">💪</div><h4>心理準備</h4></div><p>運動按摩不同於一般放鬆，針對沾黏處處理時<strong>偶有痠痛感</strong>，屬正常現象。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🤕</div><h4>主動告知</h4></div><p>若有手術舊疾、懷孕或身體不適部位，請<strong>務必主動告知</strong>師傅。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🕒</div><h4>首次體驗</h4></div><p>建議預約 <strong>90 分鐘方案</strong>，包含完整評估與測試，較能充分感受成效。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🏥</div><h4>醫療聲明</h4></div><p>運動按摩<strong>無法替代醫療行為</strong>，若有急性發炎或嚴重不適，請先就醫。</p></div>
@@ -448,9 +281,9 @@
         <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
         <div class="qa-grid">
             <div class="qa-card"><div class="qa-badge" style="background-color: #d35400;">Question 1</div><h3>跟一般按摩差在哪？</h3><p><strong>A: 目的完全不同！</strong></p><p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛(DOMS)」。</p></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛(DOMS)」。這是深層按摩後自然的修復過程。</p></div>
             <div class="qa-card"><div class="qa-badge" style="background-color: #5e4b35;">Question 3</div><h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3><p><strong>A: 這是修復的信號！🛠️</strong></p><p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #e67e22;">Question 4</div><h3>該如何緩解痠痛感？</h3><p><strong>A: 這些方法很有用！🛁</strong></p><ul><li>♨️ 熱敷或泡熱水澡</li><li>💧 多補充水分代謝廢物</li><li>🚶‍♂️ 輕微活動 (如散步)</li><li>🛌 充分休息，避免疲勞</li></ul></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #e67e22;">Question 4</div><h3>該如何緩解痠痛感？</h3><p><strong>A: 這些方法很有用！🛁</strong></p><ul><li>♨️ 熱敷或泡熱水澡，促進循環</li><li>💧 多補充水分，幫助代謝廢物</li><li>🚶‍♂️ 輕微活動 (如散步)</li><li>🛌 充分休息，避免過度疲勞</li></ul></div>
         </div>
     </section>
 
@@ -514,6 +347,7 @@
     <div id="admin-login-overlay">
         <div class="admin-login-box">
             <h2 style="color:var(--brand-color);">後台管理系統</h2>
+            <p>請輸入管理員密碼</p>
             <input type="password" id="admin-password" class="login-input" placeholder="密碼">
             <button class="login-btn" onclick="checkAdminLogin()">登入</button>
             <button class="login-btn" onclick="closeAdmin()" style="background:#ccc; margin-top:10px; color:#555;">取消</button>
@@ -523,43 +357,63 @@
     <div id="admin-panel">
         <div class="admin-header">
             <h1>管理後台</h1>
-            <div><button onclick="logoutAdmin()" class="control-btn" style="margin-right:10px;">離開後台</button></div>
+            <div>
+                <button onclick="logoutAdmin()" class="control-btn" style="margin-right:10px;">離開後台</button>
+            </div>
         </div>
         <div class="admin-container">
             <div class="dashboard-grid">
-                <div class="dash-card"><div class="dash-num" id="today-count">0</div><div class="dash-label">今日預約</div></div>
-                <div class="dash-card"><div class="dash-num" id="month-revenue" style="color:#e67e22;">$0</div><div class="dash-label">本月預估營收</div></div>
+                <div class="dash-card">
+                    <div class="dash-num" id="today-count">0</div>
+                    <div class="dash-label">今日預約</div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-num" id="month-revenue" style="color:#e67e22;">$0</div>
+                    <div class="dash-label">本月預估營收</div>
+                </div>
             </div>
+
             <div class="admin-card">
                 <div class="admin-month-header">
                     <button class="month-btn" onclick="prevMonth()">❮</button>
                     <div class="month-title-group">
-                        <div class="admin-month-title" id="adminMonthYear"></div>
+                        <div class="admin-month-title" id="adminMonthYear" style="margin-bottom:0;">12月 (2025)</div>
                         <button class="today-btn" onclick="resetToToday()">回到今天</button>
                     </div>
                     <button class="month-btn" onclick="nextMonth()">❯</button>
                 </div>
-                <div class="admin-toolbar"><button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button></div>
-                <div class="admin-cal-grid" id="admin-cal-grid"></div>
+                
+                <div class="admin-toolbar">
+                    <button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button>
+                </div>
+
+                <div class="admin-cal-grid" id="admin-cal-grid">
+                    </div>
             </div>
+
             <div id="day-detail">
-                <div class="detail-header"><div class="date-title" id="admin-date-title"></div></div>
+                <div class="detail-header">
+                    <div class="date-title" id="admin-date-title"></div>
+                </div>
                 <div id="order-list-container">載入中...</div>
+                
                 <div class="admin-time-management">
                     <div class="admin-time-title" id="admin-time-mgmt-title">⚙️ 時段開放管理</div>
-                    <div class="admin-time-grid" id="admin-time-switches"></div>
+                    <div class="admin-time-grid" id="admin-time-switches">
+                        </div>
                 </div>
+
                 <div class="admin-big-btn-group">
-                    <button id="btn-set-holiday" class="admin-big-btn btn-holiday-big" onclick="toggleHoliday()">❌ 設為全日店休</button>
-                    <button id="btn-open-holiday" class="admin-big-btn btn-open-big" onclick="toggleHoliday()">✅ 恢復全日開放</button>
+                    <button class="admin-big-btn btn-holiday-big" id="btn-set-holiday" onclick="toggleHoliday()">❌ 設為全日店休</button>
+                    <button class="admin-big-btn btn-open-big" id="btn-open-holiday" style="display:none;" onclick="toggleHoliday()">✅ 恢復全日開放</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 🔥 V55.0: 確認 URL 正確
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxbVu5bJpMhGEo5EM7bHioSR3YtqJmt07he_WjysJ-czcTic0lUDE6fBbi0FEqNPzPo6w/exec"; 
+        // 🔥 V56.0: 確認 ID 正確 (Po6w)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyKIcC5L3mykmLtOhE-6SaTbj1pKDuPNOfmA2JSH2hEwFSi_5g9-4iLU8JXyz7GjNKEVw/exec"; 
 
         let currentDate = new Date();
         let selectedDate = null;
@@ -577,6 +431,7 @@
             fetchOrders();
         };
 
+        // 🔥 電話自動格式化
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
             if(val.length > 4) val = val.slice(0,4) + '-' + val.slice(4);
@@ -601,6 +456,7 @@
                     return str;
                 };
 
+                // 分類資料
                 allOrders = data.filter(o => o.status !== 'holiday' && o.status !== 'locked').map(o => ({...o, date: normalizeDate(o.date)}));
                 holidays = data.filter(o => o.status === 'holiday').map(o => normalizeDate(o.date));
                 const manualLocks = data.filter(o => o.status === 'locked').map(o => ({...o, date: normalizeDate(o.date)}));
@@ -847,7 +703,6 @@
                 let html = "";
                 dailyOrders.forEach(o => {
                     const lineInfo = o.lineId ? `<br>LINE: ${o.lineId}` : "";
-                    // 🔥 Tweak 1: 按鈕回歸
                     html += `
                     <div class="order-item">
                         <div class="order-time">${o.time}</div>
