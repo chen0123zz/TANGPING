@@ -62,21 +62,34 @@
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; }
         .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; text-align: center; }
         .calendar-day { border: 1px solid #ddd; border-radius: 12px; height: 75px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.2s; }
-        .calendar-day.active { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
-        .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
         
-        /* 🔥 今天樣式修正 (無底色，只有框) */
+        /* 🔥 V57: 日曆狀態樣式優先級 (解決顏色打架問題) */
+        
+        /* 1. 基本選取 (最高優先級，覆蓋店休和今天) */
+        .calendar-day.active { 
+            background-color: var(--brand-color) !important; 
+            color: #fff !important; 
+            border-color: var(--brand-color) !important; 
+        }
+        
+        /* 2. 店休 (紅色) */
+        .calendar-day.holiday { 
+            background-color: #fff0f0; 
+            border: 2px solid #ffcccc; 
+            color: #d63031; 
+            pointer-events: auto; /* 允許點擊 */
+        }
+        .calendar-day.holiday span { color: #d63031; display: block; }
+        
+        /* 3. 今天 (無底色，黃框) */
         .calendar-day.today { 
             border: 2px solid var(--brand-color); 
             font-weight: bold; 
-            background: transparent; 
-            color: var(--text-dark);
+            /* 移除底色和文字顏色設定，讓它繼承或被 holiday 覆蓋 */
         }
-        .calendar-day.today.active { background-color: var(--brand-color) !important; color: #fff !important; }
-
-        /* 🔥 店休樣式 */
-        .calendar-day.holiday { background-color: #fff0f0 !important; border: 2px solid #ffcccc !important; color: #d63031 !important; pointer-events: auto !important; }
-        .calendar-day.holiday span { color: #d63031 !important; display: block; }
+        
+        /* 4. 過去日期 (反灰) */
+        .calendar-day.disabled { background-color: #f9f9f9; color: #ccc; cursor: not-allowed; pointer-events: none; }
 
         .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: 0.2s; }
@@ -90,6 +103,7 @@
         .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .info-icon { font-size: 1.8rem; line-height: 1; }
         .info-card h4 { margin: 0; font-size: 1.2rem; color: #333; }
+        .info-card p { margin: 0; color: #666; font-size: 0.95rem; line-height: 1.6; }
         .qa-grid { display: grid; gap: 30px; margin-top: 40px; grid-template-columns: 1fr 1fr; }
         .qa-card { background: #fff; padding: 30px; border-radius: 20px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; text-align: left; }
         .qa-badge { position: absolute; top: -15px; left: 20px; background-color: #5e4b35; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
@@ -126,6 +140,7 @@
         /* Admin UI */
         #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--admin-bg); z-index: 10000; overflow-y: auto; color: var(--admin-text); }
         .admin-header { background-color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .admin-header h1 { margin: 0; font-size: 1.2rem; color: var(--brand-color); }
         .admin-container { max-width: 600px; margin: 20px auto; padding: 0 15px; padding-bottom: 60px; }
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
@@ -135,6 +150,7 @@
         .admin-tool-btn { background-color: #fff; border: 1px solid #ddd; color: #666; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .admin-tool-btn:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
         .admin-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+        .admin-cal-head { font-size: 0.7rem; color: #888; margin-bottom: 5px; }
         .admin-cal-cell { aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; border: 1px solid #eee; font-size: 0.9rem; cursor: pointer; position: relative; background: #fff; transition: all 0.2s; color: #333; }
         .admin-cal-cell.today { border: 2px solid var(--brand-color); font-weight: bold; }
         .admin-cal-cell.selected { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
@@ -166,7 +182,7 @@
         .time-switch { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 0.85rem; }
         .switch-input { margin-left: 5px; transform: scale(1.2); cursor: pointer; }
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
-        
+
         @media (max-width: 768px) {
             .offer-card-layout { flex-direction: column; }
             .contact-container { display: flex; flex-direction: column; gap: 30px; }
@@ -273,7 +289,7 @@
         <div class="info-grid">
             <div class="info-card"><div class="card-header"><div class="info-icon">🎽</div><h4>穿著建議</h4></div><p>請穿著或攜帶<strong>運動服裝</strong>，女性建議穿著運動內衣，方便伸展與放鬆。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🍱</div><h4>飲食建議</h4></div><p>按摩前可稍微進食，但<strong>切勿飽腹前來</strong>，以免趴臥時造成腹部不適。</p></div>
-            <div class="info-card"><div class="card-header"><div class="info-icon">💪</div><h4>心理準備</h4></div><p>運動按摩不同於一般放鬆，針對沾黏處處理時<strong>偶有痠痛感</strong>，屬正常現象。</p></div>
+            <div class="info-card"><div class="card-header"><div class="info-icon">💪</div><h4>心理準備</h4></div><p>運動按摩不同於一般放鬆，針對沾黏處处理時<strong>偶有痠痛感</strong>，屬正常現象。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🤕</div><h4>主動告知</h4></div><p>若有手術舊疾、懷孕或身體不適部位，請<strong>務必主動告知</strong>師傅。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🕒</div><h4>首次體驗</h4></div><p>建議預約 <strong>90 分鐘方案</strong>，包含完整評估與測試，較能充分感受成效。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🏥</div><h4>醫療聲明</h4></div><p>運動按摩<strong>無法替代醫療行為</strong>，若有急性發炎或嚴重不適，請先就醫。</p></div>
@@ -281,7 +297,7 @@
         <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
         <div class="qa-grid">
             <div class="qa-card"><div class="qa-badge" style="background-color: #d35400;">Question 1</div><h3>跟一般按摩差在哪？</h3><p><strong>A: 目的完全不同！</strong></p><p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p></div>
-            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛(DOMS)」。這是深層按摩後自然的修復過程。</p></div>
+            <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛 (DOMS)」。這是深層按摩後自然的修復過程。</p></div>
             <div class="qa-card"><div class="qa-badge" style="background-color: #5e4b35;">Question 3</div><h3>延遲性肌肉痠痛是什麼原因造成的呢？</h3><p><strong>A: 這是修復的信號！🛠️</strong></p><p>當平時較少使用的肌肉開始運作，或深層按摩刺激後，肌肉會產生細微損傷並進行修復，緩解後會讓肌肉變得更強壯。</p></div>
             <div class="qa-card"><div class="qa-badge" style="background-color: #e67e22;">Question 4</div><h3>該如何緩解痠痛感？</h3><p><strong>A: 這些方法很有用！🛁</strong></p><ul><li>♨️ 熱敷或泡熱水澡，促進循環</li><li>💧 多補充水分，幫助代謝廢物</li><li>🚶‍♂️ 輕微活動 (如散步)</li><li>🛌 充分休息，避免過度疲勞</li></ul></div>
         </div>
@@ -324,7 +340,7 @@
             <p id="booking-info-text" style="color:#666; font-size:0.9rem; margin-bottom:15px; text-align:center;"></p>
             
             <div class="form-group"><label class="form-label">姓名 <span class="required">*</span></label><input type="text" id="booking-name" class="form-input" placeholder="請輸入真實姓名"></div>
-            <div class="form-group"><label class="form-label">聯絡電話 <span class="required">*</span></label><input type="tel" id="booking-phone" class="form-input" placeholder="09xx-xxx-xxx" maxlength="12" oninput="this.value = formatPhone(this.value)"></div>
+            <div class="form-group"><label class="form-label">聯絡電話 <span class="required">*</span></label><input type="tel" id="booking-phone" class="form-input" placeholder="09xx-xxx-xxx" maxlength="15" oninput="this.value = formatPhone(this.value)"></div>
             <div class="form-group"><label class="form-label">LINE ID (選填)</label><input type="text" id="booking-line" class="form-input" placeholder="方便我們聯繫您"></div>
             
             <div class="form-group">
@@ -413,7 +429,7 @@
 
     <script>
         // 🔥 V56.0: 確認 ID 正確 (Po6w)
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyKIcC5L3mykmLtOhE-6SaTbj1pKDuPNOfmA2JSH2hEwFSi_5g9-4iLU8JXyz7GjNKEVw/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxbVu5bJpMhGEo5EM7bHioSR3YtqJmt07he_WjysJ-czcTic0lUDE6fBbi0FEqNPzPo6w/exec"; 
 
         let currentDate = new Date();
         let selectedDate = null;
@@ -421,6 +437,7 @@
         let allOrders = []; 
         let holidays = [];
         let lockedSlots = [];
+        
         const timeSlots = ['10:00', '12:00', '14:00', '15:40', '17:10', '19:30', '21:10'];
         const dayNames = ['日', '一', '二', '三', '四', '五', '六'];
 
@@ -431,7 +448,7 @@
             fetchOrders();
         };
 
-        // 🔥 電話自動格式化
+        // 🔥 電話自動格式化 (放寬輸入限制)
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
             if(val.length > 4) val = val.slice(0,4) + '-' + val.slice(4);
@@ -544,6 +561,7 @@
                     cell.classList.add('holiday');
                     if(isAdmin) { cell.innerHTML = `${i}<br><span style="font-size:0.6rem;">店休</span>`; } 
                     else { 
+                        // 🔥 V57: 店休可點擊
                         cell.classList.remove('disabled'); 
                         cell.style.pointerEvents = "auto";
                         cell.innerHTML = `${i}<br><span>店休</span>`; 
