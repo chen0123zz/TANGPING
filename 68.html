@@ -18,7 +18,7 @@
     
     <style>
         /* ========================================= */
-        /* 🎨 V25 原始樣式 (完整保留)                */
+        /* 🎨 基礎樣式 (保留 V25)                    */
         /* ========================================= */
         :root {
             --brand-color: #efb748;
@@ -32,15 +32,14 @@
         body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
         section, .content-section { scroll-margin-top: 100px; }
 
-        /* --- ✨修改點：局部 Loading 遮罩樣式 (回到局部) --- */
+        /* --- 局部 Loading 遮罩 --- */
         .local-loading-overlay {
-            /* 關鍵：用 absolute 讓它只遮住父容器 */
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(255, 255, 255, 0.9); 
             z-index: 50;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.3s;
-            border-radius: 15px; /* 跟卡片一樣的圓角 */
+            border-radius: 15px; 
             display: none; 
         }
         .spinner {
@@ -50,7 +49,7 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
-        /* --- 1. 導覽列 --- */
+        /* --- 導覽列 --- */
         header {
             background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: sticky; top: 0; z-index: 1000; display: block; transition: transform 0.3s ease;
@@ -65,7 +64,7 @@
         }
         .nav-menu a:hover { color: var(--brand-color); }
 
-        /* --- 2. 通用區塊 --- */
+        /* --- 通用區塊 --- */
         .content-section { padding: 40px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
         .section-title { color: var(--brand-color); font-size: 2rem; margin-bottom: 10px; }
         .section-desc { color: #666; margin-bottom: 40px; }
@@ -76,7 +75,7 @@
         }
         .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
-        /* --- 3. 最新優惠 --- */
+        /* --- 最新優惠 --- */
         .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
         .offer-card-layout {
             background: #fff; border-radius: 20px; overflow: hidden;
@@ -93,7 +92,7 @@
         .offer-list li { margin-bottom: 8px; }
         .price-highlight { display: flex; gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--brand-color); }
 
-        /* --- 4. 關於運動按摩 --- */
+        /* --- 關於運動按摩 --- */
         .swiper { width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; padding-top: 20px; }
         .swiper-slide { background-position: center; background-size: cover; width: auto; height: auto; }
         .slide-img { display: block; width: 100%; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -106,7 +105,7 @@
         .my-prev-btn { left: 10px; } .my-next-btn { right: 10px; }
         .my-prev-btn::after, .my-next-btn::after { font-size: 1.2rem; font-weight: bold; }
 
-        /* --- 5. 價目表 --- */
+        /* --- 價目表 --- */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: left; }
         .service-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
         .service-card:hover { transform: translateY(-5px); }
@@ -114,12 +113,11 @@
         .card-body h3 { margin: 0 0 10px 0; color: #333; }
         .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
 
-        /* --- 6. 預約日曆 (電腦版) --- */
+        /* --- 預約日曆 (電腦版) --- */
         .booking-container { 
             background: #fff; padding: 30px; border-radius: 15px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; 
             margin: 0 auto; text-align: left; 
-            /* 關鍵：要讓 absolute 的遮罩定位在裡面，父容器要是 relative */
             position: relative; 
             min-height: 400px; 
         }
@@ -165,7 +163,7 @@
         .qa-badge { position: absolute; top: -15px; left: 20px; background-color: #5e4b35; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .qa-card h3 { margin-top: 10px; color: #333; font-size: 1.3rem; }
 
-        /* --- 8. 聯絡我們 (電腦版：左右並排) --- */
+        /* --- 8. 聯絡我們 --- */
         .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; width: 100%; }
         .contact-info, .map-box { width: 100%; }
         .contact-info { text-align: left; }
@@ -175,21 +173,13 @@
         .contact-item { font-size: 1.1rem; margin: 15px 0; line-height: 1.6; }
         .contact-item strong { display: inline; margin-right: 5px; color: #efb748; font-size: 1rem; }
         .contact-item span, .contact-item a { display: inline; }
-        
-        /* 社交帳號 (電腦版：橫排) */
         .social-row { display: block; }
         .social-row .contact-item { margin-bottom: 10px; margin-top: 0; display: inline-block; margin-right: 20px; }
         .social-row strong { color: #efb748; }
-
-        /* 時間表標題換行 */
         .time-item strong { display: block; margin-bottom: 5px; }
-        /* 電腦版時間不換行 */
         .time-list-desktop { white-space: nowrap !important; display: block !important; }
-        /* 電腦版按鈕區 */
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
         .contact-info .btn-main { width: auto; }
-        
-        /* 隱藏換行 */
         .mobile-break { display: none; }
         .mobile-break::after { content: " | "; display: inline; }
 
@@ -197,12 +187,11 @@
         .floating-btn-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 999; transition: opacity 0.5s ease; }
         .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
         .float-btn:hover { background-color: #333; transform: scale(1.1); }
-        /* V68: 鎖頭按鈕樣式 */
         .admin-float-btn { background-color: #333; font-size: 1rem; margin-top: 5px; }
         footer { text-align: center; padding: 5px 5px; background-color: transparent; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
         /* ============================================= */
-        /* 🚀 彈窗 & 後台 & IG班表樣式 (Append)          */
+        /* 🚀 彈窗 & 後台 & IG班表樣式                  */
         /* ============================================= */
         #booking-modal-overlay, #admin-login-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -242,7 +231,6 @@
         .dash-num { font-size: 1.8rem; font-weight: bold; color: #333; margin: 5px 0; }
         .dash-label { font-size: 0.8rem; color: #888; }
         
-        /* ✨ 後台卡片容器，加了 relative 才能讓遮罩定位在裡面 */
         .admin-card { position: relative; background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         
         .admin-month-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -296,13 +284,12 @@
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
 
         /* ========================================= */
-        /* 🔥 IG 限動班表 - V79 垂直置中修正版        */
+        /* 🔥 IG 限動班表 - V84 終極簡化版 (HTML img) */
         /* ========================================= */
         #ig-story-container {
             width: 1080px; height: 1920px;
-            background-image: url('images/schedule_bg_clean.png'); 
-            background-size: cover;
-            background-position: center;
+            /* ❌ 移除 CSS 背景圖，改用 HTML <img> */
+            background-color: transparent; 
             position: fixed; left: -9999px; top: 0; z-index: -1;
             
             display: flex; 
@@ -313,6 +300,15 @@
             
             font-family: 'Noto Sans TC', sans-serif;
             box-sizing: border-box;
+        }
+
+        /* 這是背景圖的樣式，讓它乖乖待在最底層 */
+        #ig-bg-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -1; /* 放在所有文字後面 */
         }
 
         /* --- 標題區域 --- */
@@ -583,6 +579,8 @@
     </div>
 
     <div id="ig-story-container">
+        <img id="ig-bg-layer" src="images/schedule_bg_clean.png" alt="Background">
+        
         <div class="ig-header-group">
             <h1 class="ig-month-en" id="ig-month-en">DECEMBER</h1>
             <div class="ig-year-sub" id="ig-year-sub">2025 / 12</div>
@@ -1268,7 +1266,7 @@
             window.open(url, '_blank');
         }
 
-       // ✨ 產生 IG 限動班表的功能 (V83 手機修復版)
+        // ✨ 產生 IG 限動班表的功能 (V84 終極簡化版 - 直接顯示在螢幕上)
         function generateScheduleImage() {
             // 顯示遮罩
             const adminLoader = document.getElementById('admin-loading-overlay');
@@ -1317,68 +1315,73 @@
                 container.innerHTML += html;
             }
 
-            // 2. 拍照並處理
-            // 給瀏覽器一點時間渲染 DOM，避免畫面空白
+            // 2. 拍照並直接顯示 (暴力破解手機限制)
             setTimeout(() => {
                 const captureArea = document.getElementById("ig-story-container");
                 
-                // 設定 options
-                const options = {
-                    scale: 1, // 維持 1:1，避免手機記憶體爆掉
-                    useCORS: true, // 允許跨域圖片 (雖然是本地圖，但加著保險)
-                    backgroundColor: null // 背景透明
-                    // ❌ 關鍵修正：這裡絕對不能加 allowTaint: true，手機會擋！
-                };
-
-                html2canvas(captureArea, options).then(canvas => {
-                    // 嘗試轉換成圖片
-                    try {
-                        const imgData = canvas.toDataURL("image/png");
-                        const filename = `TangPing_Schedule_${y}_${String(m + 1).padStart(2, '0')}.png`;
-
-                        // 判斷是否為手機 (螢幕寬度小於 768px)
-                        const isMobile = window.innerWidth < 768;
-
-                        if (isMobile) {
-                            // 📱 手機版：跳出 SweetAlert 視窗讓用戶長按
-                            Swal.fire({
-                                title: '✅ 圖片製作成功！',
-                                html: '<p style="font-size:0.9rem; color:#666;">請 <strong style="color:#efb748;">長按下方圖片</strong> <br>並選擇「加入照片」或「儲存圖片」</p>',
-                                imageUrl: imgData,
-                                imageWidth: 'auto', // 自動寬度
-                                imageHeight: '60vh', // 限制高度，避免圖片太長按不到關閉
-                                imageAlt: 'IG Schedule',
-                                showConfirmButton: true,
-                                confirmButtonText: '關閉視窗',
-                                confirmButtonColor: '#333',
-                                allowOutsideClick: false,
-                                backdrop: `rgba(0,0,0,0.8)` // 背景暗一點，突顯圖片
-                            });
-                        } else {
-                            // 💻 電腦版：直接自動下載
-                            const link = document.createElement('a');
-                            link.download = filename;
-                            link.href = imgData;
-                            link.click();
-                            showToast("✅ 排班圖片已下載！");
-                        }
-                    } catch (err) {
-                        // 這裡會抓出手機為什麼擋住
-                        alert("圖片轉檔失敗，可能是瀏覽器安全性限制。\n錯誤訊息：" + err);
-                    }
-
+                html2canvas(captureArea, { scale: 1, backgroundColor: null }).then(canvas => {
                     // 隱藏 Loading
                     if(adminLoader) {
                         adminLoader.style.display = 'none';
-                        adminLoader.querySelector('.loading-text').innerText = "資料讀取中..."; // 改回預設文字
+                        adminLoader.querySelector('.loading-text').innerText = "資料讀取中..."; 
                     }
 
+                    // 創建一個全螢幕的黑色覆蓋層
+                    const overlay = document.createElement('div');
+                    overlay.style.position = 'fixed';
+                    overlay.style.top = '0';
+                    overlay.style.left = '0';
+                    overlay.style.width = '100%';
+                    overlay.style.height = '100%';
+                    overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                    overlay.style.zIndex = '99999';
+                    overlay.style.display = 'flex';
+                    overlay.style.flexDirection = 'column';
+                    overlay.style.alignItems = 'center';
+                    overlay.style.justifyContent = 'center';
+                    overlay.style.overflow = 'auto'; // 允許捲動
+
+                    // 提示文字
+                    const tip = document.createElement('p');
+                    tip.innerText = "請長按圖片 -> 儲存圖片";
+                    tip.style.color = "#fff";
+                    tip.style.marginBottom = "10px";
+                    tip.style.fontSize = "1.2rem";
+                    tip.style.fontWeight = "bold";
+
+                    // 圖片
+                    const img = document.createElement('img');
+                    img.src = canvas.toDataURL("image/png");
+                    img.style.maxWidth = "90%";
+                    img.style.maxHeight = "80vh";
+                    img.style.borderRadius = "10px";
+                    img.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
+
+                    // 關閉按鈕
+                    const closeBtn = document.createElement('button');
+                    closeBtn.innerText = "關閉";
+                    closeBtn.style.marginTop = "20px";
+                    closeBtn.style.padding = "10px 30px";
+                    closeBtn.style.fontSize = "1.2rem";
+                    closeBtn.style.backgroundColor = "#efb748";
+                    closeBtn.style.border = "none";
+                    closeBtn.style.borderRadius = "30px";
+                    closeBtn.style.color = "#fff";
+                    closeBtn.style.fontWeight = "bold";
+                    closeBtn.onclick = function() { document.body.removeChild(overlay); };
+
+                    // 組裝
+                    overlay.appendChild(tip);
+                    overlay.appendChild(img);
+                    overlay.appendChild(closeBtn);
+                    document.body.appendChild(overlay);
+
                 }).catch(err => {
-                    console.error("html2canvas error:", err);
-                    alert("截圖功能發生錯誤：" + err);
+                    console.error(err);
+                    alert("圖片生成失敗：" + err);
                     if(adminLoader) adminLoader.style.display = 'none';
                 });
-            }, 800); 
+            }, 500); 
         }
     </script>
 </body>
