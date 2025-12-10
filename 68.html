@@ -1268,8 +1268,7 @@
             window.open(url, '_blank');
         }
 
-        // ✨ 產生 IG 限動班表的功能 (V80 手機優化版)
-        // ✨ 產生 IG 限動班表的功能 (V83 手機修復版)
+       // ✨ 產生 IG 限動班表的功能 (V83 手機修復版)
         function generateScheduleImage() {
             // 顯示遮罩
             const adminLoader = document.getElementById('admin-loading-overlay');
@@ -1328,7 +1327,7 @@
                     scale: 1, // 維持 1:1，避免手機記憶體爆掉
                     useCORS: true, // 允許跨域圖片 (雖然是本地圖，但加著保險)
                     backgroundColor: null // 背景透明
-                    // ⚠️ 關鍵修正：這裡絕對不能加 allowTaint: true
+                    // ❌ 關鍵修正：這裡絕對不能加 allowTaint: true，手機會擋！
                 };
 
                 html2canvas(captureArea, options).then(canvas => {
@@ -1361,9 +1360,10 @@
                             link.download = filename;
                             link.href = imgData;
                             link.click();
-                            showToast("✅ 美圖已下載！");
+                            showToast("✅ 排班圖片已下載！");
                         }
                     } catch (err) {
+                        // 這裡會抓出手機為什麼擋住
                         alert("圖片轉檔失敗，可能是瀏覽器安全性限制。\n錯誤訊息：" + err);
                     }
 
