@@ -32,13 +32,15 @@
         body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
         section, .content-section { scroll-margin-top: 100px; }
 
-        /* --- Loading 局部遮罩樣式 --- */
-        #loading-overlay {
+        /* --- ✨修改點：局部 Loading 遮罩樣式 (回到局部) --- */
+        .local-loading-overlay {
+            /* 關鍵：用 absolute 讓它只遮住父容器 */
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.9); z-index: 50;
+            background: rgba(255, 255, 255, 0.9); 
+            z-index: 50;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.3s;
-            border-radius: 15px;
+            border-radius: 15px; /* 跟卡片一樣的圓角 */
             display: none; 
         }
         .spinner {
@@ -117,6 +119,7 @@
             background: #fff; padding: 30px; border-radius: 15px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; 
             margin: 0 auto; text-align: left; 
+            /* 關鍵：要讓 absolute 的遮罩定位在裡面，父容器要是 relative */
             position: relative; 
             min-height: 400px; 
         }
@@ -238,7 +241,10 @@
         .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .dash-num { font-size: 1.8rem; font-weight: bold; color: #333; margin: 5px 0; }
         .dash-label { font-size: 0.8rem; color: #888; }
-        .admin-card { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        
+        /* ✨ 後台卡片容器，加了 relative 才能讓遮罩定位在裡面 */
+        .admin-card { position: relative; background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        
         .admin-month-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .admin-month-title { font-size: 1.2rem; font-weight: bold; color: #333; }
         .admin-toolbar { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
@@ -312,9 +318,7 @@
         /* --- 標題區域 --- */
         .ig-header-group {
             text-align: center;
-            /* ✨修正1：把整張表往上拉！ */
-            /* 原本 270px -> 改成 240px，解決第一排太低的問題 */
-            margin-bottom: 225px; 
+            margin-bottom: 240px; 
         }
 
         .ig-month-en {
@@ -333,7 +337,6 @@
             font-size: 45px;
             color: #333;
             letter-spacing: 8px;
-            /* 標題行距維持 40px，覺得不錯 */
             margin-top: 40px; 
             font-weight: 400;
         }
@@ -342,41 +345,33 @@
         .ig-grid-container {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            width: 840px; 
+            width: 915px; 
             border: none; 
-            padding-left: 5px; 
+            padding-left: 8px; 
         }
         
         .ig-cell-head { display: none; } 
 
         .ig-cell-body {
-            /* ✨修正2：調整格子高度，避免越下面跑越歪 */
-            /* 原本 155px -> 改成 145px，配合底圖格線 */
-            height: 165px; 
-            
+            height: 145px; 
             border: none; 
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            
-            /* ✨修正3：減少頂部填充，讓數字往上浮 (垂直置中) */
-            /* 原本 35px -> 改成 15px */
             padding-top: 15px; 
-            
-            /* border: 1px solid rgba(255,0,0,0.3); /* 🧰 除錯用 */
         }
 
         .ig-date-num {
             font-family: 'Lato', sans-serif;
-            font-size: 40px;
+            font-size: 45px;
             font-weight: 400; 
             color: #333;
         }
 
         /* 休假小圓圈 */
         .ig-holiday-circle {
-            margin-top: 10px; 
+            margin-top: 5px; 
             width: 52px; height: 52px;
             background-color: #f3d0d3; 
             color: #c0392b; 
@@ -388,6 +383,7 @@
         }
         
         .ig-footer, .ig-handle, .ig-logo-box { display: none; }
+
         /* ============================================= */
         /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
         /* ============================================= */
@@ -514,8 +510,7 @@
         <h2 class="section-title">線上預約</h2>
         
         <div class="booking-container">
-            
-            <div id="loading-overlay">
+            <div id="front-loading-overlay" class="local-loading-overlay">
                 <div class="spinner"></div>
                 <div class="loading-text">TANG PING 載入中...</div>
             </div>
@@ -647,6 +642,11 @@
             <button class="admin-tool-btn" style="width:100%; margin-bottom:20px; background-color:#d35400; color:#fff; border:none; padding:12px; font-weight:bold; font-size:1rem;" onclick="generateScheduleImage()">📸 一鍵生成本月 IG 限動班表</button>
 
             <div class="admin-card">
+                <div id="admin-loading-overlay" class="local-loading-overlay">
+                    <div class="spinner"></div>
+                    <div class="loading-text">資料讀取中...</div>
+                </div>
+
                 <div class="admin-month-header">
                     <button class="month-btn" onclick="prevMonth()">❮</button>
                     <div class="month-title-group">
@@ -722,8 +722,12 @@
         }
 
         function fetchOrders() {
-            const loader = document.getElementById('loading-overlay');
-            if(loader) loader.style.display = 'flex';
+            // ✨✨✨ 顯示前台和後台的局部遮罩 ✨✨✨
+            const frontLoader = document.getElementById('front-loading-overlay');
+            const adminLoader = document.getElementById('admin-loading-overlay');
+            
+            if(frontLoader) frontLoader.style.display = 'flex';
+            if(adminLoader) adminLoader.style.display = 'flex';
 
             fetch(SCRIPT_URL)
             .then(res => res.json())
@@ -767,20 +771,27 @@
                         }
                     }
 
-                    if(loader) {
-                        loader.style.opacity = '0';
-                        setTimeout(() => { loader.style.display = 'none'; }, 300);
+                    // ✨✨✨ 隱藏前台和後台的局部遮罩 ✨✨✨
+                    if(frontLoader) {
+                        frontLoader.style.opacity = '0';
+                        setTimeout(() => { frontLoader.style.display = 'none'; frontLoader.style.opacity = '1'; }, 300);
+                    }
+                    if(adminLoader) {
+                        adminLoader.style.opacity = '0';
+                        setTimeout(() => { adminLoader.style.display = 'none'; adminLoader.style.opacity = '1'; }, 300);
                     }
 
                 } catch(e) {
                     console.error("資料處理錯誤", e);
-                    if(loader) loader.style.display = 'none';
+                    if(frontLoader) frontLoader.style.display = 'none';
+                    if(adminLoader) adminLoader.style.display = 'none';
                 }
             })
             .catch(err => {
                 console.error("資料讀取失敗", err);
                 updateCalendars(); 
-                if(loader) loader.style.display = 'none';
+                if(frontLoader) frontLoader.style.display = 'none';
+                if(adminLoader) adminLoader.style.display = 'none';
                 
                 Swal.fire({
                     icon: 'error',
@@ -872,7 +883,8 @@
                 if(isAdmin && hasOrder) {
                     cell.innerHTML += `<div class="dot active"></div>`;
                     const dailyOrders = allOrders.filter(o => o.date === dateStr);
-                    dailyOrders.forEach(o => { cell.innerHTML += `<div class="event-text">${o.time} ${o.name}</div>`; });
+                    // ✨✨✨ 關鍵修改：後台詳細模式只顯示「時間」，不顯示「名字」 ✨✨✨
+                    dailyOrders.forEach(o => { cell.innerHTML += `<div class="event-text">${o.time}</div>`; });
                 }
 
                 if(isAdmin) { cell.onclick = function() { showAdminDetail(i, this); }; } 
@@ -1256,7 +1268,7 @@
             window.open(url, '_blank');
         }
 
-        // ✨ 產生 IG 限動班表的功能 (V75 精緻底圖版)
+        // ✨ 產生 IG 限動班表的功能 (V80 手機優化版)
         function generateScheduleImage() {
             showToast("📸 正在合成 IG 限動...");
 
@@ -1264,39 +1276,33 @@
             const m = currentDate.getMonth(); 
             const y = currentDate.getFullYear();
             
-            // 英文月份表
             const monthNamesEn = [
                 "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
                 "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
             ];
 
-            // ✨ 自動填入標題 (疊加在底圖上方)
+            // 填入標題
             document.getElementById('ig-month-en').innerText = monthNamesEn[m];
-            // 年份/月份補零
             document.getElementById('ig-year-sub').innerText = `${y} / ${String(m + 1).padStart(2, '0')}`;
 
-            // --- 以下是填寫格子的邏輯 ---
+            // --- 填寫格子邏輯 ---
             const container = document.getElementById('ig-new-grid');
             container.innerHTML = ""; 
 
             const firstDay = new Date(y, m, 1).getDay();
             const daysInMonth = new Date(y, m + 1, 0).getDate();
-            // 調整起始位置 (週日=0 -> 轉成 6, 週一=1 -> 轉成 0)
             let startSlot = (firstDay === 0) ? 6 : firstDay - 1;
 
-            // 填補前面的空白格
             for (let i = 0; i < startSlot; i++) {
                 container.innerHTML += `<div class="ig-cell-body"></div>`;
             }
 
-            // 填入日期與休假
             for (let i = 1; i <= daysInMonth; i++) {
                 const dateStr = `${m + 1}/${i}`;
                 const isHoliday = holidays.includes(dateStr);
                 
                 let html = `<div class="ig-cell-body">`;
                 html += `<span class="ig-date-num">${i}</span>`;
-                // 如果是假日，加入粉紅圓圈
                 if (isHoliday) {
                     html += `<div class="ig-holiday-circle">休</div>`;
                 }
@@ -1304,23 +1310,45 @@
                 container.innerHTML += html;
             }
 
-            // 3. 拍照下載
-            // 稍微延遲確保圖片載入與渲染完成
+            // 3. 拍照並處理 (手機/電腦分流)
             setTimeout(() => {
                 const captureArea = document.getElementById("ig-story-container");
                 html2canvas(captureArea, { 
-                    scale: 1, // 解析度已經是 1080p，不用縮放
+                    scale: 1, 
                     useCORS: true,
-                    allowTaint: true // 允許讀取背景圖片
+                    allowTaint: true 
                 }).then(canvas => {
-                    const link = document.createElement('a');
-                    // 下載的檔名範例: TangPing_Schedule_2025_12.png
-                    link.download = `TangPing_Schedule_${y}_${String(m + 1).padStart(2, '0')}.png`;
-                    link.href = canvas.toDataURL("image/png");
-                    link.click();
-                    showToast("✅ 美圖已下載！");
+                    // 取得圖片的資料代碼
+                    const imgData = canvas.toDataURL("image/png");
+                    const filename = `TangPing_Schedule_${y}_${String(m + 1).padStart(2, '0')}.png`;
+
+                    // 判斷是否為手機 (螢幕寬度小於 768px)
+                    const isMobile = window.innerWidth < 768;
+
+                    if (isMobile) {
+                        // 📱 手機版：跳出 SweetAlert 視窗讓用戶長按
+                        Swal.fire({
+                            title: '✅ 班表生成成功！',
+                            html: '<p style="font-size:0.9rem; color:#666;">請 <strong style="color:#efb748;">長按下方圖片</strong> <br>並選擇「加入照片」或「儲存圖片」</p>',
+                            imageUrl: imgData,
+                            imageWidth: '100%', // 讓圖片適應手機寬度
+                            imageAlt: 'IG Schedule',
+                            showConfirmButton: true,
+                            confirmButtonText: '關閉',
+                            confirmButtonColor: '#333',
+                            // 點擊背景不關閉，避免誤觸
+                            allowOutsideClick: false
+                        });
+                    } else {
+                        // 💻 電腦版：直接自動下載
+                        const link = document.createElement('a');
+                        link.download = filename;
+                        link.href = imgData;
+                        link.click();
+                        showToast("✅ 美圖已下載！");
+                    }
                 });
-            }, 800); // 給它 0.8 秒的時間準備
+            }, 800); 
         }
     </script>
 </body>
