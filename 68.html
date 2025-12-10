@@ -289,126 +289,101 @@
         .switch-input { margin-left: 5px; transform: scale(1.2); cursor: pointer; }
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
 
-        /* 🔥 IG 限動班表樣式 (V25.1 清新卡片風) */
+        /* ========================================= */
+        /* 🔥 IG 限動班表 - 精緻底圖疊加版 (V75)      */
+        /* ========================================= */
         #ig-story-container {
             width: 1080px; height: 1920px;
-            background-color: #f4f4f4; /* 淺灰底色 */
+            /* 使用妳提供的精緻底圖 */
+            background-image: url('images/schedule_bg_clean.png'); 
+            background-size: cover;
+            background-position: center;
             position: fixed; left: -9999px; top: 0; z-index: -1;
-            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            /* 📌微調點1：控制標題距離頂部的距離 */
+            padding-top: 170px; 
+            
             font-family: 'Noto Sans TC', sans-serif;
             box-sizing: border-box;
-            border: 40px solid #efb748; /* 四周黃色粗框 */
-            padding-top: 150px; /* 上方留白 */
         }
 
-        /* 1. 標題區 */
-        .ig-header-group { text-align: center; margin-bottom: 60px; }
+        /* --- 1. 標題設計 (疊加在底圖上方空白處) --- */
+        .ig-header-group {
+            text-align: center;
+            /* 📌微調點2：控制標題與下方表格的間距 */
+            margin-bottom: 95px; 
+        }
+
         .ig-month-en {
-            font-family: 'Lato', sans-serif;
-            font-size: 130px;
-            font-weight: 400; /* 細一點比較有質感 */
-            letter-spacing: 15px;
+            font-family: 'Lato', sans-serif; /* 使用乾淨的英文字體 */
+            font-size: 110px; 
+            font-weight: 400; 
             color: #000;
             margin: 0;
-            line-height: 1.2;
+            line-height: 1;
+            letter-spacing: 25px; /* 字距拉開增加質感 */
             text-transform: uppercase;
         }
+
         .ig-year-sub {
-            font-size: 50px;
-            color: #333;
-            letter-spacing: 5px;
-            margin-top: 10px;
             font-family: 'Lato', sans-serif;
+            font-size: 45px;
+            color: #333;
+            letter-spacing: 10px;
+            margin-top: 25px;
+            font-weight: 400;
         }
 
-        /* 2. 日曆卡片區 */
-        .ig-card-box {
-            background-color: #fff;
-            width: 900px;
-            padding: 50px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-            margin-bottom: auto; /* 把下方空間推開 */
-        }
-
+        /* --- 2. 格子與數字 (透明疊加) --- */
         .ig-grid-container {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            border-top: 2px solid #333;
-            border-left: 2px solid #333;
+            /* 📌微調點3：這裡的寬度要跟底圖畫的表格寬度一致 */
+            width: 875px; 
+            border: none; /* 隱藏程式碼的邊框 */
         }
-
-        .ig-cell-head {
-            font-size: 30px;
-            font-weight: bold;
-            color: #555;
-            text-align: center;
-            padding: 20px 0;
-            border-right: 2px solid #333;
-            border-bottom: 2px solid #333;
-            background-color: #fff;
-        }
+        
+        /* 星期幾已經畫在底圖上了，所以隱藏 */
+        .ig-cell-head { display: none; } 
 
         .ig-cell-body {
-            height: 140px; /* 格子高度 */
-            border-right: 2px solid #333;
-            border-bottom: 2px solid #333;
+            /* 📌微調點4：這裡的高度要跟底圖畫的格子高度一致 */
+            height: 130px; 
+            border: none; /* 隱藏格線 */
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 15px;
+            /* 數字距離格子頂部的距離 */
+            padding-top: 20px; 
+            /* border: 1px solid red; /* 除錯用：打開可以看到程式碼格子的實際位置 */
         }
 
         .ig-date-num {
-            font-size: 45px;
-            font-weight: 500;
-            color: #333;
             font-family: 'Lato', sans-serif;
+            font-size: 45px;
+            font-weight: 600;
+            color: #333;
         }
 
-        /* 休假小圓圈 */
+        /* 休假小圓圈 (仿照妳的設計圖) */
         .ig-holiday-circle {
-            margin-top: 10px;
+            margin-top: 10px; /* 與數字的距離 */
             width: 55px; height: 55px;
-            background-color: #f8d7da; /* 淺粉紅底 */
-            color: #d63031; /* 深紅字 */
+            background-color: #f3d0d3; /* 圖片中的淺粉色 */
+            color: #c0392b; /* 深紅色字 */
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             font-size: 30px;
             font-weight: bold;
-        }
-
-        /* 3. 底部 Footer */
-        .ig-footer-row {
-            width: 100%;
-            padding: 0 100px 100px 100px; /* 左右內縮，下方留白 */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .ig-footer-left img { height: 100px; width: auto; } /* LOGO */
-
-        .ig-footer-right {
-            text-align: right;
-            display: flex; flex-direction: column; gap: 15px;
+            font-family: 'Noto Sans TC', sans-serif;
         }
         
-        .ig-info-text {
-            font-size: 32px;
-            color: #333;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .ig-social-item {
-            display: flex; align-items: center; justify-content: flex-end; gap: 15px;
-            font-size: 30px; color: #333; font-weight: 600; font-family: 'Lato', sans-serif;
-        }
-        .social-icon-box {
-            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-        }
+        /* 底部的 Logo 和資訊都已經在底圖上了，所以 CSS 不用寫 */
+        .ig-footer, .ig-handle, .ig-logo-box { display: none; }
 
         /* ============================================= */
         /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
@@ -613,6 +588,11 @@
         <div class="ig-header-group">
             <h1 class="ig-month-en" id="ig-month-en">DECEMBER</h1>
             <div class="ig-year-sub" id="ig-year-sub">2025 / 12</div>
+        </div>
+
+        <div class="ig-grid-container" id="ig-new-grid">
+            </div>
+        
         </div>
 
         <div class="ig-card-box">
@@ -1296,35 +1276,29 @@
             window.open(url, '_blank');
         }
 
-// ✨ 產生 IG 限動班表的功能 (V25.1 卡片風)
+// ✨ 產生 IG 限動班表的功能 (V75 精緻底圖版)
         function generateScheduleImage() {
-            showToast("📸 正在生成 IG 限動班表...");
+            showToast("📸 正在合成 IG 限動...");
 
             // 1. 準備資料
             const m = currentDate.getMonth(); 
             const y = currentDate.getFullYear();
             
-            // 英文月份對照表
+            // 英文月份表
             const monthNamesEn = [
                 "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
                 "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
             ];
-            
-            // 設定標題
+
+            // ✨ 自動填入標題 (疊加在底圖上方)
             document.getElementById('ig-month-en').innerText = monthNamesEn[m];
-            document.getElementById('ig-year-sub').innerText = `${y} / ${m + 1}`;
+            // 年份/月份補零
+            document.getElementById('ig-year-sub').innerText = `${y} / ${String(m + 1).padStart(2, '0')}`;
 
-            // 2. 渲染 IG 格子
+            // --- 以下是填寫格子的邏輯 ---
             const container = document.getElementById('ig-new-grid');
-            container.innerHTML = ""; // 清空
+            container.innerHTML = ""; 
 
-            // 標頭 (MON - SUN)
-            const headers = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-            headers.forEach(d => {
-                container.innerHTML += `<div class="ig-cell-head">${d}</div>`;
-            });
-
-            // 計算日期
             const firstDay = new Date(y, m, 1).getDay();
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             // 調整起始位置 (週日=0 -> 轉成 6, 週一=1 -> 轉成 0)
@@ -1332,50 +1306,41 @@
 
             // 填補前面的空白格
             for (let i = 0; i < startSlot; i++) {
-                container.innerHTML += `<div class="ig-cell-body" style="background:#fafafa;"></div>`;
+                container.innerHTML += `<div class="ig-cell-body"></div>`;
             }
 
-            // 填入日期
+            // 填入日期與休假
             for (let i = 1; i <= daysInMonth; i++) {
                 const dateStr = `${m + 1}/${i}`;
                 const isHoliday = holidays.includes(dateStr);
                 
                 let html = `<div class="ig-cell-body">`;
                 html += `<span class="ig-date-num">${i}</span>`;
-                
                 // 如果是假日，加入粉紅圓圈
                 if (isHoliday) {
                     html += `<div class="ig-holiday-circle">休</div>`;
                 }
-                
                 html += `</div>`;
                 container.innerHTML += html;
             }
 
-            // 填補後面的空白格 (讓格線完整)
-            const totalCells = startSlot + daysInMonth;
-            const remaining = 7 - (totalCells % 7);
-            if (remaining < 7) {
-                 for (let i = 0; i < remaining; i++) {
-                    container.innerHTML += `<div class="ig-cell-body" style="background:#fafafa;"></div>`;
-                }
-            }
-
             // 3. 拍照下載
-            // 稍微延遲一下確保渲染完成
+            // 稍微延遲確保圖片載入與渲染完成
             setTimeout(() => {
                 const captureArea = document.getElementById("ig-story-container");
                 html2canvas(captureArea, { 
-                    scale: 1, // 因為已經是 1080px 了，不用放大
-                    useCORS: true // 確保圖片跨域問題
+                    scale: 1, // 解析度已經是 1080p，不用縮放
+                    useCORS: true,
+                    allowTaint: true // 允許讀取背景圖片
                 }).then(canvas => {
                     const link = document.createElement('a');
-                    link.download = `TangPing_Schedule_${y}_${m + 1}.png`;
+                    // 下載的檔名範例: TangPing_Schedule_2025_12.png
+                    link.download = `TangPing_Schedule_${y}_${String(m + 1).padStart(2, '0')}.png`;
                     link.href = canvas.toDataURL("image/png");
                     link.click();
-                    showToast("✅ 圖片已下載！");
+                    showToast("✅ 美圖已下載！");
                 });
-            }, 100);
+            }, 800); // 給它 0.8 秒的時間準備
         }
     </script>
 </body>
