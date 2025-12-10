@@ -290,7 +290,7 @@
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
 
 /* ========================================= */
-        /* 🔥 IG 限動班表 - V77 細字精準對位版        */
+        /* 🔥 IG 限動班表 - V78 完美置中與行距版      */
         /* ========================================= */
         #ig-story-container {
             width: 1080px; height: 1920px;
@@ -303,7 +303,6 @@
             flex-direction: column; 
             align-items: center;
             
-            /* 標題起始位置 */
             padding-top: 160px; 
             
             font-family: 'Noto Sans TC', sans-serif;
@@ -313,15 +312,15 @@
         /* --- 標題區域 --- */
         .ig-header-group {
             text-align: center;
-            /* ✨修正重點 1：大幅增加這裡的距離 */
-            /* 原本 250px -> 改成 275px，把下面的數字表格用力往下推，避開頂部格線 */
-            margin-bottom: 275px; 
+            /* 配合新的格子高度，稍微把整體往上拉一點點，避免第一排掉太下面 */
+            /* 原本 275px -> 微調成 270px */
+            margin-bottom: 270px; 
         }
 
         .ig-month-en {
             font-family: 'Lato', sans-serif; 
             font-size: 110px; 
-            font-weight: 400; /* 標題維持原本粗細 */
+            font-weight: 400; 
             color: #000;
             margin: 0;
             line-height: 1;
@@ -334,7 +333,11 @@
             font-size: 45px;
             color: #333;
             letter-spacing: 8px;
-            margin-top: 20px;
+            
+            /* ✨修正重點 1：加大標題行距 */
+            /* 原本 20px -> 改成 40px，讓它跟 DECEMBER 分開一點 */
+            margin-top: 40px; 
+            
             font-weight: 400;
         }
 
@@ -342,47 +345,48 @@
         .ig-grid-container {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            /* 微調寬度，讓左右更對齊 */
             width: 915px; 
             border: none; 
-            /* 稍微修正左邊距 */
             padding-left: 8px; 
         }
         
         .ig-cell-head { display: none; } 
 
         .ig-cell-body {
-            /* 配合底圖格子的高度 */
-            height: 147px; 
+            /* ✨修正重點 2：加大格子行距 (高度) */
+            /* 原本 147px -> 改成 155px，這樣每一列的距離會變大 */
+            height: 155px; 
+            
             border: none; 
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* 數字在格子內的上方留白 */
-            padding-top: 15px; 
-            /* border: 1px solid rgba(255,0,0,0.3); /* 🧰 除錯用：如果還是對不準，打開這行看紅框 */
+            
+            /* ✨修正重點 3：數字往下推 (置中) */
+            /* 原本 15px -> 改成 35px，讓數字掉到格子中間 */
+            padding-top: 35px; 
+            
+            /* border: 1px solid rgba(255,0,0,0.3); /* 🧰 除錯用 */
         }
 
         .ig-date-num {
             font-family: 'Lato', sans-serif;
             font-size: 45px;
-            /* ✨修正重點 2：字體變細！ */
-            /* 原本 600 -> 改成 400 (標準)，看起來更優雅 */
             font-weight: 400; 
             color: #333;
         }
 
         /* 休假小圓圈 */
         .ig-holiday-circle {
-            margin-top: 5px; /* 稍微縮小與數字的距離 */
+            margin-top: 5px; 
             width: 52px; height: 52px;
             background-color: #f3d0d3; 
             color: #c0392b; 
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             font-size: 28px;
-            font-weight: bold; /* 休字維持粗體比較清楚 */
+            font-weight: bold; 
             font-family: 'Noto Sans TC', sans-serif;
         }
         
