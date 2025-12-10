@@ -8,6 +8,8 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -335,6 +337,21 @@
             td span { font-size: 0.65rem !important; display: inline-block; }
             .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
         }
+        /* --- Loading 遮罩樣式 --- */
+    #loading-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.9); z-index: 20000;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 0.3s;
+    }
+    .spinner {
+    width: 50px; height: 50px;
+    border: 5px solid #eee; border-top: 5px solid var(--brand-color);
+    border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text { color: var(--brand-color); font-weight: bold; font-size: 1.1rem; }
+        
     </style>
 </head>
 <body>
@@ -589,7 +606,11 @@
             }
         }
 
-        function fetchOrders() {
+            function fetchOrders() {
+            // ✨ 新增 1：開始讀取資料時，顯示轉圈圈遮罩
+            const loader = document.getElementById('loading-overlay');
+            if(loader) loader.style.display = 'flex';
+
             fetch(SCRIPT_URL)
             .then(res => res.json())
             .then(data => {
@@ -605,6 +626,61 @@
                     if(parts.length >= 2) return parseInt(parts[parts.length-2]) + "/" + parseInt(parts[parts.length-1]);
                     return str;
                 };
+
+                try {
+                    const validData = data.filter(o => o.date && o.date !== "");
+                    
+                    allOrders = validData.filter(o => o.status !== 'holiday' && o.status !== 'locked' && o.status !== 'delete').map(o => ({...o, date: normalizeDate(o.date)}));
+                    holidays = validData.filter(o => o.status === 'holiday').map(o => normalizeDate(o.date));
+                    const manualLocks = validData.filter(o => o.status === 'locked').map(o => ({...o, date: normalizeDate(o.date)}));
+                    lockedSlots = [...allOrders, ...manualLocks];
+
+                    updateDashboard(); 
+                    updateCalendars(); 
+                    
+                    if(selectedDate) {
+                        if(holidays.includes(selectedDate)) {
+                             const container = document.getElementById('time-grid');
+                             if(container) container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:20px; color:#d63031; font-weight:bold; background:#fff0f0; border-radius:10px;">⛔ 本日店休，暫停服務</div>`;
+                        } else {
+                            renderTimeSlots(selectedDate);
+                        }
+                        const adminTimeContainer = document.getElementById('admin-time-switches');
+                        if(adminTimeContainer && adminTimeContainer.innerHTML !== "") renderAdminTimeSwitches(selectedDate);
+                        
+                        if(document.getElementById('day-detail').style.display === 'block') {
+                            const cell = document.querySelector('.admin-cal-cell.selected');
+                            if(cell) showAdminDetail(parseInt(selectedDate.split('/')[1]), cell);
+                        }
+                    }
+
+                    // ✨ 新增 2：資料處理完畢，把轉圈圈淡出並隱藏
+                    if(loader) {
+                        loader.style.opacity = '0'; // 變透明
+                        setTimeout(() => { loader.style.display = 'none'; }, 300); // 300毫秒後完全消失
+                    }
+
+                } catch(e) {
+                    console.error("資料處理錯誤", e);
+                    // 發生錯誤也要關掉轉圈圈
+                    if(loader) loader.style.display = 'none';
+                }
+            })
+            .catch(err => {
+                console.error("資料讀取失敗", err);
+                updateCalendars(); 
+                
+                // ✨ 新增 3：連線失敗時，關掉轉圈圈並跳出紅色錯誤視窗
+                if(loader) loader.style.display = 'none';
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: '連線錯誤',
+                    text: '無法讀取預約資料，請檢查網路連線',
+                    confirmButtonColor: '#d33'
+                });
+            });
+        }
 
                 // V69: 增加 try catch 避免過濾失敗
                 try {
@@ -790,43 +866,72 @@
         function closeBookingForm() { document.getElementById('booking-modal-overlay').style.display = 'none'; }
 
         function confirmBooking() {
-            const name = document.getElementById('booking-name').value;
-            const phone = document.getElementById('booking-phone').value.trim();
-            const lineId = document.getElementById('booking-line').value;
-            const service = document.getElementById('booking-service').value;
+    const name = document.getElementById('booking-name').value;
+    const phone = document.getElementById('booking-phone').value.trim();
+    const lineId = document.getElementById('booking-line').value;
+    const service = document.getElementById('booking-service').value;
 
-            if(!name || !phone) { alert("請填寫姓名和電話！"); return; }
-            const cleanPhone = phone.replace(/-/g, "");
-            if (!/^09\d{8}$/.test(cleanPhone)) { alert("❌ 手機號碼格式錯誤！\n請輸入 09 開頭的 10 碼數字"); return; }
+    if(!name || !phone) { 
+        Swal.fire({ icon: 'warning', title: '資料未填', text: '請務必填寫姓名和電話喔！', confirmButtonColor: '#efb748' });
+        return; 
+    }
+    
+    const cleanPhone = phone.replace(/-/g, "");
+    if (!/^09\d{8}$/.test(cleanPhone)) { 
+        Swal.fire({ icon: 'error', title: '格式錯誤', text: '請輸入 09 開頭的 10 碼手機號碼', confirmButtonColor: '#d33' });
+        return; 
+    }
 
-            const btn = document.getElementById('confirm-btn');
-            btn.innerText = "處理中..."; btn.disabled = true;
+    const btn = document.getElementById('confirm-btn');
+    btn.innerText = "處理中..."; btn.disabled = true;
 
-            let amount = "0";
-            const match = service.match(/\$(\d+,?\d*)/);
-            if(match) amount = match[1].replace(',', '');
-            if(service.includes("包堂")) amount = "包堂扣1";
+    let amount = "0";
+    const match = service.match(/\$(\d+,?\d*)/);
+    if(match) amount = match[1].replace(',', '');
+    if(service.includes("包堂")) amount = "包堂扣1";
 
-            const data = { action: "order", date: selectedDate, time: selectedTime, name, phone, lineId, service, amount };
+    const data = { action: "order", date: selectedDate, time: selectedTime, name, phone, lineId, service, amount };
 
-            fetch(SCRIPT_URL, {
-                method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" }
-            }).then(() => {
-                alert("✅ 預約成功！\n我們已收到您的預約，請準時前往工作室即可！");
-                closeBookingForm();
-                
-                // V62: 瞬時鎖定
-                lockedSlots.push({ date: selectedDate, time: selectedTime, status: 'booked' });
-                renderTimeSlots(selectedDate);
-                
-                btn.innerText = "確認送出"; btn.disabled = false;
-                document.getElementById('booking-name').value = "";
-                document.getElementById('booking-phone').value = "";
-                document.getElementById('booking-line').value = "";
-                setTimeout(fetchOrders, 2000); 
+    fetch(SCRIPT_URL, {
+        method: "POST", body: JSON.stringify(data), mode: "no-cors", headers: { "Content-Type": "text/plain" }
+    }).then(() => {
+        closeBookingForm();
+        
+        // ✨ SweetAlert2 漂亮成功彈窗
+        Swal.fire({
+            title: '✅ 預約成功！',
+            html: `
+                <p>我們已收到您的預約：<br><strong>${selectedDate} ${selectedTime}</strong></p>
+                <p style="font-size:0.9rem; color:#666;">記得準時前往工作室放鬆身心！</p>
+            `,
+            icon: 'success',
+            confirmButtonText: '好的',
+            confirmButtonColor: '#efb748',
+            showCancelButton: true,
+            cancelButtonText: '📅 加入 Google 行事曆',
+            cancelButtonColor: '#333'
+        }).then((result) => {
+            // 如果使用者按了「加入行事曆」(也就是 Cancel Button)
+            if (result.dismiss === Swal.DismissReason.cancel) {
+                addToGoogleCalendar();
+            }
+        });
 
-            }).catch(e => { alert("錯誤：" + e); btn.disabled = false; });
-        }
+        // 瞬時鎖定 (保留妳原本的邏輯)
+        lockedSlots.push({ date: selectedDate, time: selectedTime, status: 'booked' });
+        renderTimeSlots(selectedDate);
+        
+        btn.innerText = "確認送出"; btn.disabled = false;
+        document.getElementById('booking-name').value = "";
+        document.getElementById('booking-phone').value = "";
+        document.getElementById('booking-line').value = "";
+        setTimeout(fetchOrders, 2000); 
+
+    }).catch(e => {
+        Swal.fire({ icon: 'error', title: '預約失敗', text: '發生錯誤：' + e, confirmButtonColor: '#d33' });
+        btn.innerText = "確認送出"; btn.disabled = false;
+    });
+}
 
         function openAdmin() { document.getElementById('admin-login-overlay').style.display = 'flex'; }
         function closeAdmin() { document.getElementById('admin-login-overlay').style.display = 'none'; }
@@ -1069,6 +1174,35 @@
             if (scrollTop > lastScrollTop && scrollTop > 50) { header.classList.add('nav-hidden'); } else { header.classList.remove('nav-hidden'); }
             lastScrollTop = scrollTop;
         });
+        <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div class="loading-text">TANG PING 載入中...</div>
+</div>
+function addToGoogleCalendar() {
+          // 取得目前年份
+          let year = new Date().getFullYear();
+          // 簡單解析日期 (假設格式為 M/D)
+          let [month, day] = selectedDate.split('/');
+          let [hour, minute] = selectedTime.split(':');
+          
+          // 格式化為 Google 日曆需要的 YYYYMMDDTHHMMSS
+          let startStr = `${year}${month.padStart(2,'0')}${day.padStart(2,'0')}T${hour}${minute}00`;
+          
+          // 結束時間：簡單往後推 1.5 小時
+          let endStr = `${year}${month.padStart(2,'0')}${day.padStart(2,'0')}T${parseInt(hour)+1}${parseInt(minute)+30}00`;
+
+          let title = encodeURIComponent("💆 躺平運動按摩 - 放鬆時間");
+          let details = encodeURIComponent("記得穿著輕便衣物前往喔！\n地點：新北市蘆洲區三民路128巷68號");
+          let location = encodeURIComponent("新北市蘆洲區三民路128巷68號");
+          
+          // 生成連結
+          let url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${startStr}/${endStr}`;
+          
+          window.open(url, '_blank');
+      }
+
+      // 👆👆👆 貼到這裡為止 👆👆👆
+        
     </script>
 </body>
 </html>
