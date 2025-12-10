@@ -289,12 +289,12 @@
         .switch-input { margin-left: 5px; transform: scale(1.2); cursor: pointer; }
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
 
-        /* ========================================= */
-        /* 🔥 IG 限動班表 - 精緻底圖疊加版 (V75)      */
+/* ========================================= */
+        /* 🔥 IG 限動班表 - V76 極簡底圖精準對位版    */
         /* ========================================= */
         #ig-story-container {
             width: 1080px; height: 1920px;
-            /* 使用妳提供的精緻底圖 */
+            /* 確保檔名正確 */
             background-image: url('images/schedule_bg_clean.png'); 
             background-size: cover;
             background-position: center;
@@ -303,28 +303,30 @@
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            /* 📌微調點1：控制標題距離頂部的距離 */
-            padding-top: 170px; 
+            
+            /* ✨修改1：標題距離頂部的位置，稍微往上一點點比較好看 */
+            padding-top: 160px; 
             
             font-family: 'Noto Sans TC', sans-serif;
             box-sizing: border-box;
         }
 
-        /* --- 1. 標題設計 (疊加在底圖上方空白處) --- */
+        /* --- 標題區域 --- */
         .ig-header-group {
             text-align: center;
-            /* 📌微調點2：控制標題與下方表格的間距 */
-            margin-bottom: 95px; 
+            /* ✨修改2：這裡原本是 95px，改成 250px！ */
+            /* 這樣才能把下面的數字表格用力往下推，對齊底圖 */
+            margin-bottom: 250px; 
         }
 
         .ig-month-en {
-            font-family: 'Lato', sans-serif; /* 使用乾淨的英文字體 */
+            font-family: 'Lato', sans-serif; 
             font-size: 110px; 
             font-weight: 400; 
             color: #000;
             margin: 0;
             line-height: 1;
-            letter-spacing: 25px; /* 字距拉開增加質感 */
+            letter-spacing: 20px; 
             text-transform: uppercase;
         }
 
@@ -332,34 +334,34 @@
             font-family: 'Lato', sans-serif;
             font-size: 45px;
             color: #333;
-            letter-spacing: 10px;
-            margin-top: 25px;
+            letter-spacing: 8px;
+            margin-top: 20px;
             font-weight: 400;
         }
 
-        /* --- 2. 格子與數字 (透明疊加) --- */
+        /* --- 格子與數字區域 --- */
         .ig-grid-container {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            /* 📌微調點3：這裡的寬度要跟底圖畫的表格寬度一致 */
-            width: 875px; 
-            border: none; /* 隱藏程式碼的邊框 */
+            /* ✨修改3：寬度加寬到 920px，配合新底圖 */
+            width: 920px; 
+            border: none; 
+            /* 稍微往右移一點點，讓數字置中 */
+            padding-left: 5px; 
         }
         
-        /* 星期幾已經畫在底圖上了，所以隱藏 */
         .ig-cell-head { display: none; } 
 
         .ig-cell-body {
-            /* 📌微調點4：這裡的高度要跟底圖畫的格子高度一致 */
-            height: 130px; 
-            border: none; /* 隱藏格線 */
+            /* ✨修改4：格子高度改成 148px，配合底圖格線 */
+            height: 148px; 
+            border: none; 
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* 數字距離格子頂部的距離 */
             padding-top: 20px; 
-            /* border: 1px solid red; /* 除錯用：打開可以看到程式碼格子的實際位置 */
+            /* border: 1px solid red; /* 如果還是對不準，把這行註解拿掉，就能看到紅框框 */
         }
 
         .ig-date-num {
@@ -369,20 +371,19 @@
             color: #333;
         }
 
-        /* 休假小圓圈 (仿照妳的設計圖) */
+        /* 休假小圓圈 */
         .ig-holiday-circle {
-            margin-top: 10px; /* 與數字的距離 */
-            width: 55px; height: 55px;
-            background-color: #f3d0d3; /* 圖片中的淺粉色 */
-            color: #c0392b; /* 深紅色字 */
+            margin-top: 8px; 
+            width: 52px; height: 52px;
+            background-color: #f3d0d3; 
+            color: #c0392b; 
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            font-size: 30px;
+            font-size: 28px;
             font-weight: bold;
             font-family: 'Noto Sans TC', sans-serif;
         }
         
-        /* 底部的 Logo 和資訊都已經在底圖上了，所以 CSS 不用寫 */
         .ig-footer, .ig-handle, .ig-logo-box { display: none; }
 
         /* ============================================= */
