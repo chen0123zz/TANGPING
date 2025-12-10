@@ -12,6 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -30,20 +32,17 @@
         body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
         section, .content-section { scroll-margin-top: 100px; }
 
-        /* --- Loading 局部遮罩樣式 (V71 修改 ✨) --- */
+        /* --- Loading 局部遮罩樣式 --- */
         #loading-overlay {
-            position: absolute; /* 改成絕對定位，只蓋住父層 */
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.9); 
-            z-index: 50; /* 不需要太高，蓋住日曆就好 */
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.9); z-index: 50;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.3s;
-            border-radius: 15px; /* 跟著圓角 */
-            /* 預設不隱藏，由 JS 控制，但為了避免一閃而過，HTML 中預設先放著 */
+            border-radius: 15px;
+            display: none; 
         }
         .spinner {
-            width: 40px; height: 40px; /* 稍微縮小一點比較優雅 */
-            border: 4px solid #eee; border-top: 4px solid var(--brand-color);
+            width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--brand-color);
             border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 10px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -114,13 +113,12 @@
         .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
 
         /* --- 6. 預約日曆 (電腦版) --- */
-        /* V71 修改: 加入 position: relative 讓子元素的 absolute 根據這裡定位 */
         .booking-container { 
             background: #fff; padding: 30px; border-radius: 15px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; 
             margin: 0 auto; text-align: left; 
-            position: relative; /* ✨ 關鍵修改 */
-            min-height: 400px; /* 給一個最小高度，避免轉圈圈時高度塌陷 */
+            position: relative; 
+            min-height: 400px; 
         }
         .booking-container h3 { padding-left: 0; margin-bottom: 15px; color: #333; text-align: center; }
         .month-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
@@ -132,34 +130,15 @@
 
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; justify-items: center; align-items: center; }
         .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; width: 100%; text-align: center; }
-        /* 電腦版：75px正方形 */
         .calendar-day { border: 1px solid #ddd; border-radius: 12px; width: 75px; height: 75px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0; }
         .calendar-day span { font-size: 0.8rem; color: #888; margin-top: 3px; }
         
-        /* 🔥 功能性 CSS 補強 (V68) - 解決店休點選問題 */
-        /* 1. 被選取 (最高權重) */
-        .calendar-day.active, 
-        .calendar-day.holiday.active, 
-        .calendar-day.today.active { 
-            background-color: var(--brand-color) !important; 
-            color: #fff !important; 
-            border-color: var(--brand-color) !important; 
-        }
-        .calendar-day.active span, 
-        .calendar-day.holiday.active span,
-        .calendar-day.today.active span { color: #fff !important; }
-
-        /* 2. 店休 */
+        .calendar-day.active, .calendar-day.holiday.active, .calendar-day.today.active { background-color: var(--brand-color) !important; color: #fff !important; border-color: var(--brand-color) !important; }
+        .calendar-day.active span, .calendar-day.holiday.active span, .calendar-day.today.active span { color: #fff !important; }
         .calendar-day.holiday { background-color: #fff0f0; border: 2px solid #ffcccc; color: #d63031; pointer-events: auto !important; }
         .calendar-day.holiday span { color: #d63031; display: block; }
-        
-        /* 3. 今天 */
         .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; color: var(--text-dark); }
-        
-        /* 4. 過去/無效 */
         .calendar-day.disabled { background-color: #f0f0f0; color: #ccc; cursor: not-allowed; pointer-events: none; }
-        
-        /* 5. 額滿 */
         .calendar-day.full { background-color: #e0e0e0; color: #888; pointer-events: none; }
         .calendar-day.full span { color: #888; }
 
@@ -167,8 +146,6 @@
         .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: all 0.2s; }
         .time-btn:hover, .time-btn.selected { background-color: var(--brand-color); color: #fff; }
         .time-btn.disabled { background-color: #f0f0f0; color: #ccc; cursor: not-allowed; pointer-events: none; }
-
-        /* V58: 日期提示樣式 */
         #selected-date-display { font-size: 1rem; color: var(--brand-color); font-weight: bold; background: #fffaf0; padding: 2px 10px; border-radius: 15px; margin-left: 10px; }
 
         /* --- 7. 預約須知 & Q&A --- */
@@ -222,7 +199,7 @@
         footer { text-align: center; padding: 5px 5px; background-color: transparent; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
         /* ============================================= */
-        /* 🚀 (新增) 預約彈窗 & 後台 CSS (Append)        */
+        /* 🚀 彈窗 & 後台 & IG班表樣式 (Append)          */
         /* ============================================= */
         #booking-modal-overlay, #admin-login-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -311,6 +288,40 @@
         .time-switch { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 0.85rem; }
         .switch-input { margin-left: 5px; transform: scale(1.2); cursor: pointer; }
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
+
+        /* 🔥 IG 限動班表樣式 (隱藏於畫面外，生成用) */
+        #ig-story-container {
+            width: 1080px; height: 1920px;
+            background-color: #f9f5f0;
+            position: fixed; left: -9999px; top: 0; z-index: -1;
+            display: flex; flex-direction: column; align-items: center;
+            font-family: 'Noto Sans TC', sans-serif;
+            box-sizing: border-box; padding: 100px 50px;
+        }
+        .ig-header-box { background-color: #efb748; color: #333; padding: 20px 60px; font-size: 60px; font-weight: bold; margin-bottom: 60px; letter-spacing: 5px; }
+        .ig-month-title { font-size: 70px; color: #333; margin-bottom: 60px; letter-spacing: 10px; }
+        .ig-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); width: 100%; gap: 15px; }
+        .ig-cal-head { font-size: 40px; color: #333; font-weight: bold; text-align: center; margin-bottom: 20px; }
+        .ig-cal-cell { 
+            width: 130px; height: 130px; background: #fff; 
+            border-radius: 20px; display: flex; justify-content: center; align-items: center;
+            font-size: 45px; color: #333; position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        /* 假日紅圈圈樣式 */
+        .ig-cal-cell.holiday { }
+        .ig-holiday-stamp {
+            width: 90px; height: 90px; background-color: #b92b27; border-radius: 50%;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            display: flex; justify-content: center; align-items: center;
+            color: #fff; font-size: 40px; font-weight: bold;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            /* 讓它看起來有點像印章 */
+            border: 3px dashed rgba(255,255,255,0.3);
+        }
+        .ig-footer { margin-top: auto; text-align: center; }
+        .ig-handle { font-size: 50px; font-weight: bold; color: #333; letter-spacing: 3px; font-family: monospace; margin-bottom: 30px; }
+        .ig-logo { width: 300px; height: auto; display: block; margin: 0 auto; }
 
         /* ============================================= */
         /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
@@ -511,6 +522,17 @@
         <button onclick="openAdmin()" class="float-btn admin-float-btn" title="管理後台">🔒</button>
     </div>
 
+    <div id="ig-story-container">
+        <div class="ig-header-box">NOTICE</div>
+        <div class="ig-month-title" id="ig-month-title">十二月預約表</div>
+        <div class="ig-calendar-grid" id="ig-calendar-grid">
+            </div>
+        <div class="ig-footer">
+            <div class="ig-handle">@tangping</div>
+            <img src="images/logo.png" class="ig-logo" alt="logo">
+        </div>
+    </div>
+
     <div id="booking-modal-overlay">
         <div class="booking-modal">
             <button class="modal-close" onclick="closeBookingForm()">×</button>
@@ -556,6 +578,9 @@
                 <div class="dash-card"><div class="dash-num" id="today-count">...</div><div class="dash-label">今日預約</div></div>
                 <div class="dash-card"><div class="dash-num" id="month-revenue">...</div><div class="dash-label">本月預估營收</div></div>
             </div>
+            
+            <button class="admin-tool-btn" style="width:100%; margin-bottom:20px; background-color:#d35400; color:#fff; border:none; padding:12px; font-weight:bold; font-size:1rem;" onclick="generateScheduleImage()">📸 一鍵生成本月 IG 限動班表</button>
+
             <div class="admin-card">
                 <div class="admin-month-header">
                     <button class="month-btn" onclick="prevMonth()">❮</button>
@@ -601,6 +626,8 @@
         let lockedSlots = [];
         const timeSlots = ['10:00', '12:00', '14:00', '15:40', '17:10', '19:30', '21:10'];
         const dayNames = ['日', '一', '二', '三', '四', '五', '六'];
+        // 中文數字轉換
+        const chnNumChar = ["零","一","二","三","四","五","六","七","八","九","十","十一","十二"];
 
         window.onload = function() {
             const frontGrid = document.querySelector('.calendar-grid');
@@ -626,7 +653,6 @@
         }
 
         function fetchOrders() {
-            // ✨ 新增: 顯示讀取轉圈圈
             const loader = document.getElementById('loading-overlay');
             if(loader) loader.style.display = 'flex';
 
@@ -646,7 +672,6 @@
                     return str;
                 };
 
-                // V69: 增加 try catch 避免過濾失敗
                 try {
                     const validData = data.filter(o => o.date && o.date !== "");
                     
@@ -674,7 +699,6 @@
                         }
                     }
 
-                    // ✨ 新增: 讀取完成，隱藏轉圈圈
                     if(loader) {
                         loader.style.opacity = '0';
                         setTimeout(() => { loader.style.display = 'none'; }, 300);
@@ -690,7 +714,6 @@
                 updateCalendars(); 
                 if(loader) loader.style.display = 'none';
                 
-                // ✨ 新增: 連線錯誤彈窗
                 Swal.fire({
                     icon: 'error',
                     title: '連線錯誤',
@@ -751,7 +774,6 @@
                 const checkDate = new Date(year, month, i);
                 const isPast = checkDate < new Date(today.setHours(0,0,0,0));
                 
-                // V60: 額滿邏輯
                 const dayLockedCount = lockedSlots.filter(o => o.date === dateStr).length;
                 const isFull = dayLockedCount >= timeSlots.length;
 
@@ -881,7 +903,6 @@
             }).then(() => {
                 closeBookingForm();
                 
-                // ✨ SweetAlert2 漂亮成功彈窗 + 行事曆功能
                 Swal.fire({
                     title: '✅ 預約成功！',
                     html: `
@@ -900,7 +921,6 @@
                     }
                 });
 
-                // V62: 瞬時鎖定
                 lockedSlots.push({ date: selectedDate, time: selectedTime, status: 'booked' });
                 renderTimeSlots(selectedDate);
                 
@@ -924,7 +944,6 @@
                 document.getElementById('admin-login-overlay').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
                 document.body.style.overflow = 'hidden'; 
-                // V67: Session
                 sessionStorage.setItem('isAdmin', 'true');
                 fetchOrders(); 
             } else { alert('密碼錯誤！'); }
@@ -950,7 +969,6 @@
             document.getElementById('month-revenue').innerText = `$${total.toLocaleString()}`;
         }
 
-        // 🔥 V67: 解決取消訂單殘影問題
         function updateOrderStatus(date, time, name, currentStatus, elementId) {
             let newStatus, actionText;
             
@@ -969,7 +987,6 @@
             
             showToast("⏳ 處理中...");
             
-            // 本地立即更新 (解決殘影)
             const orderIndex = allOrders.findIndex(o => o.date === date && o.time === time && o.name === name);
             if(orderIndex > -1) {
                 if (newStatus === 'delete') {
@@ -979,14 +996,12 @@
                 }
             }
 
-            // UI 視覺效果
             const orderCard = document.getElementById(elementId);
             if (orderCard) {
                 if (newStatus === 'delete') {
                     orderCard.style.opacity = '0.5';
                     setTimeout(() => orderCard.remove(), 500);
                 } else {
-                    // 重新渲染卡片以更新狀態文字
                     showAdminDetail(parseInt(date.split('/')[1]), null);
                 }
             }
@@ -1010,11 +1025,9 @@
             document.getElementById('admin-date-title').innerText = selectedDate;
             document.getElementById('day-detail').style.display = 'block';
             
-            // 排序
             const dailyOrders = allOrders.filter(o => o.date === selectedDate);
             dailyOrders.sort((a, b) => a.time.localeCompare(b.time));
 
-            // 計算營收
             let dailyRevenue = 0;
             dailyOrders.forEach(o => { if(o.status === '已付款') { const p = parseInt(o.amount); if(!isNaN(p)) dailyRevenue += p; }});
             updateAdminDetailHeader(selectedDate, dailyRevenue);
@@ -1158,22 +1171,70 @@
             lastScrollTop = scrollTop;
         });
 
-        // ✨ 新增: 加入 Google 行事曆函式
         function addToGoogleCalendar() {
             let year = new Date().getFullYear();
             let [month, day] = selectedDate.split('/');
             let [hour, minute] = selectedTime.split(':');
-            
             let startStr = `${year}${month.padStart(2,'0')}${day.padStart(2,'0')}T${hour}${minute}00`;
             let endStr = `${year}${month.padStart(2,'0')}${day.padStart(2,'0')}T${parseInt(hour)+1}${parseInt(minute)+30}00`;
-
             let title = encodeURIComponent("💆 躺平運動按摩 - 放鬆時間");
             let details = encodeURIComponent("記得穿著輕便衣物前往喔！\n地點：新北市蘆洲區三民路128巷68號");
             let location = encodeURIComponent("新北市蘆洲區三民路128巷68號");
-            
             let url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${startStr}/${endStr}`;
-            
             window.open(url, '_blank');
+        }
+
+        // ✨ 產生 IG 限動班表的功能
+        function generateScheduleImage() {
+            showToast("📸 正在生成 IG 限動班表...");
+            
+            // 1. 取得當前管理的月份
+            const m = currentDate.getMonth(); 
+            const y = currentDate.getFullYear();
+            const chnMonth = chnNumChar[m + 1]; // 轉成中文數字 (一月、二月...)
+
+            document.getElementById('ig-month-title').innerText = `${chnMonth}月預約表`;
+
+            // 2. 渲染 IG 專用的日曆格子
+            const container = document.getElementById('ig-calendar-grid');
+            container.innerHTML = "";
+            const headers = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+            headers.forEach(d => {
+                container.innerHTML += `<div class="ig-cal-head">${d}</div>`;
+            });
+
+            const firstDay = new Date(y, m, 1).getDay();
+            const daysInMonth = new Date(y, m + 1, 0).getDate();
+            let startSlot = (firstDay === 0) ? 6 : firstDay - 1;
+
+            for(let i=0; i<startSlot; i++) { container.innerHTML += `<div></div>`; }
+
+            for(let i=1; i<=daysInMonth; i++) {
+                const dateStr = `${m+1}/${i}`;
+                const isHoliday = holidays.includes(dateStr);
+                
+                let cellHtml = `<div class="ig-cal-cell ${isHoliday ? 'holiday' : ''}">
+                    ${i}`;
+                
+                if(isHoliday) {
+                    cellHtml += `<div class="ig-holiday-stamp">休</div>`;
+                }
+                
+                cellHtml += `</div>`;
+                container.innerHTML += cellHtml;
+            }
+
+            // 3. 使用 html2canvas 拍照
+            const captureArea = document.getElementById("ig-story-container");
+            
+            html2canvas(captureArea, { scale: 2 }).then(canvas => {
+                // 4. 下載圖片
+                const link = document.createElement('a');
+                link.download = `TangPing_Schedule_${y}_${m+1}.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                showToast("✅ 圖片已下載！");
+            });
         }
     </script>
 </body>
