@@ -30,21 +30,24 @@
         body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
         section, .content-section { scroll-margin-top: 100px; }
 
-        /* --- Loading 遮罩樣式 (新加入 ✨) --- */
+        /* --- Loading 局部遮罩樣式 (V71 修改 ✨) --- */
         #loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.9); z-index: 20000;
+            position: absolute; /* 改成絕對定位，只蓋住父層 */
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.9); 
+            z-index: 50; /* 不需要太高，蓋住日曆就好 */
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.3s;
-            display: none; /* 預設隱藏 */
+            border-radius: 15px; /* 跟著圓角 */
+            /* 預設不隱藏，由 JS 控制，但為了避免一閃而過，HTML 中預設先放著 */
         }
         .spinner {
-            width: 50px; height: 50px;
-            border: 5px solid #eee; border-top: 5px solid var(--brand-color);
-            border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;
+            width: 40px; height: 40px; /* 稍微縮小一點比較優雅 */
+            border: 4px solid #eee; border-top: 4px solid var(--brand-color);
+            border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 10px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .loading-text { color: var(--brand-color); font-weight: bold; font-size: 1.1rem; }
+        .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
         /* --- 1. 導覽列 --- */
         header {
@@ -111,7 +114,14 @@
         .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
 
         /* --- 6. 預約日曆 (電腦版) --- */
-        .booking-container { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; margin: 0 auto; text-align: left; }
+        /* V71 修改: 加入 position: relative 讓子元素的 absolute 根據這裡定位 */
+        .booking-container { 
+            background: #fff; padding: 30px; border-radius: 15px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; 
+            margin: 0 auto; text-align: left; 
+            position: relative; /* ✨ 關鍵修改 */
+            min-height: 400px; /* 給一個最小高度，避免轉圈圈時高度塌陷 */
+        }
         .booking-container h3 { padding-left: 0; margin-bottom: 15px; color: #333; text-align: center; }
         .month-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .month-btn { background: none; border: 1px solid #ddd; padding: 5px 10px; border-radius: 5px; cursor: pointer; color: #666; font-size: 1.2rem; }
@@ -426,7 +436,14 @@
 
     <section class="content-section" id="booking">
         <h2 class="section-title">線上預約</h2>
+        
         <div class="booking-container">
+            
+            <div id="loading-overlay">
+                <div class="spinner"></div>
+                <div class="loading-text">TANG PING 載入中...</div>
+            </div>
+
             <div class="date-selector">
                 <div class="month-selector">
                     <button class="month-btn" onclick="prevMonth()">❮</button>
@@ -492,11 +509,6 @@
         <button onclick="scrollToTop()" class="float-btn">▲</button>
         <button onclick="scrollToBottom()" class="float-btn">▼</button>
         <button onclick="openAdmin()" class="float-btn admin-float-btn" title="管理後台">🔒</button>
-    </div>
-
-    <div id="loading-overlay">
-        <div class="spinner"></div>
-        <div class="loading-text">TANG PING 載入中...</div>
     </div>
 
     <div id="booking-modal-overlay">
