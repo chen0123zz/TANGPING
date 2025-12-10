@@ -1269,8 +1269,16 @@
         }
 
         // ✨ 產生 IG 限動班表的功能 (V80 手機優化版)
+        // ✨ 產生 IG 限動班表的功能 (V83 手機修復版)
         function generateScheduleImage() {
-            showToast("📸 正在合成 IG 限動...");
+            // 顯示遮罩
+            const adminLoader = document.getElementById('admin-loading-overlay');
+            if(adminLoader) {
+                adminLoader.style.display = 'flex';
+                adminLoader.querySelector('.loading-text').innerText = "正在繪製圖片...";
+            } else {
+                showToast("📸 正在合成 IG 限動...");
+            }
 
             // 1. 準備資料
             const m = currentDate.getMonth(); 
@@ -1310,43 +1318,65 @@
                 container.innerHTML += html;
             }
 
-            // 3. 拍照並處理 (手機/電腦分流)
+            // 2. 拍照並處理
+            // 給瀏覽器一點時間渲染 DOM，避免畫面空白
             setTimeout(() => {
                 const captureArea = document.getElementById("ig-story-container");
-                html2canvas(captureArea, { 
-                    scale: 1, 
-                    useCORS: true,
-                    allowTaint: true 
-                }).then(canvas => {
-                    // 取得圖片的資料代碼
-                    const imgData = canvas.toDataURL("image/png");
-                    const filename = `TangPing_Schedule_${y}_${String(m + 1).padStart(2, '0')}.png`;
+                
+                // 設定 options
+                const options = {
+                    scale: 1, // 維持 1:1，避免手機記憶體爆掉
+                    useCORS: true, // 允許跨域圖片 (雖然是本地圖，但加著保險)
+                    backgroundColor: null // 背景透明
+                    // ⚠️ 關鍵修正：這裡絕對不能加 allowTaint: true
+                };
 
-                    // 判斷是否為手機 (螢幕寬度小於 768px)
-                    const isMobile = window.innerWidth < 768;
+                html2canvas(captureArea, options).then(canvas => {
+                    // 嘗試轉換成圖片
+                    try {
+                        const imgData = canvas.toDataURL("image/png");
+                        const filename = `TangPing_Schedule_${y}_${String(m + 1).padStart(2, '0')}.png`;
 
-                    if (isMobile) {
-                        // 📱 手機版：跳出 SweetAlert 視窗讓用戶長按
-                        Swal.fire({
-                            title: '✅ 班表生成成功！',
-                            html: '<p style="font-size:0.9rem; color:#666;">請 <strong style="color:#efb748;">長按下方圖片</strong> <br>並選擇「加入照片」或「儲存圖片」</p>',
-                            imageUrl: imgData,
-                            imageWidth: '100%', // 讓圖片適應手機寬度
-                            imageAlt: 'IG Schedule',
-                            showConfirmButton: true,
-                            confirmButtonText: '關閉',
-                            confirmButtonColor: '#333',
-                            // 點擊背景不關閉，避免誤觸
-                            allowOutsideClick: false
-                        });
-                    } else {
-                        // 💻 電腦版：直接自動下載
-                        const link = document.createElement('a');
-                        link.download = filename;
-                        link.href = imgData;
-                        link.click();
-                        showToast("✅ 美圖已下載！");
+                        // 判斷是否為手機 (螢幕寬度小於 768px)
+                        const isMobile = window.innerWidth < 768;
+
+                        if (isMobile) {
+                            // 📱 手機版：跳出 SweetAlert 視窗讓用戶長按
+                            Swal.fire({
+                                title: '✅ 圖片製作成功！',
+                                html: '<p style="font-size:0.9rem; color:#666;">請 <strong style="color:#efb748;">長按下方圖片</strong> <br>並選擇「加入照片」或「儲存圖片」</p>',
+                                imageUrl: imgData,
+                                imageWidth: 'auto', // 自動寬度
+                                imageHeight: '60vh', // 限制高度，避免圖片太長按不到關閉
+                                imageAlt: 'IG Schedule',
+                                showConfirmButton: true,
+                                confirmButtonText: '關閉視窗',
+                                confirmButtonColor: '#333',
+                                allowOutsideClick: false,
+                                backdrop: `rgba(0,0,0,0.8)` // 背景暗一點，突顯圖片
+                            });
+                        } else {
+                            // 💻 電腦版：直接自動下載
+                            const link = document.createElement('a');
+                            link.download = filename;
+                            link.href = imgData;
+                            link.click();
+                            showToast("✅ 美圖已下載！");
+                        }
+                    } catch (err) {
+                        alert("圖片轉檔失敗，可能是瀏覽器安全性限制。\n錯誤訊息：" + err);
                     }
+
+                    // 隱藏 Loading
+                    if(adminLoader) {
+                        adminLoader.style.display = 'none';
+                        adminLoader.querySelector('.loading-text').innerText = "資料讀取中..."; // 改回預設文字
+                    }
+
+                }).catch(err => {
+                    console.error("html2canvas error:", err);
+                    alert("截圖功能發生錯誤：" + err);
+                    if(adminLoader) adminLoader.style.display = 'none';
                 });
             }, 800); 
         }
