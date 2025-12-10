@@ -14,7 +14,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Lato:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         /* ========================================= */
@@ -289,29 +289,31 @@
         .switch-input { margin-left: 5px; transform: scale(1.2); cursor: pointer; }
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
 
-        /* 🔥 IG 限動班表樣式 (精品版 V73) */
+        /* 🔥 IG 限動班表樣式 (雜誌風 V74) */
         #ig-story-container {
             width: 1080px; height: 1920px;
-            background-color: #fcfaf2; /* 米色背景 */
+            background-color: #f9f8f3; /* 溫暖米色底 */
             position: fixed; left: -9999px; top: 0; z-index: -1;
             display: flex; flex-direction: column; align-items: center;
-            font-family: 'Noto Sans TC', sans-serif;
+            font-family: 'Lato', sans-serif;
             box-sizing: border-box; 
-            padding: 150px 80px; /* 加大留白 */
+            border-top: 60px solid #efb748; /* 上方黃色粗框 */
+            border-bottom: 60px solid #efb748; /* 下方黃色粗框 */
+            padding: 80px 60px;
         }
         .ig-notice-badge {
             background-color: #efb748;
             color: #333;
-            padding: 15px 60px;
-            font-size: 50px;
+            padding: 10px 50px;
+            font-size: 40px;
             font-weight: bold;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             letter-spacing: 5px;
-            font-family: 'Lato', sans-serif;
             text-transform: uppercase;
         }
         .ig-month-title {
-            font-size: 80px;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 70px;
             color: #333;
             margin-bottom: 80px;
             letter-spacing: 15px;
@@ -321,35 +323,37 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             width: 100%;
-            gap: 20px; /* 格子間距 */
+            gap: 15px; /* 格子間距 */
         }
         .ig-cal-head {
-            font-size: 40px;
+            font-size: 35px;
             color: #333;
             font-weight: bold;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-family: 'Lato', sans-serif;
+            letter-spacing: 2px;
         }
         .ig-cal-cell {
             width: 120px; height: 120px; /* 正方形 */
-            background: transparent; /* 背景透明 */
+            background: transparent; 
             display: flex; justify-content: flex-start; align-items: flex-start;
-            font-size: 40px; color: #555;
+            font-size: 35px; color: #555;
             padding: 10px; box-sizing: border-box;
             position: relative;
-            border-top: 1px solid #ddd; /* 極簡線條 */
+            font-family: 'Lato', sans-serif;
+            /* 移除格線，走極簡風 */
         }
         /* 假日紅圈圈印章 (擬真版) */
         .ig-holiday-stamp {
             width: 90px; height: 90px;
             background-color: #b92b27;
             border-radius: 50%;
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-10deg);
             display: flex; justify-content: center; align-items: center;
             color: #fff; font-size: 45px; font-weight: bold;
             box-shadow: 2px 3px 5px rgba(0,0,0,0.15);
-            border: 3px dashed rgba(255,255,255,0.4);
+            border: 2px dashed rgba(255,255,255,0.6); /* 虛線邊框增加印章感 */
             font-family: 'Noto Sans TC', sans-serif;
         }
         .ig-footer {
@@ -358,21 +362,21 @@
             display: flex; flex-direction: column; align-items: center;
         }
         .ig-handle {
-            font-size: 55px;
+            font-size: 50px;
             font-weight: bold;
             color: #333;
             letter-spacing: 3px;
             font-family: 'Lato', sans-serif; 
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         .ig-logo-box {
             background-color: #efb748;
-            padding: 20px 40px;
+            padding: 20px 50px;
             border-radius: 20px;
             display: flex; flex-direction: column; align-items: center;
         }
-        .ig-logo-text { font-size: 50px; font-weight: 900; color: #fff; line-height: 1; font-family: 'Lato', sans-serif; font-style: italic; }
-        .ig-sub-text { font-size: 20px; color: #333; margin-top: 10px; letter-spacing: 2px; font-weight: bold; }
+        .ig-logo-text { font-size: 60px; font-weight: 900; color: #fff; line-height: 0.9; font-family: 'Lato', sans-serif; font-style: italic; }
+        .ig-sub-text { font-size: 20px; color: #333; margin-top: 15px; letter-spacing: 5px; font-weight: bold; display: flex; gap: 15px; }
 
         /* ============================================= */
         /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
@@ -1246,7 +1250,7 @@
             window.open(url, '_blank');
         }
 
-        // ✨ 產生 IG 限動班表的功能 (精品版)
+        // ✨ 產生 IG 限動班表的功能 (雜誌風精品版 V74)
         function generateScheduleImage() {
             showToast("📸 正在生成 IG 限動班表...");
             
