@@ -290,11 +290,10 @@
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
 
 /* ========================================= */
-        /* 🔥 IG 限動班表 - V76 極簡底圖精準對位版    */
+        /* 🔥 IG 限動班表 - V77 細字精準對位版        */
         /* ========================================= */
         #ig-story-container {
             width: 1080px; height: 1920px;
-            /* 確保檔名正確 */
             background-image: url('images/schedule_bg_clean.png'); 
             background-size: cover;
             background-position: center;
@@ -304,7 +303,7 @@
             flex-direction: column; 
             align-items: center;
             
-            /* ✨修改1：標題距離頂部的位置，稍微往上一點點比較好看 */
+            /* 標題起始位置 */
             padding-top: 160px; 
             
             font-family: 'Noto Sans TC', sans-serif;
@@ -314,15 +313,15 @@
         /* --- 標題區域 --- */
         .ig-header-group {
             text-align: center;
-            /* ✨修改2：這裡原本是 95px，改成 250px！ */
-            /* 這樣才能把下面的數字表格用力往下推，對齊底圖 */
-            margin-bottom: 250px; 
+            /* ✨修正重點 1：大幅增加這裡的距離 */
+            /* 原本 250px -> 改成 275px，把下面的數字表格用力往下推，避開頂部格線 */
+            margin-bottom: 275px; 
         }
 
         .ig-month-en {
             font-family: 'Lato', sans-serif; 
             font-size: 110px; 
-            font-weight: 400; 
+            font-weight: 400; /* 標題維持原本粗細 */
             color: #000;
             margin: 0;
             line-height: 1;
@@ -343,49 +342,51 @@
         .ig-grid-container {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            /* ✨修改3：寬度加寬到 920px，配合新底圖 */
-            width: 920px; 
+            /* 微調寬度，讓左右更對齊 */
+            width: 915px; 
             border: none; 
-            /* 稍微往右移一點點，讓數字置中 */
-            padding-left: 5px; 
+            /* 稍微修正左邊距 */
+            padding-left: 8px; 
         }
         
         .ig-cell-head { display: none; } 
 
         .ig-cell-body {
-            /* ✨修改4：格子高度改成 148px，配合底圖格線 */
-            height: 148px; 
+            /* 配合底圖格子的高度 */
+            height: 147px; 
             border: none; 
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 20px; 
-            /* border: 1px solid red; /* 如果還是對不準，把這行註解拿掉，就能看到紅框框 */
+            /* 數字在格子內的上方留白 */
+            padding-top: 15px; 
+            /* border: 1px solid rgba(255,0,0,0.3); /* 🧰 除錯用：如果還是對不準，打開這行看紅框 */
         }
 
         .ig-date-num {
             font-family: 'Lato', sans-serif;
             font-size: 45px;
-            font-weight: 600;
+            /* ✨修正重點 2：字體變細！ */
+            /* 原本 600 -> 改成 400 (標準)，看起來更優雅 */
+            font-weight: 400; 
             color: #333;
         }
 
         /* 休假小圓圈 */
         .ig-holiday-circle {
-            margin-top: 8px; 
+            margin-top: 5px; /* 稍微縮小與數字的距離 */
             width: 52px; height: 52px;
             background-color: #f3d0d3; 
             color: #c0392b; 
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             font-size: 28px;
-            font-weight: bold;
+            font-weight: bold; /* 休字維持粗體比較清楚 */
             font-family: 'Noto Sans TC', sans-serif;
         }
         
         .ig-footer, .ig-handle, .ig-logo-box { display: none; }
-
         /* ============================================= */
         /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
         /* ============================================= */
