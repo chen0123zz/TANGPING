@@ -14,7 +14,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Lato:wght@700&display=swap" rel="stylesheet">
     
     <style>
         /* ========================================= */
@@ -289,39 +289,90 @@
         .switch-input { margin-left: 5px; transform: scale(1.2); cursor: pointer; }
         .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
 
-        /* 🔥 IG 限動班表樣式 (隱藏於畫面外，生成用) */
+        /* 🔥 IG 限動班表樣式 (精品版 V73) */
         #ig-story-container {
             width: 1080px; height: 1920px;
-            background-color: #f9f5f0;
+            background-color: #fcfaf2; /* 米色背景 */
             position: fixed; left: -9999px; top: 0; z-index: -1;
             display: flex; flex-direction: column; align-items: center;
             font-family: 'Noto Sans TC', sans-serif;
-            box-sizing: border-box; padding: 100px 50px;
+            box-sizing: border-box; 
+            padding: 150px 80px; /* 加大留白 */
         }
-        .ig-header-box { background-color: #efb748; color: #333; padding: 20px 60px; font-size: 60px; font-weight: bold; margin-bottom: 60px; letter-spacing: 5px; }
-        .ig-month-title { font-size: 70px; color: #333; margin-bottom: 60px; letter-spacing: 10px; }
-        .ig-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); width: 100%; gap: 15px; }
-        .ig-cal-head { font-size: 40px; color: #333; font-weight: bold; text-align: center; margin-bottom: 20px; }
-        .ig-cal-cell { 
-            width: 130px; height: 130px; background: #fff; 
-            border-radius: 20px; display: flex; justify-content: center; align-items: center;
-            font-size: 45px; color: #333; position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        .ig-notice-badge {
+            background-color: #efb748;
+            color: #333;
+            padding: 15px 60px;
+            font-size: 50px;
+            font-weight: bold;
+            margin-bottom: 50px;
+            letter-spacing: 5px;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
         }
-        /* 假日紅圈圈樣式 */
-        .ig-cal-cell.holiday { }
+        .ig-month-title {
+            font-size: 80px;
+            color: #333;
+            margin-bottom: 80px;
+            letter-spacing: 15px;
+            font-weight: 500;
+        }
+        .ig-calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            width: 100%;
+            gap: 20px; /* 格子間距 */
+        }
+        .ig-cal-head {
+            font-size: 40px;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Lato', sans-serif;
+        }
+        .ig-cal-cell {
+            width: 120px; height: 120px; /* 正方形 */
+            background: transparent; /* 背景透明 */
+            display: flex; justify-content: flex-start; align-items: flex-start;
+            font-size: 40px; color: #555;
+            padding: 10px; box-sizing: border-box;
+            position: relative;
+            border-top: 1px solid #ddd; /* 極簡線條 */
+        }
+        /* 假日紅圈圈印章 (擬真版) */
         .ig-holiday-stamp {
-            width: 90px; height: 90px; background-color: #b92b27; border-radius: 50%;
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90px; height: 90px;
+            background-color: #b92b27;
+            border-radius: 50%;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg);
             display: flex; justify-content: center; align-items: center;
-            color: #fff; font-size: 40px; font-weight: bold;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-            /* 讓它看起來有點像印章 */
-            border: 3px dashed rgba(255,255,255,0.3);
+            color: #fff; font-size: 45px; font-weight: bold;
+            box-shadow: 2px 3px 5px rgba(0,0,0,0.15);
+            border: 3px dashed rgba(255,255,255,0.4);
+            font-family: 'Noto Sans TC', sans-serif;
         }
-        .ig-footer { margin-top: auto; text-align: center; }
-        .ig-handle { font-size: 50px; font-weight: bold; color: #333; letter-spacing: 3px; font-family: monospace; margin-bottom: 30px; }
-        .ig-logo { width: 300px; height: auto; display: block; margin: 0 auto; }
+        .ig-footer {
+            margin-top: auto;
+            text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .ig-handle {
+            font-size: 55px;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 3px;
+            font-family: 'Lato', sans-serif; 
+            margin-bottom: 40px;
+        }
+        .ig-logo-box {
+            background-color: #efb748;
+            padding: 20px 40px;
+            border-radius: 20px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .ig-logo-text { font-size: 50px; font-weight: 900; color: #fff; line-height: 1; font-family: 'Lato', sans-serif; font-style: italic; }
+        .ig-sub-text { font-size: 20px; color: #333; margin-top: 10px; letter-spacing: 2px; font-weight: bold; }
 
         /* ============================================= */
         /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
@@ -523,13 +574,17 @@
     </div>
 
     <div id="ig-story-container">
-        <div class="ig-header-box">NOTICE</div>
+        <div class="ig-notice-badge">NOTICE</div>
         <div class="ig-month-title" id="ig-month-title">十二月預約表</div>
         <div class="ig-calendar-grid" id="ig-calendar-grid">
             </div>
         <div class="ig-footer">
             <div class="ig-handle">@tangping</div>
-            <img src="images/logo.png" class="ig-logo" alt="logo">
+            <div class="ig-logo-box">
+                <div class="ig-logo-text">TANG</div>
+                <div class="ig-logo-text">PING</div>
+                <div class="ig-sub-text">FITNESS MASSAGE</div>
+            </div>
         </div>
     </div>
 
@@ -598,15 +653,20 @@
                     <div class="date-title" id="admin-date-title"></div>
                     <span class="daily-revenue-box" id="daily-revenue-text">💰 計算中...</span>
                 </div>
-                <div id="order-list-container">載入中...</div>
+                <div id="order-list-container">
+                    <div style="text-align:center; padding:30px; color:#999; display:flex; flex-direction:column; align-items:center;">
+                        <span style="font-size:2rem; margin-bottom:10px;">👆</span>
+                        <span style="font-weight:bold;">請點選上方日期</span>
+                        <span style="font-size:0.9rem;">查看預約詳情或設定店休</span>
+                    </div>
+                </div>
                 
-                <div class="admin-time-management">
+                <div class="admin-time-management" style="display:none;" id="admin-mgmt-section">
                     <div class="admin-time-title" id="admin-time-mgmt-title">⚙️ 時段開放管理</div>
-                    <div class="admin-time-grid" id="admin-time-switches">
-                        </div>
+                    <div class="admin-time-grid" id="admin-time-switches"></div>
                 </div>
 
-                <div class="admin-big-btn-group">
+                <div class="admin-big-btn-group" style="display:none;" id="admin-big-btns">
                     <button class="admin-big-btn btn-holiday-big" id="btn-set-holiday" onclick="toggleHoliday()">❌ 設為全日店休</button>
                     <button class="admin-big-btn btn-open-big" id="btn-open-holiday" style="display:none;" onclick="toggleHoliday()">✅ 恢復全日開放</button>
                 </div>
@@ -626,7 +686,6 @@
         let lockedSlots = [];
         const timeSlots = ['10:00', '12:00', '14:00', '15:40', '17:10', '19:30', '21:10'];
         const dayNames = ['日', '一', '二', '三', '四', '五', '六'];
-        // 中文數字轉換
         const chnNumChar = ["零","一","二","三","四","五","六","七","八","九","十","十一","十二"];
 
         window.onload = function() {
@@ -674,7 +733,6 @@
 
                 try {
                     const validData = data.filter(o => o.date && o.date !== "");
-                    
                     allOrders = validData.filter(o => o.status !== 'holiday' && o.status !== 'locked' && o.status !== 'delete').map(o => ({...o, date: normalizeDate(o.date)}));
                     holidays = validData.filter(o => o.status === 'holiday').map(o => normalizeDate(o.date));
                     const manualLocks = validData.filter(o => o.status === 'locked').map(o => ({...o, date: normalizeDate(o.date)}));
@@ -1025,6 +1083,10 @@
             document.getElementById('admin-date-title').innerText = selectedDate;
             document.getElementById('day-detail').style.display = 'block';
             
+            // 🔥 V73 優化：顯示管理區塊
+            document.getElementById('admin-mgmt-section').style.display = 'block';
+            document.getElementById('admin-big-btns').style.display = 'flex';
+            
             const dailyOrders = allOrders.filter(o => o.date === selectedDate);
             dailyOrders.sort((a, b) => a.time.localeCompare(b.time));
 
@@ -1184,14 +1246,14 @@
             window.open(url, '_blank');
         }
 
-        // ✨ 產生 IG 限動班表的功能
+        // ✨ 產生 IG 限動班表的功能 (精品版)
         function generateScheduleImage() {
             showToast("📸 正在生成 IG 限動班表...");
             
             // 1. 取得當前管理的月份
             const m = currentDate.getMonth(); 
             const y = currentDate.getFullYear();
-            const chnMonth = chnNumChar[m + 1]; // 轉成中文數字 (一月、二月...)
+            const chnMonth = chnNumChar[m + 1];
 
             document.getElementById('ig-month-title').innerText = `${chnMonth}月預約表`;
 
@@ -1213,7 +1275,7 @@
                 const dateStr = `${m+1}/${i}`;
                 const isHoliday = holidays.includes(dateStr);
                 
-                let cellHtml = `<div class="ig-cal-cell ${isHoliday ? 'holiday' : ''}">
+                let cellHtml = `<div class="ig-cal-cell">
                     ${i}`;
                 
                 if(isHoliday) {
@@ -1228,7 +1290,6 @@
             const captureArea = document.getElementById("ig-story-container");
             
             html2canvas(captureArea, { scale: 2 }).then(canvas => {
-                // 4. 下載圖片
                 const link = document.createElement('a');
                 link.download = `TangPing_Schedule_${y}_${m+1}.png`;
                 link.href = canvas.toDataURL("image/png");
