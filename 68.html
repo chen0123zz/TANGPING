@@ -14,290 +14,423 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
         /* ========================================= */
-        /* 🎨 質感升級版樣式 (V26 - Luxury Edit)      */
+        /* 🎨 基礎樣式 (保留 V25)                    */
         /* ========================================= */
         :root {
-            --brand-color: #efb748;        /* 品牌黃 */
-            --brand-dark: #c4922f;         /* 深一點的黃 (Hover用) */
-            --text-main: #2c2c2c;          /* 主要文字 (深炭灰，比純黑柔和) */
-            --text-sub: #666666;           /* 次要文字 */
-            --bg-body: #fcf9f4;            /* 極淡的米色背景 */
-            --bg-card: #ffffff;
-            --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08); /* 高級感的柔和陰影 */
-            --shadow-hover: 0 20px 50px -10px rgba(239, 183, 72, 0.2);
-            --radius-card: 24px;           /* 更圓潤的導角 */
-            --radius-btn: 50px;
+            --brand-color: #efb748;
+            --bg-beige: #f9f5f0;
+            --text-dark: #333333;
+            --admin-bg: #f0f2f5; 
+            --admin-card: #ffffff;
+            --admin-text: #333333;
         }
-
-        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            margin: 0; padding: 0; 
-            background-color: var(--bg-body); 
-            color: var(--text-main); 
-            line-height: 1.7; /* 增加行高，提升閱讀質感 */
-            letter-spacing: 0.03em;
-        }
-        
-        /* 標題專用字體 - 宋體讓質感提升 */
-        h1, h2, h3, h4, .section-title, .month-title-group h3 {
-            font-family: 'Noto Serif TC', serif; 
-            font-weight: 700;
-        }
-
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
         section, .content-section { scroll-margin-top: 100px; }
 
-        /* --- 局部 Loading 遮罩 (毛玻璃效果) --- */
+        /* --- 局部 Loading 遮罩 --- */
         .local-loading-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.6); 
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.9); 
             z-index: 50;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.3s;
-            border-radius: var(--radius-card); 
+            border-radius: 15px; 
             display: none; 
         }
         .spinner {
-            width: 40px; height: 40px; border: 3px solid #eee; border-top: 3px solid var(--brand-color);
-            border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;
+            width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--brand-color);
+            border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 10px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .loading-text { color: var(--brand-color); font-weight: 500; font-size: 0.9rem; letter-spacing: 2px; }
+        .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
-        /* --- 導覽列 (更乾淨的設計) --- */
+        /* --- 導覽列 --- */
         header {
-            background-color: rgba(255, 255, 255, 0.95); /* 輕微透度 */
-            backdrop-filter: blur(10px);
-            padding: 15px 20px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            position: sticky; top: 0; z-index: 1000; 
-            transition: transform 0.3s ease, padding 0.3s;
+            background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 1000; display: block; transition: transform 0.3s ease;
         }
         header.nav-hidden { transform: translateY(-100%); }
-        .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; }
-        .logo-img { height: 45px; width: auto; transition: 0.3s; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; }
+        .logo-img { height: 50px; width: auto; }
         .nav-menu a {
-            text-decoration: none; color: var(--text-sub); margin-left: 25px;
-            font-weight: 500; font-size: 0.95rem; transition: all 0.3s;
-            position: relative;
-        }
-        /* 導覽列 Hover 底線效果 */
-        .nav-menu a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px;
-            background-color: var(--brand-color); transition: width 0.3s ease;
+            text-decoration: none; color: #333; margin-left: 20px;
+            font-weight: bold; font-size: 0.95rem; transition: color 0.3s;
+            white-space: nowrap; 
         }
         .nav-menu a:hover { color: var(--brand-color); }
-        .nav-menu a:hover::after { width: 100%; }
 
         /* --- 通用區塊 --- */
-        .content-section { padding: 60px 20px; max-width: 900px; margin: 0 auto; text-align: center; }
-        .section-title { 
-            color: var(--brand-color); 
-            font-size: 2.2rem; 
-            margin-bottom: 15px; 
-            letter-spacing: 0.1em;
-        }
-        .section-desc { color: var(--text-sub); margin-bottom: 50px; font-size: 1rem; }
-        
+        .content-section { padding: 40px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
+        .section-title { color: var(--brand-color); font-size: 2rem; margin-bottom: 10px; }
+        .section-desc { color: #666; margin-bottom: 40px; }
         .btn-main {
-            display: inline-block; 
-            background: var(--brand-color); 
-            color: #fff;
-            padding: 14px 35px; border-radius: var(--radius-btn); 
-            text-decoration: none; font-weight: 500; letter-spacing: 1px;
-            box-shadow: 0 8px 15px rgba(239, 183, 72, 0.3); 
-            transition: all 0.3s ease; border: none;
+            display: inline-block; background-color: #fff; color: var(--brand-color);
+            padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease;
         }
-        .btn-main:hover { 
-            transform: translateY(-3px); 
-            background-color: var(--brand-dark); 
-            box-shadow: 0 12px 20px rgba(239, 183, 72, 0.4);
-        }
+        .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
-        /* --- 最新優惠 (質感卡片) --- */
-        .offerSwiper { width: 100%; padding: 20px 0 60px 0; }
+        /* --- 最新優惠 --- */
+        .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
         .offer-card-layout {
-            background: var(--bg-card); 
-            border-radius: var(--radius-card); 
-            overflow: hidden;
-            box-shadow: var(--shadow-soft); 
-            display: flex;
+            background: #fff; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex;
             max-width: 900px; margin: 0 auto;
-            transition: transform 0.3s ease;
         }
-        .offer-card-layout:hover { box-shadow: var(--shadow-hover); }
-        
-        .offer-img-box { flex: 1; min-height: 320px; display: flex; align-items: center; justify-content: center; background-color: #fffdf5; padding: 20px; }
-        .offer-img-box img { width: 100%; height: 100%; object-fit: contain; transform: scale(0.9); transition: 0.5s; }
-        .swiper-slide:hover .offer-img-box img { transform: scale(1); }
-        
-        .offer-text-box { flex: 1; padding: 50px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
-        .offer-text-box h3 { font-size: 1.8rem; color: var(--text-main); margin: 15px 0; }
-        .offer-text-box p { color: var(--text-sub); margin-bottom: 25px; }
-        .tag-pill { 
-            display: inline-block; background-color: var(--brand-color); color: #fff; 
-            padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 500; 
-            letter-spacing: 1px; align-self: flex-start; margin-bottom: 10px; 
-            box-shadow: 0 4px 10px rgba(239, 183, 72, 0.3);
-        }
-        .price-highlight { 
-            display: flex; gap: 20px; background: #fffbf0; 
-            padding: 20px; border-radius: 15px; margin-bottom: 25px; 
-            color: var(--brand-dark); border: 1px solid rgba(239, 183, 72, 0.2);
-        }
+        .offer-img-box { flex: 1; min-height: 300px; display: flex; align-items: center; justify-content: center; background-color: #fff; padding: 30px; }
+        .offer-img-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .offer-text-box { flex: 1; padding: 40px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
+        .offer-text-box h3 { font-size: 1.8rem; color: #333; margin: 15px 0; }
+        .offer-text-box p { color: #666; line-height: 1.6; margin-bottom: 20px; }
+        .tag-pill { display: inline-block; background-color: #ff4757; color: #fff; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; align-self: flex-start; margin-bottom: 10px; }
+        .offer-list { list-style: none; padding: 0; margin-bottom: 20px; color: #555; }
+        .offer-list li { margin-bottom: 8px; }
+        .price-highlight { display: flex; gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--brand-color); }
 
         /* --- 關於運動按摩 --- */
+        .swiper { width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; padding-top: 20px; }
         .swiper-slide { background-position: center; background-size: cover; width: auto; height: auto; }
-        .slide-img { 
-            display: block; width: 100%; border-radius: 20px; 
-            box-shadow: var(--shadow-soft); 
+        .slide-img { display: block; width: 100%; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .swiper-pagination-bullet-active { background-color: var(--brand-color) !important; }
+        .my-prev-btn, .my-next-btn {
+            position: absolute; top: 60%; transform: translateY(-50%); width: 40px; height: 40px;
+            background-color: #fff; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer;
         }
-        .swiper-pagination-bullet { width: 10px; height: 10px; background: #ccc; opacity: 0.5; transition: 0.3s; }
-        .swiper-pagination-bullet-active { background-color: var(--brand-color) !important; width: 25px; border-radius: 5px; opacity: 1; }
+        .my-prev-btn { left: 10px; } .my-next-btn { right: 10px; }
+        .my-prev-btn::after, .my-next-btn::after { font-size: 1.2rem; font-weight: bold; }
 
-        /* --- 價目表 (極簡風) --- */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: left; }
-        .service-card { 
-            background: var(--bg-card); border-radius: var(--radius-card); 
-            overflow: hidden; box-shadow: var(--shadow-soft); 
-            transition: all 0.3s ease; border: 1px solid rgba(0,0,0,0.02);
-        }
-        .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
-        .card-body { padding: 35px; }
-        .card-body h3 { margin: 0 0 15px 0; color: var(--brand-color); font-size: 1.4rem; }
-        .desc { color: var(--text-sub); margin-bottom: 25px; font-size: 0.95rem; text-align: justify; }
-        
-        /* 價目表表格 */
-        table { border-radius: 15px; overflow: hidden; box-shadow: var(--shadow-soft); border: none !important; }
-        th { background-color: var(--brand-color); color: #fff; font-weight: 500; letter-spacing: 1px; border: none !important; }
-        td { border-bottom: 1px solid #f0f0f0 !important; border-top: none !important; border-left: none !important; border-right: none !important; color: var(--text-sub); }
-        tr:last-child td { border-bottom: none !important; }
+        /* --- 價目表 --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: left; }
+        .service-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
+        .service-card:hover { transform: translateY(-5px); }
+        .card-body { padding: 25px; }
+        .card-body h3 { margin: 0 0 10px 0; color: #333; }
+        .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
 
-        /* --- 預約日曆 (質感重繪) --- */
+        /* --- 預約日曆 (電腦版) --- */
         .booking-container { 
-            background: var(--bg-card); padding: 40px; border-radius: var(--radius-card); 
-            box-shadow: var(--shadow-soft); max-width: 750px; 
+            background: #fff; padding: 30px; border-radius: 15px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; 
             margin: 0 auto; text-align: left; 
-            position: relative; min-height: 400px; 
+            position: relative; 
+            min-height: 400px; 
         }
-        .month-selector { margin-bottom: 25px; }
-        .month-btn { 
-            background: #fff; border: 1px solid #eee; padding: 8px 15px; 
-            border-radius: 50%; cursor: pointer; color: var(--text-sub); 
-            font-size: 1rem; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .month-btn:hover { border-color: var(--brand-color); color: var(--brand-color); }
-        
-        .today-btn { 
-            font-size: 0.75rem; padding: 4px 12px; margin-top: 8px; 
-            background: #f0f0f0; color: #888; border: none; 
-            border-radius: 20px; cursor: pointer; transition: 0.2s; letter-spacing: 1px;
-        }
+        .booking-container h3 { padding-left: 0; margin-bottom: 15px; color: #333; text-align: center; }
+        .month-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .month-btn { background: none; border: 1px solid #ddd; padding: 5px 10px; border-radius: 5px; cursor: pointer; color: #666; font-size: 1.2rem; }
+        .month-btn:hover { background: #f0f0f0; }
+        .month-title-group { display: flex; flex-direction: column; align-items: center; }
+        .today-btn { font-size: 0.75rem; padding: 2px 10px; margin-top: 5px; background: #eee; color: #666; border: none; border-radius: 15px; cursor: pointer; transition: 0.2s; }
         .today-btn:hover { background: var(--brand-color); color: #fff; }
 
-        .calendar-grid { gap: 12px; margin-bottom: 40px; }
-        .cal-header { font-size: 0.75rem; font-weight: 700; color: #aaa; padding-bottom: 10px; letter-spacing: 1px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; justify-items: center; align-items: center; }
+        .cal-header { font-size: 0.8rem; font-weight: bold; color: #888; padding-bottom: 5px; width: 100%; text-align: center; }
+        .calendar-day { border: 1px solid #ddd; border-radius: 12px; width: 75px; height: 75px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-shrink: 0; }
+        .calendar-day span { font-size: 0.8rem; color: #888; margin-top: 3px; }
         
-        .calendar-day { 
-            border: none; background: #fff;
-            border-radius: 16px; width: 70px; height: 70px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            font-size: 1.1rem; font-family: 'Lato', sans-serif;
-            color: var(--text-main);
-        }
-        .calendar-day:hover { transform: translateY(-2px); box-shadow: 0 5px 12px rgba(0,0,0,0.08); }
-        .calendar-day span { font-size: 0.7rem; color: #bbb; margin-top: 2px; font-weight: 400; font-family: 'Noto Sans TC'; }
-        
-        .calendar-day.active { background-color: var(--brand-color) !important; color: #fff !important; box-shadow: 0 5px 15px rgba(239, 183, 72, 0.4); transform: scale(1.05); }
-        .calendar-day.today { border: 2px solid var(--brand-color); color: var(--brand-color); }
-        .calendar-day.disabled { background: transparent; box-shadow: none; color: #eee; }
-        .calendar-day.full { background: #f5f5f5; color: #ccc; box-shadow: none; }
+        .calendar-day.active, .calendar-day.holiday.active, .calendar-day.today.active { background-color: var(--brand-color) !important; color: #fff !important; border-color: var(--brand-color) !important; }
+        .calendar-day.active span, .calendar-day.holiday.active span, .calendar-day.today.active span { color: #fff !important; }
+        .calendar-day.holiday { background-color: #fff0f0; border: 2px solid #ffcccc; color: #d63031; pointer-events: auto !important; }
+        .calendar-day.holiday span { color: #d63031; display: block; }
+        .calendar-day.today { border: 2px solid var(--brand-color); font-weight: bold; background: transparent; color: var(--text-dark); }
+        .calendar-day.disabled { background-color: #f0f0f0; color: #ccc; cursor: not-allowed; pointer-events: none; }
+        .calendar-day.full { background-color: #e0e0e0; color: #888; pointer-events: none; }
+        .calendar-day.full span { color: #888; }
 
-        .time-btn { 
-            padding: 12px; background: #fff; border: 1px solid #eee; 
-            border-radius: 12px; color: var(--text-main); 
-            font-family: 'Lato', sans-serif; letter-spacing: 1px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-        .time-btn:hover, .time-btn.selected { 
-            background-color: var(--brand-color); color: #fff; border-color: var(--brand-color);
-            box-shadow: 0 5px 15px rgba(239, 183, 72, 0.3);
-        }
-        #selected-date-display { background: #fffbf0; color: var(--brand-dark); padding: 4px 12px; }
+        .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: all 0.2s; }
+        .time-btn:hover, .time-btn.selected { background-color: var(--brand-color); color: #fff; }
+        .time-btn.disabled { background-color: #f0f0f0; color: #ccc; cursor: not-allowed; pointer-events: none; }
+        #selected-date-display { font-size: 1rem; color: var(--brand-color); font-weight: bold; background: #fffaf0; padding: 2px 10px; border-radius: 15px; margin-left: 10px; }
 
         /* --- 7. 預約須知 & Q&A --- */
-        .info-grid { gap: 25px; }
-        .info-card { 
-            background: var(--bg-card); padding: 30px; border-radius: 20px; 
-            box-shadow: var(--shadow-soft); transition: transform 0.3s; 
-            border-left: 4px solid var(--brand-color); 
-        }
-        .info-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
-        .info-icon { font-size: 1.5rem; background: #fffbf0; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--brand-color); }
-        .card-header { border-bottom: none; gap: 15px; margin-bottom: 15px; }
-        .info-card h4 { font-size: 1.1rem; margin: 0; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .info-card { background: #fff; padding: 20px 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: left; transition: transform 0.2s; border-left: 5px solid transparent; }
+        .info-card:hover { transform: translateY(-3px); border-left: 5px solid var(--brand-color); box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
+        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .info-icon { font-size: 1.8rem; line-height: 1; }
+        .info-card h4 { margin: 0; font-size: 1.2rem; color: #333; }
+        .info-card p { margin: 0; color: #666; font-size: 0.95rem; line-height: 1.6; }
         
-        .qa-card { 
-            background: var(--bg-card); padding: 35px; border-radius: var(--radius-card); 
-            box-shadow: var(--shadow-soft); border: none;
-        }
-        .qa-badge { top: 30px; left: -10px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .qa-grid { display: grid; gap: 30px; margin-top: 40px; grid-template-columns: 1fr 1fr; }
+        .qa-card { background: #fff; padding: 30px; border-radius: 20px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; text-align: left; }
+        .qa-badge { position: absolute; top: -15px; left: 20px; background-color: #5e4b35; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .qa-card h3 { margin-top: 10px; color: #333; font-size: 1.3rem; }
 
         /* --- 8. 聯絡我們 --- */
-        #contact { 
-            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%); 
-            color: #fff; padding: 60px 40px !important;
-        }
-        .map-box { border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .contact-item strong { color: var(--brand-color); }
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; width: 100%; }
+        .contact-info, .map-box { width: 100%; }
+        .contact-info { text-align: left; }
+        .map-box { height: 300px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .map-box iframe { display: block; }
+        
+        .contact-item { font-size: 1.1rem; margin: 15px 0; line-height: 1.6; }
+        .contact-item strong { display: inline; margin-right: 5px; color: #efb748; font-size: 1rem; }
+        .contact-item span, .contact-item a { display: inline; }
+        .social-row { display: block; }
+        .social-row .contact-item { margin-bottom: 10px; margin-top: 0; display: inline-block; margin-right: 20px; }
+        .social-row strong { color: #efb748; }
+        .time-item strong { display: block; margin-bottom: 5px; }
+        .time-list-desktop { white-space: nowrap !important; display: block !important; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .contact-info .btn-main { width: auto; }
+        .mobile-break { display: none; }
+        .mobile-break::after { content: " | "; display: inline; }
 
         /* --- 9. 其他 --- */
-        .float-btn { width: 50px; height: 50px; background: #2c2c2c; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .float-btn:hover { background: var(--brand-color); transform: translateY(-3px); }
-        footer { color: #aaa; padding: 30px 0; font-family: 'Lato', sans-serif; letter-spacing: 1px; }
+        .floating-btn-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 999; transition: opacity 0.5s ease; }
+        .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .float-btn:hover { background-color: #333; transform: scale(1.1); }
+        .admin-float-btn { background-color: #333; font-size: 1rem; margin-top: 5px; }
+        footer { text-align: center; padding: 5px 5px; background-color: transparent; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
         /* ============================================= */
-        /* 📱 手機版專屬優化 (V26 Mobile Polish)        */
+        /* 🚀 彈窗 & 後台 & IG班表樣式                  */
+        /* ============================================= */
+        #booking-modal-overlay, #admin-login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(3px);
+            z-index: 10002; display: none; flex-direction: column; justify-content: center; align-items: center; 
+        }
+        .booking-modal, .admin-login-box { 
+            background: #fff; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; text-align: left;
+        }
+        .booking-modal h3, .admin-login-box h2 { margin-top: 0; color: var(--brand-color); text-align: center; }
+        #booking-info-text { font-size: 1.1rem !important; color: var(--brand-color) !important; font-weight: bold; margin-bottom: 20px !important; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-size: 0.9rem; color: #666; margin-bottom: 5px; }
+        .required { color: red; margin-left: 3px; }
+        .form-input, .form-select, .login-input { 
+            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 1rem; margin-bottom: 10px;
+        }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
+        .login-btn { background: var(--brand-color); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .login-btn:hover { opacity: 0.9; }
+
+        /* Toast */
+        #toast-msg {
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 20px;
+            font-size: 0.9rem; z-index: 20000; opacity: 0; transition: opacity 0.3s; pointer-events: none;
+        }
+
+        /* Admin Styles */
+        #admin-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--admin-bg); z-index: 10000; overflow-y: auto; color: var(--admin-text); }
+        .admin-header { background-color: #fff; color: #333; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .admin-header h1 { margin: 0; font-size: 1.2rem; color: var(--brand-color); }
+        .admin-container { max-width: 600px; margin: 20px auto; padding: 0 15px; padding-bottom: 60px; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .dash-num { font-size: 1.8rem; font-weight: bold; color: #333; margin: 5px 0; }
+        .dash-label { font-size: 0.8rem; color: #888; }
+        
+        .admin-card { position: relative; background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        
+        .admin-month-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .admin-month-title { font-size: 1.2rem; font-weight: bold; color: #333; }
+        .admin-toolbar { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .admin-tool-btn { background-color: #fff; border: 1px solid #ddd; color: #666; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; }
+        .admin-tool-btn:hover { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
+        .admin-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+        .admin-cal-head { font-size: 0.7rem; color: #888; margin-bottom: 5px; }
+        .admin-cal-cell { aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; border: 1px solid #eee; font-size: 0.9rem; cursor: pointer; position: relative; background: #fff; transition: all 0.2s; color: #333; }
+        .admin-cal-cell.today { border: 2px solid var(--brand-color); font-weight: bold; }
+        .admin-cal-cell.selected { background-color: var(--brand-color); color: #fff; border-color: var(--brand-color); }
+        .admin-cal-cell.holiday { background-color: #fff0f0; color: #d63031; text-decoration: none; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 2px; background-color: #2ecc71; display: none; }
+        .dot.active { display: block; }
+        .event-text { display: none; } 
+        .admin-cal-grid.detail-mode .admin-cal-cell { aspect-ratio: auto; min-height: 80px; justify-content: flex-start; padding-top: 5px; align-items: stretch; }
+        .admin-cal-grid.detail-mode .dot { display: none; } 
+        .admin-cal-grid.detail-mode .event-text { display: block; font-size: 0.65rem; color: #fff; background-color: #2ecc71; margin: 2px 0; padding: 2px 4px; border-radius: 3px; text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .admin-cal-grid.detail-mode .admin-cal-cell.holiday .event-text { display: none; }
+
+        .detail-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .date-title { font-size: 1.5rem; font-weight: bold; color: var(--brand-color); }
+        .daily-revenue-box { background-color: #fff4e5; color: #d35400; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.95rem; }
+
+        .order-item { background: #fff; border: 1px solid #eee; border-left: 5px solid var(--brand-color); padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .info-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.95rem; }
+        .info-label { color: #888; min-width: 70px; }
+        .info-value { color: #333; font-weight: 500; text-align: right; flex: 1; }
+        .order-header { border-bottom: 1px dashed #eee; padding-bottom: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .order-time-badge { background: #333; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 1rem; font-weight: bold; }
+        .status-badge { font-size: 0.8rem; padding: 2px 8px; border-radius: 10px; background: #eee; color: #666; }
+        .status-badge.paid { background: #d4edda; color: #155724; }
+
+        .action-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .status-btn { flex: 1; padding: 10px; border: none; border-radius: 5px; font-size: 0.95rem; cursor: pointer; color: #fff; font-weight: bold; transition: 0.2s; }
+        .btn-done { background: #27ae60; }
+        .btn-done.undo { background: #f39c12; } 
+        .btn-cancel { background: #e74c3c; }
+
+        .admin-big-btn-group { display: flex; gap: 10px; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
+        .admin-big-btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-holiday-big { background-color: #e74c3c; }
+        .btn-open-big { background-color: #2ecc71; }
+        .admin-time-management { margin-top: 20px; background: #fafafa; padding: 15px; border-radius: 10px; }
+        .admin-time-title { font-size: 0.95rem; font-weight: bold; margin-bottom: 10px; color: #555; }
+        .admin-time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .time-switch { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 0.85rem; }
+        .switch-input { margin-left: 5px; transform: scale(1.2); cursor: pointer; }
+        .control-btn { background: none; border: 1px solid #ddd; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; }
+
+        /* ========================================= */
+        /* 🔥 IG 限動班表 - V84 終極簡化版 (HTML img) */
+        /* ========================================= */
+        #ig-story-container {
+            width: 1080px; height: 1920px;
+            /* ❌ 移除 CSS 背景圖，改用 HTML <img> */
+            background-color: transparent; 
+            position: fixed; left: -9999px; top: 0; z-index: -1;
+            
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            
+            padding-top: 160px; 
+            
+            font-family: 'Noto Sans TC', sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* 這是背景圖的樣式，讓它乖乖待在最底層 */
+        #ig-bg-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -1; /* 放在所有文字後面 */
+        }
+
+        /* --- 標題區域 --- */
+        .ig-header-group {
+            text-align: center;
+            margin-bottom: 225px; 
+        }
+
+        .ig-month-en {
+            font-family: 'Lato', sans-serif; 
+            font-size: 110px; 
+            font-weight: 400; 
+            color: #000;
+            margin: 0;
+            line-height: 1;
+            letter-spacing: 20px; 
+            text-transform: uppercase;
+        }
+
+        .ig-year-sub {
+            font-family: 'Lato', sans-serif;
+            font-size: 45px;
+            color: #333;
+            letter-spacing: 8px;
+            margin-top: 40px; 
+            font-weight: 400;
+        }
+
+        /* --- 格子與數字區域 --- */
+        .ig-grid-container {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            width: 840px; 
+            border: none; 
+            padding-left: 5px; 
+        }
+        
+        .ig-cell-head { display: none; } 
+
+        .ig-cell-body {
+            height: 165px; 
+            border: none; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px; 
+        }
+
+        .ig-date-num {
+            font-family: 'Lato', sans-serif;
+            font-size: 40px;
+            font-weight: 400; 
+            color: #333;
+        }
+
+        /* 休假小圓圈 */
+        .ig-holiday-circle {
+            margin-top: 12px; 
+            width: 52px; height: 52px;
+            background-color: #f3d0d3; 
+            color: #c0392b; 
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 28px;
+            font-weight: bold; 
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        
+        .ig-footer, .ig-handle, .ig-logo-box { display: none; }
+
+        /* ============================================= */
+        /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
         /* ============================================= */
         @media (max-width: 768px) {
-            body { padding-top: 90px; }
-            /* 讓導覽列變身為膠囊滑動選單 */
-            header { padding: 10px 0; background: rgba(255,255,255,0.98); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-            .header-content { gap: 5px; }
-            .logo-img { height: 40px; margin-bottom: 5px; }
-            .nav-menu { 
-                justify-content: flex-start; padding: 5px 15px; 
-                gap: 10px; scroll-padding-left: 15px; 
-            }
-            .nav-menu a { 
-                background: #f5f5f5; color: #888; padding: 8px 16px; 
-                border-radius: 30px; font-size: 0.8rem; margin: 0; 
-                border: 1px solid transparent;
-            }
-            .nav-menu a::after { display: none; } /* 移除手機版底線 */
-            .nav-menu a:hover, .nav-menu a:active { 
-                background: #fffbf0; color: var(--brand-color); 
-                border-color: var(--brand-color); 
-            }
+            /* 1. 導覽列 */
+            header { padding: 10px 0; position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; }
+            body { padding-top: 110px; }
+            .header-content { flex-direction: column !important; gap: 10px; }
+            .logo-img { height: 45px; }
+            .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; scrollbar-width: none; }
+            .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
 
-            .content-section { padding: 40px 20px !important; margin: 20px 15px !important; }
-            .section-title { font-size: 1.6rem !important; }
-            
-            /* 卡片在手機版不要太寬 */
-            .info-card, .qa-card { min-width: 80vw !important; margin-right: 15px; }
-            
-            /* 日曆手機版優化 */
-            .booking-container { padding: 25px 15px !important; }
-            .calendar-day { box-shadow: none; border: 1px solid #f0f0f0; border-radius: 12px !important; }
-            .calendar-day.active { box-shadow: 0 4px 10px rgba(239, 183, 72, 0.3); }
+            /* 2. 日曆 */
+            .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
+            .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 2px !important; width: 100% !important; }
+            .calendar-day { width: 100% !important; height: auto !important; aspect-ratio: 1 / 1 !important; font-size: 0.75rem !important; padding: 0 !important; border-radius: 4px !important; min-height: 0 !important; }
+            .calendar-day span { font-size: 0.5rem !important; transform: scale(0.85); margin-top: 0px; }
+            .time-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
+            .time-btn { width: 100% !important; padding: 10px 0 !important; font-size: 0.9rem !important; }
 
-            /* 優化 Swiper 箭頭消失後的版面 */
-            .offer-text-box { padding: 30px 20px !important; }
+            /* 3. 聯絡資訊 */
+            .contact-container { display: flex !important; flex-direction: column !important; gap: 30px !important; width: 100% !important; }
+            .contact-item { display: flex !important; flex-direction: column !important; align-items: flex-start !important; margin-bottom: 15px !important; }
+            .contact-item strong { display: block !important; margin-bottom: 2px !important; width: 100%; }
+            .social-row { display: flex !important; flex-direction: column !important; gap: 5px !important; margin-bottom: 15px !important; width: 100% !important; }
+            .social-row .contact-item { margin-bottom: 0 !important; display: flex !important; flex-direction: row !important; align-items: center !important; gap: 5px !important; width: 100%; margin-right: 0 !important; }
+            .social-row strong { width: auto !important; margin-bottom: 0 !important; white-space: nowrap !important; }
+            .btn-group { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; }
+            .contact-info .btn-main { width: 100% !important; margin: 8px 0 !important; text-align: center; display: flex !important; justify-content: center !important; box-sizing: border-box !important; }
+
+            /* 4. 其他修正 */
+            .section-title { font-size: 1.4rem !important; margin-bottom: 20px !important; }
+            .info-grid, .qa-grid { display: flex !important; overflow-x: auto !important; gap: 15px !important; padding: 30px 20px 30px 20px !important; margin: 0 -20px !important; scroll-snap-type: x mandatory; scrollbar-width: none; grid-template-columns: none !important; }
+            .info-card, .qa-card { min-width: 70vw !important; margin: 0 !important; scroll-snap-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; position: relative; overflow: visible !important; }
+            .info-card:last-child, .qa-card:last-child { margin-right: 20px !important; }
+            #contact { margin: 20px 15px !important; border-radius: 20px !important; width: auto !important; padding: 30px 20px !important; box-sizing: border-box; }
+            .map-box { order: 2; height: 250px !important; width: 100% !important; }
+            .contact-info { order: 1; }
+            .services-grid + div p { font-size: 0.75rem !important; white-space: nowrap !important; letter-spacing: -0.5px; }
+            .mobile-break { display: inline; }
+            .mobile-break::after { display: none; }
+            .time-list-desktop { white-space: normal !important; display: block !important; }
+            .content-section { padding: 30px 20px !important; margin: 20px 15px !important; width: auto !important; border-radius: 20px !important; }
+            .offer-card-layout { flex-direction: column !important; }
+            .offer-img-box { padding: 0 !important; }
+            .offer-text-box { padding: 25px !important; }
+            #about { padding-left: 15px !important; padding-right: 15px !important; }
+            table { font-size: 0.75rem !important; }
+            th, td { padding: 8px 4px !important; white-space: nowrap !important; }
+            td span { font-size: 0.65rem !important; display: inline-block; }
+            .swiper-button-next, .swiper-button-prev, .my-next-btn, .my-prev-btn { display: none !important; }
         }
     </style>
 </head>
@@ -316,14 +449,14 @@
         </div>
     </header>
 
-    <section class="content-section" id="news" style="padding-bottom: 40px;">
-        <h2 class="section-title">最新活動 & 獨家優惠</h2>
+    <section class="content-section" id="news" style="background-color: #f9f5f0; padding-bottom: 40px;">
+        <h2 class="section-title">🎉 最新活動 & 獨家優惠</h2>
         <p class="section-desc">為您準備的專屬放鬆提案 👇</p>
         <div class="swiper offerSwiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/當月壽星優惠.png" alt="生日優惠"></div><div class="offer-text-box"><span class="tag-pill">壽星獨享 🎂</span><h3>當月壽星折抵 $200</h3><p>生日是專屬於自己的日子，值得被好好慶祝！<br>歡迎來躺平運動按摩，卸下疲憊，給身心一份放鬆的禮物。</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 立即預約生日禮</a></div></div></div>
                 <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/學生優惠.png" alt="學生優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#e67e22;">學生限定 🎓</span><h3>憑學生證折抵 $200</h3><p>不論你是在操場揮汗，還是在考場中拼搏。<br>快來放鬆肌肉與壓力，重整身心，補好能量再出發！</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 學生專屬預約</a></div></div></div>
-                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/包堂優惠方案.png" alt="包堂優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#d35400;">最划算 🔥</span><h3>包堂優惠方案</h3><p>想要定期保養身體嗎？包堂方案讓您省更多！</p><div class="price-highlight"><div><strong>包五堂</strong> <br> 省 $500</div><div style="border-left: 1px solid #ddd; padding-left: 20px;"><strong>包十堂</strong> <br> 省 $2000</div></div><a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="margin-top: 15px;">💬 私訊詢問包堂</a></div></div></div>
+                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/包堂優惠方案.png" alt="包堂優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#d35400;">最划算 🔥</span><h3>包堂優惠方案</h3><p>想要定期保養身體嗎？包堂方案讓您省更多！</p><div class="price-highlight"><div><strong>包五堂</strong> <br> 省 $500</div><div style="border-left: 1px solid #ddd; padding-left: 15px;"><strong>包十堂</strong> <br> 省 $2000</div></div><a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="margin-top: 15px;">💬 私訊詢問包堂</a></div></div></div>
             </div>
             <div class="swiper-pagination"></div>
             <div class="swiper-button-next" style="color: var(--brand-color);"></div>
@@ -331,10 +464,10 @@
         </div>
     </section>
 
-    <section class="content-section" id="about" style="background-color: #fffdf5; padding-bottom: 60px; border-radius: 30px; margin: 40px auto; max-width: 950px; position: relative; padding-left: 60px; padding-right: 60px; box-sizing: border-box; box-shadow: inset 0 0 30px rgba(239, 183, 72, 0.05);">
-        <h2 class="section-title" style="padding-top: 30px;">關於運動按摩</h2>
-        <p class="section-desc" style="margin-bottom: 40px;">左右滑動卡片，了解我們如何幫助您的身體 👇</p>
-        <div class="swiper mySwiper" style="width: 100%; height: 100%; overflow: visible;">
+    <section class="content-section" id="about" style="background-color: #fffaf0; padding-bottom: 50px; border-radius: 20px; margin: 40px auto; max-width: 900px; position: relative; padding-left: 60px; padding-right: 60px; box-sizing: border-box;">
+        <h2 class="section-title" style="padding-top: 20px;">關於運動按摩</h2>
+        <p class="section-desc" style="margin-bottom: 30px;">左右滑動卡片，了解我們如何幫助您的身體 👇</p>
+        <div class="swiper mySwiper" style="width: 100%; height: 100%; overflow: hidden; border-radius: 10px;">
             <div class="swiper-wrapper">
                 <div class="swiper-slide"><img src="images/按摩效果.png" alt="按摩效果" class="slide-img"></div>
                 <div class="swiper-slide"><img src="images/比較圖.png" alt="比較圖" class="slide-img"></div>
@@ -354,25 +487,23 @@
 
     <section class="content-section" id="services">
         <h2 class="section-title">服務項目 & 價目表</h2>
-        <p class="section-desc">透明的價格，不妥協的專業品質</p>
         <div class="services-grid">
-            <div class="service-card"><div class="card-body"><h3>專業運動按摩</h3><p class="desc">以美式深壓手法、PNF 伸展等技術，必要時使用拔罐，有效釋放深層肌肉的緊繃與痠痛。適合運動員、健身族群及久站久坐上班族。</p><hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;"><div style="display: flex; justify-content: space-between; margin-bottom: 15px;"><span>基礎方案 (60分鐘)</span><strong>$ 1,200</strong></div><div style="display: flex; justify-content: space-between;"><span>大樂方案 (90分鐘)</span><strong>$ 1,800</strong></div></div></div>
-            <div class="service-card"><div class="card-body"><h3>張力調整</h3><p class="desc">透過精準放鬆技巧，結合筋膜刀、拔罐與簡易運動，有效達到張力平衡，改善沾黏。幫助提升活動度、優化身體協調性。</p><hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;"><div style="display: flex; justify-content: space-between; margin-bottom: 15px;"><span>基礎方案 (60分鐘)</span><strong>$ 1,400</strong></div><div style="display: flex; justify-content: space-between;"><span>大樂方案 (90分鐘)</span><strong>$ 2,000</strong></div></div></div>
+            <div class="service-card"><div class="card-body"><h3 style="color: var(--brand-color);">專業運動按摩</h3><p class="desc">以美式深壓手法、PNF 伸展等技術，必要時使用拔罐，有效釋放深層肌肉的緊繃與痠痛。適合運動員、健身族群及久站久坐上班族。</p><hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;"><div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span>基礎方案 (60分鐘)</span><strong>$ 1,200</strong></div><div style="display: flex; justify-content: space-between;"><span>大樂方案 (90分鐘)</span><strong>$ 1,800</strong></div></div></div>
+            <div class="service-card"><div class="card-body"><h3 style="color: var(--brand-color);">張力調整</h3><p class="desc">透過精準放鬆技巧，結合筋膜刀、拔罐與簡易運動，有效達到張力平衡，改善沾黏。幫助提升活動度、優化身體協調性。</p><hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;"><div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span>基礎方案 (60分鐘)</span><strong>$ 1,400</strong></div><div style="display: flex; justify-content: space-between;"><span>大樂方案 (90分鐘)</span><strong>$ 2,000</strong></div></div></div>
         </div>
-        <div style="margin-top: 50px; overflow-x: auto; padding: 10px;">
-            <h3 style="text-align: center; margin-bottom: 25px; color: var(--text-main);">💰 包堂優惠方案 (最划算!)</h3>
-            <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: var(--shadow-soft);">
-                <tr style="background: var(--brand-color); color: #fff;"><th style="padding: 18px;">項目</th><th style="padding: 18px;">單堂</th><th style="padding: 18px;">包五堂</th><th style="padding: 18px;">包十堂</th></tr>
-                <tr><td style="padding: 20px;">專業運動按摩</td><td style="padding: 20px;">$1,200</td><td style="padding: 20px;">$5,500 <br><span style="font-size:0.8rem; color:#999;">($1,100/堂)</span></td><td style="padding: 20px; color: #d35400; font-weight:bold;">$10,000 <br><span style="font-size:0.8rem;">($1,000/堂)</span></td></tr>
-                <tr><td style="padding: 20px;">張力調整</td><td style="padding: 20px;">$1,400</td><td style="padding: 20px;">$6,500 <br><span style="font-size:0.8rem; color:#999;">($1,300/堂)</span></td><td style="padding: 20px; color: #d35400; font-weight:bold;">$12,000 <br><span style="font-size:0.8rem;">($1,200/堂)</span></td></tr>
+        <div style="margin-top: 40px; overflow-x: auto;">
+            <h3 style="text-align: center; margin-bottom: 20px;">💰 包堂優惠方案 (最划算!)</h3>
+            <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <tr style="background: #efb748; color: #fff;"><th style="padding: 15px; border: 1px solid #ddd;">項目</th><th style="padding: 15px; border: 1px solid #ddd;">單堂</th><th style="padding: 15px; border: 1px solid #ddd;">包五堂</th><th style="padding: 15px; border: 1px solid #ddd;">包十堂</th></tr>
+                <tr><td style="padding: 15px; border: 1px solid #ddd;">專業運動按摩</td><td style="padding: 15px; border: 1px solid #ddd;">$1,200</td><td style="padding: 15px; border: 1px solid #ddd;">$5,500 <br><span style="font-size:0.8rem; color:#888;">($1,100/堂)</span></td><td style="padding: 15px; border: 1px solid #ddd; color: #d35400; font-weight:bold;">$10,000 <br><span style="font-size:0.8rem;">($1,000/堂)</span></td></tr>
+                <tr><td style="padding: 15px; border: 1px solid #ddd;">張力調整</td><td style="padding: 15px; border: 1px solid #ddd;">$1,400</td><td style="padding: 15px; border: 1px solid #ddd;">$6,500 <br><span style="font-size:0.8rem; color:#888;">($1,300/堂)</span></td><td style="padding: 15px; border: 1px solid #ddd; color: #d35400; font-weight:bold;">$12,000 <br><span style="font-size:0.8rem;">($1,200/堂)</span></td></tr>
             </table>
-            <p style="text-align: right; color: #888; font-size: 0.85rem; margin-top: 15px; letter-spacing: 0.5px;">※ 包堂方案如欲加時，每加 30 分鐘以 500 元計。</p>
+            <p style="text-align: right; color: #666; font-size: 0.9rem; margin-top: 10px;">※ 包堂方案如欲加時，每加 30 分鐘以 500 元計。</p>
         </div>
     </section>
 
     <section class="content-section" id="booking">
         <h2 class="section-title">線上預約</h2>
-        <p class="section-desc">簡單三步驟，預約您的放鬆時光</p>
         
         <div class="booking-container">
             <div id="front-loading-overlay" class="local-loading-overlay">
@@ -384,7 +515,7 @@
                 <div class="month-selector">
                     <button class="month-btn" onclick="prevMonth()">❮</button>
                     <div class="month-title-group">
-                        <h3 id="currentMonthYear" style="margin-bottom:0; font-size: 1.3rem;">12月 (2025)</h3>
+                        <h3 id="currentMonthYear" style="margin-bottom:0;">12月 (2025)</h3>
                         <button class="today-btn" onclick="resetToToday()">回到今天</button>
                     </div>
                     <button class="month-btn" onclick="nextMonth()">❯</button>
@@ -392,13 +523,13 @@
                 <div class="calendar-grid" id="calendar-grid-front"></div>
             </div>
             <div class="time-selector">
-                <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 20px;">2. 選擇時段 <span id="selected-date-display"></span></h3>
+                <h3>2. 選擇時段 <span id="selected-date-display"></span></h3>
                 <div class="time-grid" id="time-grid"></div>
             </div>
         </div>
     </section>
 
-    <section class="content-section" id="notice" style="background-color: #f5f5f5; padding: 60px 40px; border-radius: 30px; max-width: 1000px; margin: 40px auto;">
+    <section class="content-section" id="notice" style="background-color: #f9f9f9; padding: 50px 40px; border-radius: 30px; max-width: 1000px; margin: 40px auto;">
         <h2 class="section-title">⚠️ 預約須知</h2>
         <div class="info-grid">
             <div class="info-card"><div class="card-header"><div class="info-icon">🎽</div><h4>穿著建議</h4></div><p>請穿著或攜帶<strong>運動服裝</strong>，女性建議穿著運動內衣，方便伸展與放鬆。</p></div>
@@ -408,7 +539,7 @@
             <div class="info-card"><div class="card-header"><div class="info-icon">🕒</div><h4>首次體驗</h4></div><p>建議預約 <strong>90 分鐘方案</strong>，包含完整評估與測試，較能充分感受成效。</p></div>
             <div class="info-card"><div class="card-header"><div class="info-icon">🏥</div><h4>醫療聲明</h4></div><p>運動按摩<strong>無法替代醫療行為</strong>，若有急性發炎或嚴重不適，請先就醫。</p></div>
         </div>
-        <h2 class="section-title" style="margin-top: 80px; color: #5e4b35; font-size: 1.8rem;">💡 身體小知識 Q&A</h2>
+        <h2 class="section-title" style="margin-top: 60px; color: #5e4b35;">💡 身體小知識 Q&A</h2>
         <div class="qa-grid">
             <div class="qa-card"><div class="qa-badge" style="background-color: #d35400;">Question 1</div><h3>跟一般按摩差在哪？</h3><p><strong>A: 目的完全不同！</strong></p><p>一般按摩是為了「舒壓放鬆」。<br>運動按摩則是為了<strong>「恢復肌肉功能」</strong>，增加關節活動度與運動表現。</p></div>
             <div class="qa-card"><div class="qa-badge" style="background-color: #88c1b8;">Question 2</div><h3>按摩後隔天，身體有點痠痛正常嗎？</h3><p><strong>A: 是正常的喔！👌</strong></p><p>運動按摩後隔天身體感到痠痛，這通常稱為「延遲性肌肉痠痛 (DOMS)」。這是深層按摩後自然的修復過程。</p></div>
@@ -417,28 +548,28 @@
         </div>
     </section>
 
-    <section class="content-section" id="contact" style="border-radius: 30px; max-width: 950px; margin: 30px auto;">
+    <section class="content-section" id="contact" style="background-color: #333; color: #fff; border-radius: 30px; max-width: 900px; margin: 30px auto; padding: 20px 20px;">
         <h2 class="section-title" style="color: #efb748;">📍 聯絡我們</h2>
         <div class="contact-container">
             <div class="contact-info">
                 <p class="contact-item"><strong>🏠 地址：</strong> <span>新北市蘆洲區三民路128巷68號</span></p>
                 <div class="social-row">
-                    <p class="contact-item"><strong>📞 LINE：</strong> <a href="https://line.me/R/ti/p/@tangping" style="color: #fff; text-decoration: underline;">@tangping</a></p>
-                    <p class="contact-item"><strong>📷 IG：</strong> <a href="https://instagram.com/tangping_68" style="color: #fff; text-decoration: underline;">tangping_68</a></p>
+                    <p class="contact-item"><strong>📞 LINE：</strong> <a href="https://line.me/R/ti/p/@tangping" style="color: #fff;">@tangping</a></p>
+                    <p class="contact-item"><strong>📷 IG：</strong> <a href="https://instagram.com/tangping_68" style="color: #fff;">tangping_68</a></p>
                 </div>
-                <p class="contact-item time-item"><strong class="contact-title-block">⏰ 每日可預約時段：</strong><span class="time-list-desktop" style="opacity: 0.8;">10:00 | 12:00 | 14:00 | 15:40 <br class="mobile-break">17:10 | 19:30 | 21:10</span></p>
+                <p class="contact-item time-item"><strong class="contact-title-block">⏰ 每日可預約時段：</strong><span class="time-list-desktop">10:00 | 12:00 | 14:00 | 15:40 <br class="mobile-break">17:10 | 19:30 | 21:10</span></p>
                 <br> 
                 <div class="btn-group">
                     <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="border:none; background-color:#00B900; color:white;">加入 LINE 預約</a>
                     <a href="https://instagram.com/tangping_68" target="_blank" class="btn-main" style="border:none; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color:white; margin-left: 10px;">追蹤 Instagram</a>
                 </div>
             </div>
-            <div class="map-box"><iframe width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" src="https://maps.google.com/maps?q=新北市蘆洲區三民路128巷68號&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe></div>
+            <div class="map-box"><iframe width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.370022826966!2d121.46770401095526!3d25.08933283596854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90055f62f55%3A0x9cc567681495fd17!2z6Lq65bmz6YGL5YuV5oyJ5pGp!5e0!3m2!1szh-TW!2stw!4v1765006184538!5m2!1szh-TW!2stw"></iframe></div>
         </div>
     </section>
 
     <footer>
-        <p>© 2025 TANG PING Sport Massage. All Rights Reserved.</p>
+        <p>© 2025 TANG PING Sport Massage.</p>
     </footer>
 
     <div class="floating-btn-container">
@@ -449,12 +580,16 @@
 
     <div id="ig-story-container">
         <img id="ig-bg-layer" src="images/schedule_bg_clean.png" alt="Background">
+        
         <div class="ig-header-group">
             <h1 class="ig-month-en" id="ig-month-en">DECEMBER</h1>
             <div class="ig-year-sub" id="ig-year-sub">2025 / 12</div>
         </div>
-        <div class="ig-grid-container" id="ig-new-grid"></div>
-    </div>
+
+        <div class="ig-grid-container" id="ig-new-grid">
+            </div>
+        
+        </div>
 
     <div id="booking-modal-overlay">
         <div class="booking-modal">
@@ -548,11 +683,7 @@
     </div>
 
     <script>
-        // ===========================================
-        // 🚀 TANG PING 完整功能邏輯 (含質感版修正)
-        // ===========================================
-        
-        // 這是妳原本的 Google Apps Script 網址
+        // 🔥 V69.0: ID Po6w (確認)
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCpL3OlrOQBAfIjly9VBjuUveEpJoWBArt0zgwrPzn36tLtHd1ZdDSV7WIM7-tlMUp9w/exec"; 
 
         let currentDate = new Date();
@@ -563,19 +694,16 @@
         let lockedSlots = [];
         const timeSlots = ['10:00', '12:00', '14:00', '15:40', '17:10', '19:30', '21:10'];
         const dayNames = ['日', '一', '二', '三', '四', '五', '六'];
-        
-        // 初始化
+        const chnNumChar = ["零","一","二","三","四","五","六","七","八","九","十","十一","十二"];
+
         window.onload = function() {
-            // 確保前台日曆 ID 正確 (為了配合新版 CSS)
             const frontGrid = document.querySelector('.calendar-grid');
-            if(frontGrid && !frontGrid.id) frontGrid.id = 'calendar-grid-front';
-            
+            if(frontGrid) frontGrid.id = 'calendar-grid-front';
             updateCalendars(); 
             checkLoginState();
             fetchOrders();
         };
 
-        // 手機號碼格式化
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
             if(val.length > 10) val = val.slice(0, 10);
@@ -584,7 +712,6 @@
             return val;
         }
 
-        // 檢查後台登入狀態
         function checkLoginState() {
             if(sessionStorage.getItem('isAdmin') === 'true') {
                 document.getElementById('admin-panel').style.display = 'block';
@@ -592,12 +719,11 @@
             }
         }
 
-        // 從 Google Sheet 抓取資料
         function fetchOrders() {
+            // ✨✨✨ 顯示前台和後台的局部遮罩 ✨✨✨
             const frontLoader = document.getElementById('front-loading-overlay');
             const adminLoader = document.getElementById('admin-loading-overlay');
             
-            // 顯示 Loading
             if(frontLoader) frontLoader.style.display = 'flex';
             if(adminLoader) adminLoader.style.display = 'flex';
 
@@ -627,7 +753,6 @@
                     updateDashboard(); 
                     updateCalendars(); 
                     
-                    // 如果當下有點選日期，要刷新顯示
                     if(selectedDate) {
                         if(holidays.includes(selectedDate)) {
                              const container = document.getElementById('time-grid');
@@ -644,7 +769,7 @@
                         }
                     }
 
-                    // 隱藏 Loading
+                    // ✨✨✨ 隱藏前台和後台的局部遮罩 ✨✨✨
                     if(frontLoader) {
                         frontLoader.style.opacity = '0';
                         setTimeout(() => { frontLoader.style.display = 'none'; frontLoader.style.opacity = '1'; }, 300);
@@ -681,27 +806,21 @@
              document.getElementById('daily-revenue-text').innerText = `💰 本日營收: $${dailyRevenue.toLocaleString()}`;
         }
 
-        // 更新日曆顯示 (前台 + 後台)
         function updateCalendars() {
             const y = currentDate.getFullYear();
             const m = currentDate.getMonth();
             const titleText = `${m + 1}月 (${y})`;
-            
             const frontTitle = document.getElementById('currentMonthYear');
-            if(frontTitle) frontTitle.innerText = titleText; 
-            
+            if(frontTitle) frontTitle.childNodes[0].nodeValue = titleText + " "; 
             const adminTitle = document.getElementById('adminMonthYear');
             if(adminTitle) adminTitle.innerText = titleText;
             
             try {
-                // 渲染前台
                 renderCalendar(y, m, 'calendar-grid-front', false);
-                // 渲染後台
                 renderCalendar(y, m, 'admin-cal-grid', true);
             } catch(e) { console.error("月曆繪製錯誤", e); }
         }
 
-        // 核心日曆渲染函式
         function renderCalendar(year, month, elementId, isAdmin) {
             const container = document.getElementById(elementId);
             if(!container) return;
@@ -759,10 +878,10 @@
                     if(!isAdmin) cell.innerHTML += `<br><span>可約</span>`;
                 }
 
-                // 後台顯示小綠點
                 if(isAdmin && hasOrder) {
                     cell.innerHTML += `<div class="dot active"></div>`;
                     const dailyOrders = allOrders.filter(o => o.date === dateStr);
+                    // ✨✨✨ 關鍵修改：後台詳細模式只顯示「時間」，不顯示「名字」 ✨✨✨
                     dailyOrders.forEach(o => { cell.innerHTML += `<div class="event-text">${o.time}</div>`; });
                 }
 
@@ -778,7 +897,6 @@
         function nextMonth() { currentDate.setMonth(currentDate.getMonth() + 1); updateCalendars(); }
         function resetToToday() { currentDate = new Date(); updateCalendars(); }
 
-        // 選擇日期 (前台)
         function selectDate(day, element) {
             selectedDate = `${currentDate.getMonth()+1}/${day}`;
             let days = document.querySelectorAll('.calendar-day');
@@ -796,7 +914,6 @@
             }
         }
         
-        // 渲染時段按鈕
         function renderTimeSlots(date) {
             const container = document.getElementById('time-grid');
             if(!container) return;
@@ -817,7 +934,6 @@
             });
         }
 
-        // 開啟預約表單
         function openBookingForm(time, btnElement) {
             if(!selectedDate) { 
                 Swal.fire({ icon: 'warning', title: '請先選擇日期', text: '點擊上方日曆選擇您想預約的日期', confirmButtonColor: '#efb748' });
@@ -833,7 +949,6 @@
 
         function closeBookingForm() { document.getElementById('booking-modal-overlay').style.display = 'none'; }
 
-        // 送出預約
         function confirmBooking() {
             const name = document.getElementById('booking-name').value;
             const phone = document.getElementById('booking-phone').value.trim();
@@ -884,7 +999,6 @@
                     }
                 });
 
-                // 本地先鎖定，不用等重整
                 lockedSlots.push({ date: selectedDate, time: selectedTime, status: 'booked' });
                 renderTimeSlots(selectedDate);
                 
@@ -900,10 +1014,8 @@
             });
         }
 
-        // 後台管理相關函式
         function openAdmin() { document.getElementById('admin-login-overlay').style.display = 'flex'; }
         function closeAdmin() { document.getElementById('admin-login-overlay').style.display = 'none'; }
-        
         function checkAdminLogin() {
             const pwd = document.getElementById('admin-password').value;
             if(pwd === '8888') { 
@@ -991,6 +1103,7 @@
             document.getElementById('admin-date-title').innerText = selectedDate;
             document.getElementById('day-detail').style.display = 'block';
             
+            // 🔥 V73 優化：顯示管理區塊
             document.getElementById('admin-mgmt-section').style.display = 'block';
             document.getElementById('admin-big-btns').style.display = 'flex';
             
@@ -1057,7 +1170,6 @@
             if(element) document.getElementById('day-detail').scrollIntoView({behavior: "smooth"});
         }
         
-        // 顯示管理時段開關
         function renderAdminTimeSwitches(date) {
             const container = document.getElementById('admin-time-switches');
             container.innerHTML = "";
@@ -1075,7 +1187,6 @@
             });
         }
         
-        // 鎖定/開放單一時段
         function toggleTimeLock(time, isChecked) {
             const actionText = isChecked ? "開放" : "鎖定";
             showToast(`⏳ 正在${actionText}時段...`);
@@ -1085,7 +1196,6 @@
             .catch(e => alert("錯誤：" + e));
         }
         
-        // 設定/取消店休
         function toggleHoliday() {
             if(!selectedDate) return;
             const dateStr = selectedDate; 
@@ -1106,7 +1216,6 @@
             }).catch(e => alert("錯誤：" + e));
         }
         
-        // 切換後台日曆顯示模式
         function toggleViewMode() {
             const grid = document.getElementById('admin-cal-grid');
             const btn = document.getElementById('viewToggleBtn');
@@ -1125,11 +1234,9 @@
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
         function scrollToBottom() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
         
-        // Swiper 設定
         var swiper = new Swiper(".mySwiper", { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 20, loop: true, breakpoints: { 768: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 30 } }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".my-next-btn", prevEl: ".my-prev-btn" }, autoplay: { delay: 4000, disableOnInteraction: false } });
         var offerSwiper = new Swiper(".offerSwiper", { slidesPerView: 1, spaceBetween: 30, loop: true, autoplay: { delay: 5000, disableOnInteraction: false }, pagination: { el: ".offerSwiper .swiper-pagination", clickable: true }, navigation: { nextEl: ".offerSwiper .swiper-button-next", prevEl: ".offerSwiper .swiper-button-prev" } });
         
-        // 浮動按鈕淡入淡出
         let isScrolling;
         const floatBtns = document.querySelector('.floating-btn-container');
         window.addEventListener('scroll', function() {
@@ -1138,7 +1245,6 @@
             isScrolling = setTimeout(function() { floatBtns.style.opacity = '0.3'; }, 2000); 
         }, false);
         
-        // 導覽列隱藏效果
         let lastScrollTop = 0;
         const header = document.querySelector('header');
         window.addEventListener('scroll', function() {
@@ -1147,7 +1253,6 @@
             lastScrollTop = scrollTop;
         });
 
-        // 加入 Google 行事曆
         function addToGoogleCalendar() {
             let year = new Date().getFullYear();
             let [month, day] = selectedDate.split('/');
@@ -1161,10 +1266,9 @@
             window.open(url, '_blank');
         }
 
-        // ============================================
-        // 📸 IG 限動圖片生成 (V84 版本)
-        // ============================================
+        // ✨ 產生 IG 限動班表的功能 (V84 終極簡化版 - 直接顯示在螢幕上)
         function generateScheduleImage() {
+            // 顯示遮罩
             const adminLoader = document.getElementById('admin-loading-overlay');
             if(adminLoader) {
                 adminLoader.style.display = 'flex';
@@ -1173,6 +1277,7 @@
                 showToast("📸 正在合成 IG 限動...");
             }
 
+            // 1. 準備資料
             const m = currentDate.getMonth(); 
             const y = currentDate.getFullYear();
             
@@ -1181,11 +1286,11 @@
                 "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
             ];
 
-            // 填入文字
+            // 填入標題
             document.getElementById('ig-month-en').innerText = monthNamesEn[m];
             document.getElementById('ig-year-sub').innerText = `${y} / ${String(m + 1).padStart(2, '0')}`;
 
-            // 生成格子
+            // --- 填寫格子邏輯 ---
             const container = document.getElementById('ig-new-grid');
             container.innerHTML = ""; 
 
@@ -1210,17 +1315,18 @@
                 container.innerHTML += html;
             }
 
-            // 執行截圖
+            // 2. 拍照並直接顯示 (暴力破解手機限制)
             setTimeout(() => {
                 const captureArea = document.getElementById("ig-story-container");
                 
                 html2canvas(captureArea, { scale: 1, backgroundColor: null }).then(canvas => {
+                    // 隱藏 Loading
                     if(adminLoader) {
                         adminLoader.style.display = 'none';
                         adminLoader.querySelector('.loading-text').innerText = "資料讀取中..."; 
                     }
 
-                    // 建立預覽遮罩
+                    // 創建一個全螢幕的黑色覆蓋層
                     const overlay = document.createElement('div');
                     overlay.style.position = 'fixed';
                     overlay.style.top = '0';
@@ -1233,8 +1339,9 @@
                     overlay.style.flexDirection = 'column';
                     overlay.style.alignItems = 'center';
                     overlay.style.justifyContent = 'center';
-                    overlay.style.overflow = 'auto'; 
+                    overlay.style.overflow = 'auto'; // 允許捲動
 
+                    // 提示文字
                     const tip = document.createElement('p');
                     tip.innerText = "請長按圖片 -> 儲存圖片";
                     tip.style.color = "#fff";
@@ -1242,6 +1349,7 @@
                     tip.style.fontSize = "1.2rem";
                     tip.style.fontWeight = "bold";
 
+                    // 圖片
                     const img = document.createElement('img');
                     img.src = canvas.toDataURL("image/png");
                     img.style.maxWidth = "90%";
@@ -1249,6 +1357,7 @@
                     img.style.borderRadius = "10px";
                     img.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
 
+                    // 關閉按鈕
                     const closeBtn = document.createElement('button');
                     closeBtn.innerText = "關閉";
                     closeBtn.style.marginTop = "20px";
@@ -1261,6 +1370,7 @@
                     closeBtn.style.fontWeight = "bold";
                     closeBtn.onclick = function() { document.body.removeChild(overlay); };
 
+                    // 組裝
                     overlay.appendChild(tip);
                     overlay.appendChild(img);
                     overlay.appendChild(closeBtn);
