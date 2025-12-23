@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -65,9 +65,22 @@
         .nav-menu a:hover { color: var(--brand-color); }
 
         /* --- 通用區塊 --- */
-        .content-section { padding: 40px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
-        .section-title { color: var(--brand-color); font-size: 2rem; margin-bottom: 10px; }
-        .section-desc { color: #666; margin-bottom: 40px; }
+        /* --- 修正前台通用區塊間距 (電腦版) --- */
+        .content-section { 
+          padding: 25px 20px; /* 原本 40px 改為 25px，縮減留白 */
+         max-width: 800px; 
+        margin: 0 auto; 
+        text-align: center; 
+        }
+        .section-title { 
+        color: var(--brand-color); 
+        font-size: 2rem; 
+        margin-bottom: 5px !important; /* 讓標題與描述更緊湊 */
+        }
+        .section-desc { 
+        color: #666; 
+        margin-bottom: 20px !important; /* 讓描述與內容更接近 */
+        }
         .btn-main {
             display: inline-block; background-color: #fff; color: var(--brand-color);
             padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold;
@@ -429,7 +442,13 @@
             .mobile-break { display: inline; }
             .mobile-break::after { display: none; }
             .time-list-desktop { white-space: normal !important; display: block !important; }
-            .content-section { padding: 30px 20px !important; margin: 20px 15px !important; width: auto !important; border-radius: 20px !important; }
+            /* 找到 @media (max-width: 768px) 裡面的 .content-section 部分 */
+            .content-section { 
+            padding: 15px 15px !important; /* 原本 30px 改為 15px */
+            margin: 10px 10px !important; /* 原本 20px 改為 10px */
+            width: auto !important; 
+            border-radius: 20px !important; 
+            }
             .offer-card-layout { flex-direction: column !important; }
             .offer-img-box { padding: 0 !important; }
             .offer-text-box { padding: 25px !important; }
@@ -1456,7 +1475,17 @@ async function fetchYearlyReport() {
         function scrollToBottom() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
         
         var swiper = new Swiper(".mySwiper", { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 20, loop: true, breakpoints: { 768: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 30 } }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".my-next-btn", prevEl: ".my-prev-btn" }, autoplay: { delay: 4000, disableOnInteraction: false } });
-        var offerSwiper = new Swiper(".offerSwiper", { slidesPerView: 1, spaceBetween: 30, loop: true, autoplay: { delay: 5000, disableOnInteraction: false }, pagination: { el: ".offerSwiper .swiper-pagination", clickable: true }, navigation: { nextEl: ".offerSwiper .swiper-button-next", prevEl: ".offerSwiper .swiper-button-prev" } });
+        var offerSwiper = new Swiper(".offerSwiper", { 
+        slidesPerView: 1, 
+        spaceBetween: 30, 
+        loop: true, 
+        autoplay: { 
+        delay: 3500, // 3.5秒自動換一張
+        disableOnInteraction: false 
+        }, 
+        pagination: { el: ".offerSwiper .swiper-pagination", clickable: true }, 
+        navigation: { nextEl: ".offerSwiper .swiper-button-next", prevEl: ".offerSwiper .swiper-button-prev" } 
+        });
         
         let isScrolling;
         const floatBtns = document.querySelector('.floating-btn-container');
