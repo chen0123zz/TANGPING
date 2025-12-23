@@ -1018,44 +1018,40 @@
         function closeAdmin() { document.getElementById('admin-login-overlay').style.display = 'none'; }
         function checkAdminLogin() {
     const pwd = document.getElementById('admin-password').value;
-    if (!pwd) return;
+    if (!pwd) {
+        alert('請輸入密碼');
+        return;
+    }
 
-    // 顯示讀取中，避免重複點擊
     const loginBtn = document.querySelector('#admin-login-overlay .login-btn');
     const originalText = loginBtn.innerText;
     loginBtn.innerText = "驗證中...";
     loginBtn.disabled = true;
 
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify({ action: "admin_login", password: pwd }),
-        mode: "no-cors" // 注意：因為 no-cors 無法抓回傳值，我們改用一種聰明的方法
-    });
-
-    // 因為 Apps Script 的 POST no-cors 限制，
-    // 這裡我們改用 fetch GET 或者用更標準的處理方式。
-    // 為了冠穎操作方便，我建議用一個簡單的「後端請求」：
-    
-    // 改用更精準的驗證方式 (這段會取代上面的 fetch)
+    // 🔥 這裡會去呼叫你的 App Script doGet 裡的 action=check_pwd
     const url = `${SCRIPT_URL}?action=check_pwd&pwd=${encodeURIComponent(pwd)}`;
     
     fetch(url)
     .then(res => res.json())
     .then(data => {
         if(data.auth === true) {
+            // 驗證成功！
             document.getElementById('admin-login-overlay').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             document.body.style.overflow = 'hidden';
             sessionStorage.setItem('isAdmin', 'true');
             fetchOrders();
         } else {
-            alert('密碼錯誤！');
+            // 驗證失敗
+            alert('密碼錯誤！請重新輸入。');
             loginBtn.innerText = originalText;
             loginBtn.disabled = false;
         }
     })
     .catch(err => {
-        alert('驗證發生錯誤');
+        console.error('Error:', err);
+        alert('連線失敗，請檢查網路或 App Script 部署設定');
+        loginBtn.innerText = originalText;
         loginBtn.disabled = false;
     });
 }
