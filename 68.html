@@ -1107,65 +1107,108 @@
     // 🔥 這裡就是它的家！
 async function fetchYearlyReport() {
     const API_URL = SCRIPT_URL; 
-    console.log("正在產製年度專業報表...");
+    console.log("正在產製年度經營分析報告...");
     
-    // 💡 100分的小細節：顯示計算中動畫，讓阿庠覺得系統很強大
+    // 顯示 Loading
     Swal.fire({
-        title: '雲端運算中...',
-        html: '正在彙整歷年經營數據',
+        title: '雲端數據匯整中...',
+        html: '正在分析營收與服務佔比',
         allowOutsideClick: false,
-        didOpen: () => { Swal.showLoading() }
+        didOpen: () => { Swal.showLoading() },
+        target: document.getElementById('admin-panel') // 確保 Loading 也在後台看得到
     });
 
     try {
-        // 🔥 關鍵修正：拿掉 action=check_pwd，只帶 mode=report
-        // 這樣 App Script 就會跳過密碼比對，直接執行下面的 filter 抓取整年資料
         const response = await fetch(`${API_URL}?mode=report`); 
         const allData = await response.json();
         
         if (!Array.isArray(allData)) throw new Error("回傳格式不正確");
 
-        // 專業報表運算：聚合各月份營收
-        const report = allData.reduce((acc, order) => {
-            // 只有狀態是「已付款」的才列入正式營收統計
-            if (order.status === '已付款') { 
-                const month = parseInt(order.date.split('/')[0]) + "月";
-                acc[month] = (acc[month] || 0) + parseFloat(order.amount || 0);
-            }
-            return acc;
-        }, {});
+        let totalRevenue = 0;
+        let totalOrders = 0;
+        const monthlyStats = {};
+        const serviceStats = {};
 
-        // 關閉 Loading 並顯示分析結果
-        let reportMsg = "";
-        // 排序月份，避免 10月跑到 2月前面
-        const months = Object.keys(report).sort((a, b) => parseInt(a) - parseInt(b));
-        
-        if (months.length === 0) {
-            reportMsg = "目前尚無已付款的經營紀錄。";
+        allData.forEach(order => {
+            if (order.status === '已付款') {
+                const amount = parseFloat(order.amount || 0);
+                const month = parseInt(order.date.split('/')[0]) + "月";
+                const service = (order.service || "未分類").split(' ')[0];
+
+                totalRevenue += amount;
+                totalOrders++;
+
+                // 月份統計
+                monthlyStats[month] = (monthlyStats[month] || 0) + amount;
+                // 服務數量統計
+                serviceStats[service] = (serviceStats[service] || 0) + 1;
+            }
+        });
+
+        // 產製 HTML 報表內容
+        let reportHtml = `
+            <div style="text-align: left; font-size: 0.95rem; color: #333;">
+                <div style="background: #fdf6ec; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 1px solid #f5dab1;">
+                    <div style="font-size: 0.85rem; color: #9a6e3a; margin-bottom: 5px;">年度累積總營收</div>
+                    <div style="font-size: 2rem; font-weight: bold; color: #d35400;">$${totalRevenue.toLocaleString()}</div>
+                    <div style="margin-top: 5px; color: #666; font-size: 0.9rem;">共服務 ${totalOrders} 人次</div>
+                </div>
+
+                <p style="font-weight: bold; color: #5e4b35; margin-bottom: 10px;">📅 月份營收趨勢：</p>
+                <div style="max-height: 180px; overflow-y: auto; margin-bottom: 20px; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
+        `;
+
+        // 排序月份並產製列表
+        const sortedMonths = Object.keys(monthlyStats).sort((a, b) => parseInt(a) - parseInt(b));
+        if (sortedMonths.length === 0) {
+            reportHtml += `<div style="text-align:center; color:#999; padding:10px;">尚無入帳紀錄</div>`;
         } else {
-            months.forEach(m => {
-                reportMsg += `<div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px dashed #eee; padding-bottom:5px;">
-                                <span><b>${m}</b></span>
-                                <span style="color:#27ae60; font-weight:bold;">$${report[m].toLocaleString()}</span>
-                              </div>`;
+            sortedMonths.forEach(m => {
+                reportHtml += `
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f9f9f9; padding:8px 0;">
+                        <span>${m}</span>
+                        <span style="font-weight:bold; color:#2c3e50;">$${monthlyStats[m].toLocaleString()}</span>
+                    </div>`;
             });
         }
 
+        reportHtml += `</div><p style="font-weight: bold; color: #5e4b35; margin-bottom: 10px;">🔥 熱門服務分佈：</p>`;
+
+        // 計算各服務比例並產製進度條
+        for (let s in serviceStats) {
+            const percent = Math.round((serviceStats[s] / totalOrders) * 100);
+            reportHtml += `
+                <div style="margin-bottom: 12px;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px;">
+                        <span>${s}</span>
+                        <span>${serviceStats[s]} 次 (${percent}%)</span>
+                    </div>
+                    <div style="width:100%; background:#ececec; height:10px; border-radius:5px; overflow:hidden;">
+                        <div style="width:${percent}%; background: linear-gradient(90deg, #efb748, #d35400); height:100%;"></div>
+                    </div>
+                </div>`;
+        }
+        reportHtml += `</div>`;
+
         Swal.fire({
-            title: '📊 年度營收分析報告',
-            html: `<div style="padding: 10px 20px;">${reportMsg}</div>`,
-            icon: 'success',
-            confirmButtonColor: '#efb748',
-            confirmButtonText: '收到，繼續努力！'
+            title: '📊 躺平經營分析報告',
+            html: reportHtml,
+            confirmButtonColor: '#5e4b35',
+            confirmButtonText: '收到，繼續保持！',
+            target: document.getElementById('admin-panel'), // 關鍵！確保在後台面板上方顯示
+            width: '90%',
+            padding: '1.5rem',
+            background: '#fff',
+            borderRadius: '15px'
         });
 
     } catch (err) {
-        console.error("報表產製失敗:", err);
-        Swal.fire({
-            title: '讀取失敗',
-            text: '伺服器忙碌中，請確認 App Script 已部署為最新版本。',
-            icon: 'error',
-            confirmButtonColor: '#d33'
+        console.error(err);
+        Swal.fire({ 
+            title: '報表讀取失敗', 
+            text: '請確認網路連線或資料權限', 
+            icon: 'error', 
+            target: document.getElementById('admin-panel') 
         });
     }
 }
