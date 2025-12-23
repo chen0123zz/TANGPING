@@ -226,7 +226,7 @@
         .admin-header { background-color: #fff; color: #333; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .admin-header h1 { margin: 0; font-size: 1.2rem; color: var(--brand-color); }
         .admin-container { max-width: 600px; margin: 20px auto; padding: 0 15px; padding-bottom: 60px; }
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        . { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .dash-num { font-size: 1.8rem; font-weight: bold; color: #333; margin: 5px 0; }
         .dash-label { font-size: 0.8rem; color: #888; }
@@ -631,12 +631,30 @@
                 <button onclick="logoutAdmin()" class="control-btn" style="margin-right:10px;">離開後台</button>
             </div>
         </div>
-        <div class="admin-container">
-            <div class="dashboard-grid">
-                <div class="dash-card"><div class="dash-num" id="today-count">...</div><div class="dash-label">今日預約</div></div>
-                <div class="dash-card"><div class="dash-num" id="month-revenue">...</div><div class="dash-label">本月預估營收</div></div>
-            </div>
-            
+       <div class="admin-container">
+    <div class="dashboard-grid">
+        <div class="dash-card"><div class="dash-num" id="today-count">...</div><div class="dash-label">今日預約</div></div>
+        <div class="dash-card"><div class="dash-num" id="month-revenue">...</div><div class="dash-label">本月預估營收</div></div>
+    </div>
+    
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+        <button class="admin-tool-btn" 
+                style="width:100%; background-color:#5e4b35; color:#fff; border:none; padding:12px; font-weight:bold; border-radius:10px; cursor:pointer;" 
+                onclick="fetchYearlyReport()">
+            📈 產製年度營收報表 (Deep Analysis)
+        </button>
+
+        <button class="admin-tool-btn" 
+                style="width:100%; background-color:#d35400; color:#fff; border:none; padding:12px; font-weight:bold; border-radius:10px; cursor:pointer;" 
+                onclick="generateScheduleImage()">
+            📸 一鍵生成本月 IG 限動班表
+        </button>
+    </div>
+
+    <div class="admin-card">
+        </div>
+</div>
+
             <button class="admin-tool-btn" style="width:100%; margin-bottom:20px; background-color:#d35400; color:#fff; border:none; padding:12px; font-weight:bold; font-size:1rem;" onclick="generateScheduleImage()">📸 一鍵生成本月 IG 限動班表</button>
 
             <div class="admin-card">
@@ -1082,6 +1100,50 @@
             document.getElementById('month-revenue').innerText = `$${total.toLocaleString()}`;
         }
 
+    // 🔥 這裡就是它的家！
+    async function fetchYearlyReport() {
+    // 因為妳的變數名稱是 SCRIPT_URL，我們要統一一下
+    const API_URL = SCRIPT_URL; 
+    
+    console.log("正在產製年度專業報表...");
+    
+    try {
+        // 呼叫 API 並帶入 mode=report 告訴後端我們要「大數據」
+        const response = await fetch(`${API_URL}?action=check_pwd&mode=report`); 
+        // 註：這裡 action 參數視妳後端判斷邏輯而定，通常 doGet 預設就是抓資料
+        
+        const allData = await response.json();
+        
+        // 專業報表運算：聚合各月份營收
+        const report = allData.reduce((acc, order) => {
+            if (order.status === '已付款') { // 專業點：只計算已入帳的營收
+                const month = order.date.split('/')[0] + "月";
+                acc[month] = (acc[month] || 0) + parseInt(order.amount);
+            }
+            return acc;
+        }, {});
+
+        console.log("年度營收分析完成:", report);
+        
+        // 為了讓阿庠一眼看出專業度，我們可以用 SweetAlert2 彈窗顯示結果
+        let reportMsg = "";
+        for (let m in report) {
+            reportMsg += `${m}: $${report[m].toLocaleString()}<br>`;
+        }
+
+        Swal.fire({
+            title: '📊 年度營收分析報告',
+            html: `<div style="text-align: left; padding-left: 20%;">${reportMsg}</div>`,
+            icon: 'info',
+            confirmButtonColor: '#efb748'
+        });
+
+    } catch (err) {
+        console.error("報表產製失敗:", err);
+        alert("資料讀取失敗，請稍後再試。");
+    }
+}
+        
         function updateOrderStatus(date, time, name, currentStatus, elementId) {
             let newStatus, actionText;
             
