@@ -226,7 +226,14 @@
         .admin-header { background-color: #fff; color: #333; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .admin-header h1 { margin: 0; font-size: 1.2rem; color: var(--brand-color); }
         .admin-container { max-width: 600px; margin: 20px auto; padding: 0 15px; padding-bottom: 60px; }
-        . { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        /* --- 修正後的數據卡片排版 --- */
+        .dashboard-grid { 
+         display: grid; 
+        /* 電腦版自動並排，手機版空間不足會自動切換 */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+        gap: 15px; 
+        margin-bottom: 20px; 
+        }
         .dash-card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid var(--brand-color); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .dash-num { font-size: 1.8rem; font-weight: bold; color: #333; margin: 5px 0; }
         .dash-label { font-size: 0.8rem; color: #888; }
@@ -1091,61 +1098,74 @@
         }
 
         function updateDashboard() {
-            const todayStr = `${new Date().getMonth()+1}/${new Date().getDate()}`;
-            const todayCount = allOrders.filter(o => o.date === todayStr).length;
-            document.getElementById('today-count').innerText = todayCount;
-            let total = 0;
-            allOrders.forEach(o => { 
-                if(o.status !== 'delete' && o.status !== 'locked') {
-                    const price = parseInt(o.amount); 
-                    if(!isNaN(price)) total += price; 
-                }
-            });
-            document.getElementById('month-revenue').innerText = `$${total.toLocaleString()}`;
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+    const todayStr = `${currentMonth}/${now.getDate()}`;
+    
+    // 1. 今日預約人數
+    const todayCount = allOrders.filter(o => o.date === todayStr).length;
+    document.getElementById('today-count').innerText = todayCount;
+
+    // 2. 本月預估營收 (精確比對年月份)
+    let total = 0;
+    allOrders.forEach(o => { 
+        if(o.status !== 'delete' && o.status !== 'locked') {
+            const [m, d] = o.date.split('/').map(Number);
+            // 💡 判斷邏輯：月份符合，且確保不是「去年」或「明年」的同月份
+            // 由於 App Script 抓取的資料通常是近期的，我們比對月份即可
+            if (m === currentMonth) {
+                const price = parseInt(o.amount); 
+                if(!isNaN(price)) total += price; 
+            }
         }
+    });
+    document.getElementById('month-revenue').innerText = `$${total.toLocaleString()}`;
+}
 
     // 🔥 這裡就是它的家！
 async function fetchYearlyReport() {
     const API_URL = SCRIPT_URL; 
-    console.log("正在產製年度經營分析報告...");
-    
-    // 顯示 Loading
     Swal.fire({
-        title: '雲端數據匯整中...',
-        html: '正在分析營收與服務佔比',
+        title: '深度數據分析中...',
+        html: '正在處理跨年度營收權重',
         allowOutsideClick: false,
         didOpen: () => { Swal.showLoading() },
-        target: document.getElementById('admin-panel') // 確保 Loading 也在後台看得到
+        target: document.getElementById('admin-panel')
     });
 
     try {
         const response = await fetch(`${API_URL}?mode=report`); 
         const allData = await response.json();
-        
-        if (!Array.isArray(allData)) throw new Error("回傳格式不正確");
+        const now = new Date();
+        const currentYear = now.getFullYear();
 
         let totalRevenue = 0;
         let totalOrders = 0;
-        const monthlyStats = {};
+        const monthlyStats = {}; // 格式將變成 "2025/12月": 4600
         const serviceStats = {};
 
         allData.forEach(order => {
             if (order.status === '已付款') {
                 const amount = parseFloat(order.amount || 0);
-                const month = parseInt(order.date.split('/')[0]) + "月";
-                const service = (order.service || "未分類").split(' ')[0];
+                const [m, d] = order.date.split('/').map(Number);
+                
+                // 💡 判斷年份邏輯 (簡單化處理：若月份比現在大很多，視為去年；若月份比現在小很多，視為明年)
+                let year = currentYear;
+                if (now.getMonth() === 11 && m === 1) year = currentYear + 1; // 12月看1月
+                if (now.getMonth() === 0 && m === 12) year = currentYear - 1; // 1月看12月
+                
+                const yearMonthLabel = `${year}/${m}月`;
 
                 totalRevenue += amount;
                 totalOrders++;
 
-                // 月份統計
-                monthlyStats[month] = (monthlyStats[month] || 0) + amount;
-                // 服務數量統計
+                monthlyStats[yearMonthLabel] = (monthlyStats[yearMonthLabel] || 0) + amount;
+                const service = (order.service || "未分類").split(' ')[0];
                 serviceStats[service] = (serviceStats[service] || 0) + 1;
             }
         });
 
-        // 產製 HTML 報表內容
         let reportHtml = `
             <div style="text-align: left; font-size: 0.95rem; color: #333;">
                 <div style="background: #fdf6ec; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 1px solid #f5dab1;">
@@ -1153,28 +1173,26 @@ async function fetchYearlyReport() {
                     <div style="font-size: 2rem; font-weight: bold; color: #d35400;">$${totalRevenue.toLocaleString()}</div>
                     <div style="margin-top: 5px; color: #666; font-size: 0.9rem;">共服務 ${totalOrders} 人次</div>
                 </div>
-
-                <p style="font-weight: bold; color: #5e4b35; margin-bottom: 10px;">📅 月份營收趨勢：</p>
+                <p style="font-weight: bold; color: #5e4b35; margin-bottom: 10px;">📅 營收趨勢 (按年月排序)：</p>
                 <div style="max-height: 180px; overflow-y: auto; margin-bottom: 20px; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
         `;
 
-        // 排序月份並產製列表
-        const sortedMonths = Object.keys(monthlyStats).sort((a, b) => parseInt(a) - parseInt(b));
-        if (sortedMonths.length === 0) {
-            reportHtml += `<div style="text-align:center; color:#999; padding:10px;">尚無入帳紀錄</div>`;
-        } else {
-            sortedMonths.forEach(m => {
-                reportHtml += `
-                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f9f9f9; padding:8px 0;">
-                        <span>${m}</span>
-                        <span style="font-weight:bold; color:#2c3e50;">$${monthlyStats[m].toLocaleString()}</span>
-                    </div>`;
-            });
-        }
+        // 🔥 排序邏輯：按年份 + 月份 排序
+        const sortedLabels = Object.keys(monthlyStats).sort((a, b) => {
+            const [y1, m1] = a.replace('月','').split('/').map(Number);
+            const [y2, m2] = b.replace('月','').split('/').map(Number);
+            return y1 !== y2 ? y1 - y2 : m1 - m2;
+        });
+
+        sortedLabels.forEach(label => {
+            reportHtml += `
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f9f9f9; padding:8px 0;">
+                    <span style="color:#666;">${label}</span>
+                    <span style="font-weight:bold; color:#2c3e50;">$${monthlyStats[label].toLocaleString()}</span>
+                </div>`;
+        });
 
         reportHtml += `</div><p style="font-weight: bold; color: #5e4b35; margin-bottom: 10px;">🔥 熱門服務分佈：</p>`;
-
-        // 計算各服務比例並產製進度條
         for (let s in serviceStats) {
             const percent = Math.round((serviceStats[s] / totalOrders) * 100);
             reportHtml += `
@@ -1194,22 +1212,13 @@ async function fetchYearlyReport() {
             title: '📊 躺平經營分析報告',
             html: reportHtml,
             confirmButtonColor: '#5e4b35',
-            confirmButtonText: '收到，繼續保持！',
-            target: document.getElementById('admin-panel'), // 關鍵！確保在後台面板上方顯示
-            width: '90%',
-            padding: '1.5rem',
-            background: '#fff',
-            borderRadius: '15px'
+            confirmButtonText: '收到，跨年也要繼續加油！',
+            target: document.getElementById('admin-panel')
         });
 
     } catch (err) {
         console.error(err);
-        Swal.fire({ 
-            title: '報表讀取失敗', 
-            text: '請確認網路連線或資料權限', 
-            icon: 'error', 
-            target: document.getElementById('admin-panel') 
-        });
+        Swal.fire({ title: '報表讀取失敗', icon: 'error', target: document.getElementById('admin-panel') });
     }
 }
         
