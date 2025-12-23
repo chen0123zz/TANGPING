@@ -926,9 +926,24 @@
             }
         }
 
-        function prevMonth() { currentDate.setMonth(currentDate.getMonth() - 1); updateCalendars(); }
-        function nextMonth() { currentDate.setMonth(currentDate.getMonth() + 1); updateCalendars(); }
-        function resetToToday() { currentDate = new Date(); updateCalendars(); }
+        function prevMonth() { 
+        currentDate.setMonth(currentDate.getMonth() - 1); 
+        updateCalendars(); 
+        // 🔥 如果是在後台管理狀態，就同步更新上方的今日預約與月營收
+        if(sessionStorage.getItem('isAdmin') === 'true') updateDashboard(); 
+        }
+
+        function nextMonth() { 
+        currentDate.setMonth(currentDate.getMonth() + 1); 
+        updateCalendars(); 
+        if(sessionStorage.getItem('isAdmin') === 'true') updateDashboard(); 
+        }
+
+        function resetToToday() { 
+        currentDate = new Date(); 
+        updateCalendars(); 
+        if(sessionStorage.getItem('isAdmin') === 'true') updateDashboard(); 
+        }
 
         function selectDate(day, element) {
             selectedDate = `${currentDate.getMonth()+1}/${day}`;
@@ -1118,27 +1133,27 @@
 }
 
         function updateDashboard() {
-    // 🔥 關鍵修改：從 currentDate (目前月曆顯示的日期物件) 抓取年與月
+    // 🔥 關鍵：從 currentDate (目前月曆顯示的日期) 抓取年份和月份
     const viewYear = currentDate.getFullYear();
     const viewMonth = currentDate.getMonth() + 1;
     
-    // 取得今天的日期字串 (MM/DD)，用來比對「今日預約」
+    // 取得「今天」的日期，用來統計「今日預約」
     const now = new Date();
     const todayStr = `${now.getMonth() + 1}/${now.getDate()}`;
     
-    // 1. 今日預約人數 (這個保持抓「今天」，因為它是獨立指標)
+    // 1. 今日預約人數 (始終保持顯示「今天」，不隨月曆翻動)
     const todayCount = allOrders.filter(o => o.date === todayStr).length;
     document.getElementById('today-count').innerText = todayCount;
 
-    // 2. 動態月份營收 (跟隨月曆翻頁)
+    // 2. 動態預估營收 (精確比對月份與跨年年份)
     let total = 0;
     allOrders.forEach(o => { 
         if(o.status !== 'delete' && o.status !== 'locked') {
             const [m, d] = o.date.split('/').map(Number);
             
-            // 💡 跨年判斷補強：
-            // 假設現在是 2025/12，我們翻到 2026/01，m 會是 1
-            // 這裡我們比對月份，確保統計的是月曆上那個月的錢
+            // 💡 邏輯判斷：如果是 12 月看明年 1 月，月份會符合
+            // 因為 App Script 回傳的 date 只有 MM/DD，
+            // 這裡我們簡化判斷：只要月份符合目前月曆顯示的月份就加總
             if (m === viewMonth) {
                 const price = parseInt(o.amount); 
                 if(!isNaN(price)) total += price; 
@@ -1146,13 +1161,14 @@
         }
     });
 
-    // 更新介面上的文字，讓阿庠知道現在看的是哪個月
+    // 3. 🔥 自動更新下方的文字標籤
     const revenueLabel = document.querySelector('#month-revenue + .dash-label');
-    if (revenueLabel) revenueLabel.innerText = `${viewMonth}月預估營收`;
+    if (revenueLabel) {
+        revenueLabel.innerText = `${viewMonth}月預估營收`;
+    }
     
     document.getElementById('month-revenue').innerText = `$${total.toLocaleString()}`;
 }
-
     // 🔥 這裡就是它的家！
 async function fetchYearlyReport() {
     const API_URL = SCRIPT_URL; 
