@@ -652,7 +652,7 @@
     
     <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
         <button class="admin-tool-btn" 
-                style="width:100%; background-color:#5e4b35; color:#fff; border:none; padding:12px; font-weight:bold; border-radius:10px; cursor:pointer;" 
+                style="width:100%; background-color:#4a69bd; color:#fff; border:none; padding:12px; font-weight:bold; border-radius:10px; cursor:pointer;" 
                 onclick="fetchYearlyReport()">
             📈 產製年度營收報表 (Deep Analysis)
         </button>
@@ -1098,28 +1098,38 @@
         }
 
         function updateDashboard() {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1;
-    const todayStr = `${currentMonth}/${now.getDate()}`;
+    // 🔥 關鍵修改：從 currentDate (目前月曆顯示的日期物件) 抓取年與月
+    const viewYear = currentDate.getFullYear();
+    const viewMonth = currentDate.getMonth() + 1;
     
-    // 1. 今日預約人數
+    // 取得今天的日期字串 (MM/DD)，用來比對「今日預約」
+    const now = new Date();
+    const todayStr = `${now.getMonth() + 1}/${now.getDate()}`;
+    
+    // 1. 今日預約人數 (這個保持抓「今天」，因為它是獨立指標)
     const todayCount = allOrders.filter(o => o.date === todayStr).length;
     document.getElementById('today-count').innerText = todayCount;
 
-    // 2. 本月預估營收 (精確比對年月份)
+    // 2. 動態月份營收 (跟隨月曆翻頁)
     let total = 0;
     allOrders.forEach(o => { 
         if(o.status !== 'delete' && o.status !== 'locked') {
             const [m, d] = o.date.split('/').map(Number);
-            // 💡 判斷邏輯：月份符合，且確保不是「去年」或「明年」的同月份
-            // 由於 App Script 抓取的資料通常是近期的，我們比對月份即可
-            if (m === currentMonth) {
+            
+            // 💡 跨年判斷補強：
+            // 假設現在是 2025/12，我們翻到 2026/01，m 會是 1
+            // 這裡我們比對月份，確保統計的是月曆上那個月的錢
+            if (m === viewMonth) {
                 const price = parseInt(o.amount); 
                 if(!isNaN(price)) total += price; 
             }
         }
     });
+
+    // 更新介面上的文字，讓阿庠知道現在看的是哪個月
+    const revenueLabel = document.querySelector('#month-revenue + .dash-label');
+    if (revenueLabel) revenueLabel.innerText = `${viewMonth}月預估營收`;
+    
     document.getElementById('month-revenue').innerText = `$${total.toLocaleString()}`;
 }
 
