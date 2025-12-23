@@ -1019,40 +1019,44 @@
         function checkAdminLogin() {
     const pwd = document.getElementById('admin-password').value;
     if (!pwd) {
-        alert('請輸入密碼');
+        alert('請輸入密碼喔！');
         return;
     }
 
     const loginBtn = document.querySelector('#admin-login-overlay .login-btn');
     const originalText = loginBtn.innerText;
     
-    // 讓按鈕顯示載入中，避免重複點擊
     loginBtn.innerText = "驗證中...";
     loginBtn.disabled = true;
 
-    // 🔥 這是關鍵：改用 URL 參數發送 GET 請求到後端驗證
-    const url = `${SCRIPT_URL}?action=check_pwd&pwd=${encodeURIComponent(pwd)}`;
+    // 🔥 修改點：確保 URL 拼接正確
+    const fetchUrl = `${SCRIPT_URL}?action=check_pwd&pwd=${encodeURIComponent(pwd)}`;
     
-    fetch(url)
-    .then(res => res.json())
+    // 使用預設的 cors 模式，這樣才能讀取 JSON 回傳值
+    fetch(fetchUrl)
+    .then(res => {
+        if (!res.ok) throw new Error('網路回應不正確');
+        return res.json();
+    })
     .then(data => {
         if(data.auth === true) {
-            // 🎊 驗證成功！進入後台
+            // ✅ 成功進入
             document.getElementById('admin-login-overlay').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             document.body.style.overflow = 'hidden';
             sessionStorage.setItem('isAdmin', 'true');
-            fetchOrders(); // 抓取資料
+            fetchOrders(); 
         } else {
-            // ❌ 驗證失敗
+            // ❌ 密碼不對
             alert('密碼錯誤！請重新輸入。');
             loginBtn.innerText = originalText;
             loginBtn.disabled = false;
         }
     })
     .catch(err => {
-        console.error('Error:', err);
-        alert('連線失敗，請檢查網路或 SCRIPT_URL 是否正確');
+        console.error('檢查錯誤:', err);
+        // 💡 如果這裡報錯，通常是 SCRIPT_URL 網址不對
+        alert('連線失敗！請確認 App Script 網址是否正確。');
         loginBtn.innerText = originalText;
         loginBtn.disabled = false;
     });
