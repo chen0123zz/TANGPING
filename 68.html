@@ -1174,7 +1174,7 @@ async function fetchYearlyReport() {
     const API_URL = SCRIPT_URL; 
     Swal.fire({
         title: '深度數據分析中...',
-        html: '正在處理跨年度營收權重',
+        html: '正在確認已付款資料',
         allowOutsideClick: false,
         didOpen: () => { Swal.showLoading() },
         target: document.getElementById('admin-panel')
@@ -1219,7 +1219,7 @@ async function fetchYearlyReport() {
                     <div style="font-size: 2rem; font-weight: bold; color: #d35400;">$${totalRevenue.toLocaleString()}</div>
                     <div style="margin-top: 5px; color: #666; font-size: 0.9rem;">共服務 ${totalOrders} 人次</div>
                 </div>
-                <p style="font-weight: bold; color: #5e4b35; margin-bottom: 10px;">📅 營收趨勢 (按年月排序)：</p>
+                <p style="font-weight: bold; color: #5e4b35; margin-bottom: 10px;">營收趨勢 (按年月排序)：</p>
                 <div style="max-height: 180px; overflow-y: auto; margin-bottom: 20px; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
         `;
 
@@ -1238,7 +1238,7 @@ async function fetchYearlyReport() {
                 </div>`;
         });
 
-        reportHtml += `</div><p style="font-weight: bold; color: #5e4b35; margin-bottom: 10px;">🔥 熱門服務分佈：</p>`;
+        reportHtml += `</div><p style="font-weight: bold; color: #5e4b35; margin-bottom: 10px;">熱門服務分佈：</p>`;
         for (let s in serviceStats) {
             const percent = Math.round((serviceStats[s] / totalOrders) * 100);
             reportHtml += `
@@ -1255,7 +1255,7 @@ async function fetchYearlyReport() {
         reportHtml += `</div>`;
 
         Swal.fire({
-            title: '📊 躺平經營分析報告',
+            title: '躺平經營分析報告',
             html: reportHtml,
             confirmButtonColor: '#5e4b35',
             confirmButtonText: '關閉',
