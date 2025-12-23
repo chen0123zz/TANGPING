@@ -1105,46 +1105,68 @@
         }
 
     // 🔥 這裡就是它的家！
-    async function fetchYearlyReport() {
-    // 因為妳的變數名稱是 SCRIPT_URL，我們要統一一下
+async function fetchYearlyReport() {
     const API_URL = SCRIPT_URL; 
-    
     console.log("正在產製年度專業報表...");
     
+    // 💡 100分的小細節：顯示計算中動畫，讓阿庠覺得系統很強大
+    Swal.fire({
+        title: '雲端運算中...',
+        html: '正在彙整歷年經營數據',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading() }
+    });
+
     try {
-        // 呼叫 API 並帶入 mode=report 告訴後端我們要「大數據」
-        const response = await fetch(`${API_URL}?action=check_pwd&mode=report`); 
-        // 註：這裡 action 參數視妳後端判斷邏輯而定，通常 doGet 預設就是抓資料
-        
+        // 🔥 關鍵修正：拿掉 action=check_pwd，只帶 mode=report
+        // 這樣 App Script 就會跳過密碼比對，直接執行下面的 filter 抓取整年資料
+        const response = await fetch(`${API_URL}?mode=report`); 
         const allData = await response.json();
         
+        if (!Array.isArray(allData)) throw new Error("回傳格式不正確");
+
         // 專業報表運算：聚合各月份營收
         const report = allData.reduce((acc, order) => {
-            if (order.status === '已付款') { // 專業點：只計算已入帳的營收
-                const month = order.date.split('/')[0] + "月";
-                acc[month] = (acc[month] || 0) + parseInt(order.amount);
+            // 只有狀態是「已付款」的才列入正式營收統計
+            if (order.status === '已付款') { 
+                const month = parseInt(order.date.split('/')[0]) + "月";
+                acc[month] = (acc[month] || 0) + parseFloat(order.amount || 0);
             }
             return acc;
         }, {});
 
-        console.log("年度營收分析完成:", report);
-        
-        // 為了讓阿庠一眼看出專業度，我們可以用 SweetAlert2 彈窗顯示結果
+        // 關閉 Loading 並顯示分析結果
         let reportMsg = "";
-        for (let m in report) {
-            reportMsg += `${m}: $${report[m].toLocaleString()}<br>`;
+        // 排序月份，避免 10月跑到 2月前面
+        const months = Object.keys(report).sort((a, b) => parseInt(a) - parseInt(b));
+        
+        if (months.length === 0) {
+            reportMsg = "目前尚無已付款的經營紀錄。";
+        } else {
+            months.forEach(m => {
+                reportMsg += `<div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px dashed #eee; padding-bottom:5px;">
+                                <span><b>${m}</b></span>
+                                <span style="color:#27ae60; font-weight:bold;">$${report[m].toLocaleString()}</span>
+                              </div>`;
+            });
         }
 
         Swal.fire({
             title: '📊 年度營收分析報告',
-            html: `<div style="text-align: left; padding-left: 20%;">${reportMsg}</div>`,
-            icon: 'info',
-            confirmButtonColor: '#efb748'
+            html: `<div style="padding: 10px 20px;">${reportMsg}</div>`,
+            icon: 'success',
+            confirmButtonColor: '#efb748',
+            confirmButtonText: '收到，繼續努力！'
         });
 
     } catch (err) {
         console.error("報表產製失敗:", err);
-        alert("資料讀取失敗，請稍後再試。");
+        Swal.fire({
+            title: '讀取失敗',
+            text: '伺服器忙碌中，請確認 App Script 已部署為最新版本。',
+            icon: 'error',
+            confirmButtonColor: '#d33'
+        });
     }
 }
         
