@@ -651,54 +651,79 @@
         </button>
     </div>
 
-    <div class="admin-card">
+<div class="admin-container">
+    
+    <div class="dashboard-grid">
+        <div class="dash-card">
+            <div class="dash-num" id="today-count">...</div>
+            <div class="dash-label">今日預約</div>
         </div>
-</div>
-
-            <button class="admin-tool-btn" style="width:100%; margin-bottom:20px; background-color:#d35400; color:#fff; border:none; padding:12px; font-weight:bold; font-size:1rem;" onclick="generateScheduleImage()">📸 一鍵生成本月 IG 限動班表</button>
-
-            <div class="admin-card">
-                <div id="admin-loading-overlay" class="local-loading-overlay">
-                    <div class="spinner"></div>
-                    <div class="loading-text">資料讀取中...</div>
-                </div>
-
-                <div class="admin-month-header">
-                    <button class="month-btn" onclick="prevMonth()">❮</button>
-                    <div class="month-title-group">
-                        <div class="admin-month-title" id="adminMonthYear"></div>
-                        <button class="today-btn" onclick="resetToToday()">回到今天</button>
-                    </div>
-                    <button class="month-btn" onclick="nextMonth()">❯</button>
-                </div>
-                <div class="admin-toolbar"><button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button></div>
-                <div class="admin-cal-grid" id="admin-cal-grid"></div>
-            </div>
-            <div id="day-detail">
-                <div class="detail-header">
-                    <div class="date-title" id="admin-date-title"></div>
-                    <span class="daily-revenue-box" id="daily-revenue-text">💰 計算中...</span>
-                </div>
-                <div id="order-list-container">
-                    <div style="text-align:center; padding:30px; color:#999; display:flex; flex-direction:column; align-items:center;">
-                        <span style="font-size:2rem; margin-bottom:10px;">👆</span>
-                        <span style="font-weight:bold;">請點選上方日期</span>
-                        <span style="font-size:0.9rem;">查看預約詳情或設定店休</span>
-                    </div>
-                </div>
-                
-                <div class="admin-time-management" style="display:none;" id="admin-mgmt-section">
-                    <div class="admin-time-title" id="admin-time-mgmt-title">⚙️ 時段開放管理</div>
-                    <div class="admin-time-grid" id="admin-time-switches"></div>
-                </div>
-
-                <div class="admin-big-btn-group" style="display:none;" id="admin-big-btns">
-                    <button class="admin-big-btn btn-holiday-big" id="btn-set-holiday" onclick="toggleHoliday()">❌ 設為全日店休</button>
-                    <button class="admin-big-btn btn-open-big" id="btn-open-holiday" style="display:none;" onclick="toggleHoliday()">✅ 恢復全日開放</button>
-                </div>
-            </div>
+        <div class="dash-card">
+            <div class="dash-num" id="month-revenue">...</div>
+            <div class="dash-label">本月預估營收</div>
         </div>
     </div>
+    
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+        <button class="admin-tool-btn" 
+                style="width:100%; background-color:#5e4b35; color:#fff; border:none; padding:12px; font-weight:bold; border-radius:10px; cursor:pointer;" 
+                onclick="fetchYearlyReport()">
+            📈 產製年度營收報表 (Deep Analysis)
+        </button>
+        <button class="admin-tool-btn" 
+                style="width:100%; background-color:#d35400; color:#fff; border:none; padding:12px; font-weight:bold; border-radius:10px; cursor:pointer;" 
+                onclick="generateScheduleImage()">
+            📸 一鍵生成本月 IG 限動班表
+        </button>
+    </div>
+
+    <div class="admin-card">
+        <div id="admin-loading-overlay" class="local-loading-overlay">
+            <div class="spinner"></div>
+            <div class="loading-text">資料讀取中...</div>
+        </div>
+
+        <div class="admin-month-header">
+            <button class="month-btn" onclick="prevMonth()">❮</button>
+            <div class="month-title-group">
+                <div class="admin-month-title" id="adminMonthYear"></div>
+                <button class="today-btn" onclick="resetToToday()">回到今天</button>
+            </div>
+            <button class="month-btn" onclick="nextMonth()">❯</button>
+        </div>
+        
+        <div class="admin-toolbar">
+            <button class="admin-tool-btn" onclick="toggleViewMode()" id="viewToggleBtn">👁️ 切換詳細模式</button>
+        </div>
+
+        <div class="admin-cal-grid" id="admin-cal-grid"></div>
+    </div>
+
+    <div id="day-detail" style="margin-top: 20px;">
+        <div class="detail-header">
+            <div class="date-title" id="admin-date-title"></div>
+            <span class="daily-revenue-box" id="daily-revenue-text">💰 計算中...</span>
+        </div>
+        
+        <div id="order-list-container">
+            <div style="text-align:center; padding:30px; color:#999; display:flex; flex-direction:column; align-items:center;">
+                <span style="font-size:2rem; margin-bottom:10px;">👆</span>
+                <span style="font-weight:bold;">請點選上方日期</span>
+                <span style="font-size:0.9rem;">查看預約詳情或設定店休</span>
+            </div>
+        </div>
+        
+        <div class="admin-time-management" style="display:none;" id="admin-mgmt-section">
+            <div class="admin-time-title" id="admin-time-mgmt-title">⚙️ 時段開放管理</div>
+            <div class="admin-time-grid" id="admin-time-switches"></div>
+        </div>
+
+        <div class="admin-big-btn-group" style="display:none;" id="admin-big-btns">
+            <button class="admin-big-btn btn-holiday-big" id="btn-set-holiday" onclick="toggleHoliday()">❌ 設為全日店休</button>
+            <button class="admin-big-btn btn-open-big" id="btn-open-holiday" style="display:none;" onclick="toggleHoliday()">✅ 恢復全日開放</button>
+        </div>
+    </div>
+</div>
 
     <script>
         // 🔥 V69.0: ID Po6w (確認)
