@@ -625,7 +625,11 @@
     <div id="admin-login-overlay">
         <div class="admin-login-box">
             <h2 style="color:var(--brand-color);">後台管理系統</h2>
-            <input type="password" id="admin-password" class="login-input" placeholder="密碼">
+            <input type="password" 
+           id="admin-password" 
+           class="login-input" 
+           placeholder="密碼" 
+           onkeydown="if(event.keyCode==13) checkAdminLogin()">
             <button class="login-btn" onclick="checkAdminLogin()">登入</button>
             <button class="login-btn" onclick="closeAdmin()" style="background:#ccc; margin-top:10px; color:#555;">取消</button>
         </div>
@@ -652,7 +656,7 @@
     
     <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
         <button class="admin-tool-btn" 
-                style="width:100%; background-color:#4a69bd; color:#fff; border:none; padding:12px; font-weight:bold; border-radius:10px; cursor:pointer;" 
+                style="width:100%; background-color:#2749a3; color:#fff; border:none; padding:12px; font-weight:bold; border-radius:10px; cursor:pointer;" 
                 onclick="fetchYearlyReport()">
             📈 產製年度營收報表 (Deep Analysis)
         </button>
@@ -1043,7 +1047,11 @@
             });
         }
 
-        function openAdmin() { document.getElementById('admin-login-overlay').style.display = 'flex'; }
+        function openAdmin() { document.getElementById('admin-login-overlay').style.display = 'flex'; // 🔥 加這一行：讓密碼框自動進入準備打字的狀態
+    setTimeout(() => {
+        document.getElementById('admin-password').focus();
+    }, 100);
+}
         function closeAdmin() { document.getElementById('admin-login-overlay').style.display = 'none'; }
         function checkAdminLogin() {
     const pwd = document.getElementById('admin-password').value;
@@ -1091,11 +1099,23 @@
     });
 }
         function logoutAdmin() {
-            document.getElementById('admin-panel').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            document.getElementById('admin-password').value = '';
-            sessionStorage.removeItem('isAdmin');
-        }
+    // 1. 隱藏後台面板，恢復身體捲動
+    document.getElementById('admin-panel').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    // 2. 清空密碼輸入框
+    document.getElementById('admin-password').value = '';
+    
+    // 3. 🔥 關鍵：重置登入按鈕狀態
+    const loginBtn = document.querySelector('#admin-login-overlay .login-btn');
+    if (loginBtn) {
+        loginBtn.innerText = "登入"; // 恢復文字
+        loginBtn.disabled = false;    // 恢復可點擊狀態
+    }
+
+    // 4. 清除登入狀態
+    sessionStorage.removeItem('isAdmin');
+}
 
         function updateDashboard() {
     // 🔥 關鍵修改：從 currentDate (目前月曆顯示的日期物件) 抓取年與月
@@ -1222,7 +1242,7 @@ async function fetchYearlyReport() {
             title: '📊 躺平經營分析報告',
             html: reportHtml,
             confirmButtonColor: '#5e4b35',
-            confirmButtonText: '收到，跨年也要繼續加油！',
+            confirmButtonText: '關閉',
             target: document.getElementById('admin-panel')
         });
 
