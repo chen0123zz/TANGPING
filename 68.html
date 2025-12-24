@@ -504,13 +504,12 @@
     opacity: 0.8;
 }
 
-/* --- 1. 讓標題更有呼吸感，字體更精緻 --- */
 .hero-title {
-    font-size: 4rem; /* 電腦版再放大一點，更氣派 */
-    font-family: 'Lato', sans-serif; /* 使用 Lato 字體，字母會更優雅 */
-    font-weight: 300; /* 試試看細字體，會有一種日系的冷靜專業感 */
-    letter-spacing: 12px; /* 字距拉開，高級感倍增 */
-    margin: 10px 0 20px 0;
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 8px;
+    margin: 0 0 15px 0;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
 }
 
 .hero-desc {
@@ -530,13 +529,6 @@
     border-radius: 50px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(239, 183, 72, 0.4);
-    animation: pulse-gold 2s infinite;
-}
-
-@keyframes pulse-gold {
-    0% { box-shadow: 0 0 0 0 rgba(239, 183, 72, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(239, 183, 72, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(239, 183, 72, 0); }
 }
 
 .hero-btn:hover {
@@ -544,53 +536,27 @@
     box-shadow: 0 6px 20px rgba(239, 183, 72, 0.6);
 }
 
-/* --- 3. 手機版修正：確保文字不會太擠 --- */
+/* 📱 手機版微調 */
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 2.8rem;
-        letter-spacing: 6px;
-        font-weight: 400; /* 手機版粗一點比較好讀 */
-    }
-    .hero-container {
-        height: 70vh; /* 手機版佔滿螢幕 70%，非常有震撼力 */
-    }
+    .hero-container { height: 60vh; } /* 手機版高度稍微縮小 */
+    .hero-title { font-size: 2.2rem; letter-spacing: 5px; }
+    .hero-desc { font-size: 1rem; }
+    .hero-subline { font-size: 0.7rem; }
 }
-/* 導覽列預約按鈕美化 */
-.nav-booking-btn {
-    background-color: var(--brand-color) !important;
-    color: #fff !important;
-    padding: 8px 18px !important;
-    border-radius: 20px;
-    margin-left: 15px;
-    transition: 0.3s;
-}
-
-.nav-booking-btn:hover {
-    background-color: #333 !important; /* 滑鼠移上去變黑色，很有層次感 */
-}
-
-/* 📱 手機版選單微調，避免按鈕擠成一團 */
-@media (max-width: 768px) {
-    .nav-booking-btn {
-        margin-left: 5px;
-        padding: 6px 12px !important;
-        font-size: 0.8rem;
-    }
-}
-        
     </style>
 </head>
 <body>
 
     <header>
-        <nav class="nav-menu">
-    <a href="#news">最新優惠</a>
-    <a href="#about">關於躺平</a>
-    <a href="#services">價目表</a>
-    <a href="#notice">預約須知</a>
-    <a href="#contact">聯絡我們</a>
-    <a href="#booking" class="nav-booking-btn">線上預約</a>
-</nav>
+        <div class="header-content">
+            <img src="images/logo.png" alt="躺平運動按摩 LOGO" class="logo-img">
+            <nav class="nav-menu">
+                <a href="#news">最新優惠</a>
+                <a href="#about">關於躺平</a>
+                <a href="#services">價目表</a>
+                <a href="#notice">預約須知</a>
+                <a href="#contact">聯絡我們</a>
+            </nav>
         </div>
     </header>
 
