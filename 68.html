@@ -49,10 +49,10 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
-/* --- 基礎佈局：LOGO 與漢堡線同一排 --- */
+/* --- 1. 基礎 Header 佈局 --- */
 header {
     background-color: transparent;
-    padding: 15px 20px;
+    padding: 20px 5%; /* 左右留 5% 邊界 */
     position: fixed;
     top: 0; left: 0; width: 100%;
     z-index: 2000;
@@ -62,30 +62,53 @@ header {
 
 header.scrolled {
     background-color: rgba(255, 255, 255, 0.98);
-    padding: 10px 20px;
+    padding: 12px 5%;
     box-shadow: 0 2px 15px rgba(0,0,0,0.08);
 }
 
 .header-content {
-    max-width: 1200px;
+    width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between; /* 關鍵：讓左右分開 */
+    justify-content: space-between; /* 讓 LOGO 在左，漢堡/選單在右 */
     align-items: center;
 }
 
+/* --- 2. LOGO 尺寸優化 --- */
 .logo-img {
-    height: 32px; /* 修正哥吉拉 LOGO，變精緻 */
+    height: 50px; /* 🔥 電腦版 LOGO 加大 */
     width: auto;
-    transition: 0.3s;
+    transition: height 0.3s ease;
 }
 
-/* --- 漢堡按鈕樣式 --- */
+header.scrolled .logo-img {
+    height: 40px; /* 捲動時稍微縮小 */
+}
+
+/* --- 3. 電腦版選單 (移除底線) --- */
+.nav-menu { display: flex; align-items: center; }
+
+.nav-menu a {
+    text-decoration: none !important; /* 🔥 移除底線 */
+    color: #fff; 
+    margin-left: 30px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s;
+    letter-spacing: 1px;
+}
+
+header.scrolled .nav-menu a { color: #333; }
+
+.nav-menu a:hover { color: var(--brand-color) !important; }
+
+/* --- 4. 漢堡按鈕樣式 --- */
 .menu-toggle {
-    display: none;
+    display: none; /* 電腦版隱藏 */
     flex-direction: column;
-    justify-content: space-around;
-    width: 26px; height: 18px;
+    justify-content: space-between;
+    width: 30px; height: 20px;
     cursor: pointer;
     z-index: 2002;
 }
@@ -96,61 +119,51 @@ header.scrolled {
     transition: 0.3s;
 }
 
-/* --- 📱 手機版：右側抽屜式選單 --- */
+/* --- 📱 手機版專屬樣式 (768px 以下) --- */
 @media (max-width: 768px) {
-    .menu-toggle { display: flex; } /* 手機版顯示漢堡 */
+    header { padding: 15px 20px; }
+    
+    .logo-img { height: 35px; } /* 🔥 手機版維持精緻大小 */
+    
+    .menu-toggle { display: flex; } /* 顯示漢堡 */
 
     .nav-menu {
         position: fixed;
-        top: 0; right: 0; /* 選單固定在右側 */
-        width: 240px; height: 100vh; /* 寬度只佔一部分，更專業 */
+        top: 0; right: 0;
+        width: 260px; height: 100vh;
         background: #fff;
         flex-direction: column !important;
         justify-content: center;
         align-items: flex-start;
-        padding-left: 40px;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-        transform: translateX(100%); /* 預設藏在右邊外面 */
+        padding-left: 45px;
+        box-shadow: -5px 0 20px rgba(0,0,0,0.15);
+        transform: translateX(100%); /* 預設在右側外面 */
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 2001;
     }
 
-    .nav-menu.active {
-        transform: translateX(0); /* 抽屜滑入 */
+    .nav-menu.active { transform: translateX(0); } /* 抽屜滑入 */
+
+    .nav-menu a {
+        color: #333 !important;
+        font-size: 1.2rem !important;
+        margin: 20px 0 !important;
     }
 
-    /* 遮罩層效果 */
     #nav-overlay {
         display: none;
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100vh;
-        background: rgba(0,0,0,0.4);
+        background: rgba(0,0,0,0.5);
         z-index: 2000;
     }
     
     header.menu-open #nav-overlay { display: block; }
-
-    .nav-menu a {
-        color: #333 !important; /* 抽屜選單固定黑字 */
-        font-size: 1.1rem !important;
-        margin: 18px 0 !important;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    /* 點開選單後漢堡線變 X 動畫 */
-    .menu-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); background-color: #333; }
+    
+    /* 漢堡變換動畫 */
+    .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); background-color: #333; }
     .menu-toggle.active span:nth-child(2) { opacity: 0; }
-    .menu-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); background-color: #333; }
-}
-
-/* 電腦版選單保持橫向 */
-@media (min-width: 769px) {
-    .nav-menu { display: flex; align-items: center; }
-    .nav-menu a {
-        color: #fff; margin-left: 25px; font-size: 0.95rem; font-weight: 500;
-    }
-    header.scrolled .nav-menu a { color: #333; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background-color: #333; }
 }
         /* --- 通用區塊 --- */
         /* --- 修正前台通用區塊間距 (電腦版) --- */
@@ -641,22 +654,20 @@ header.scrolled {
             <img src="images/logo.png" alt="TANG PING LOGO" class="logo-img">
         </a>
         
-        <div class="nav-container">
-            <nav class="nav-menu" id="main-nav">
-                <a href="#news" onclick="closeMenu()">最新優惠</a>
-                <a href="#about" onclick="closeMenu()">關於躺平</a>
-                <a href="#services" onclick="closeMenu()">價目表</a>
-                <a href="#booking" onclick="closeMenu()">線上預約</a>
-                <a href="#notice" onclick="closeMenu()">預約須知</a>
-                <a href="#contact" onclick="closeMenu()">聯絡我們</a>
-            </nav>
-
-            <div class="menu-toggle" id="menu-toggle-btn" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+        <div class="menu-toggle" id="menu-toggle-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
+
+        <nav class="nav-menu" id="main-nav">
+            <a href="#news" onclick="closeMenu()">最新優惠</a>
+            <a href="#about" onclick="closeMenu()">關於躺平</a>
+            <a href="#services" onclick="closeMenu()">價目表</a>
+            <a href="#booking" onclick="closeMenu()">線上預約</a>
+            <a href="#notice" onclick="closeMenu()">預約須知</a>
+            <a href="#contact" onclick="closeMenu()">聯絡我們</a>
+        </nav>
     </div>
     <div id="nav-overlay" onclick="toggleMenu()"></div>
 </header>
@@ -1843,12 +1854,12 @@ function toggleMenu() {
         btn.classList.toggle('active');
         header.classList.toggle('menu-open');
         
-        // 選單開啟時禁止背景頁面捲動
+        // 禁止捲動背景
         document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
     }
 }
 
-// 點擊選項後自動關閉選單 (UX優化)
+// 點擊選項後關閉選單
 function closeMenu() {
     if (window.innerWidth <= 768) {
         const nav = document.getElementById('main-nav');
