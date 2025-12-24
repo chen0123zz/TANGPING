@@ -49,7 +49,7 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
-/* --- 1. 導覽列容器 (強制水平) --- */
+/* --- 1. 全域導覽列容器 --- */
 header {
     background-color: transparent;
     padding: 15px 5%;
@@ -58,7 +58,6 @@ header {
     z-index: 2000;
     transition: all 0.4s ease;
     box-sizing: border-box;
-    display: block !important; /* 防止被其他地方隱藏 */
 }
 
 header.scrolled {
@@ -67,25 +66,30 @@ header.scrolled {
     box-shadow: 0 2px 15px rgba(0,0,0,0.08);
 }
 
+/* 這是最重要的「一左一右」關鍵 */
 .header-content {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    display: flex !important; /* 強制彈性佈局 */
-    justify-content: space-between !important; /* 強制左右對齊 */
-    align-items: center !important;
+    display: flex !important;           /* 強制彈性佈局 */
+    flex-direction: row !important;      /* 強制橫向排隊 */
+    justify-content: space-between !important; /* 強制左右推開 */
+    align-items: center !important;       /* 強制上下置中 */
 }
 
-/* --- 2. LOGO 尺寸 --- */
+/* --- 2. LOGO 尺寸放大（質感提升） --- */
 .logo-img {
-    height: 45px; /* 電腦版大小 */
+    height: 55px; /* 🔥 電腦版大 LOGO */
     width: auto;
+    display: block;
     transition: height 0.3s ease;
 }
 
-header.scrolled .logo-img { height: 35px; }
+header.scrolled .logo-img {
+    height: 45px; /* 捲動時稍微縮小保持精緻 */
+}
 
-/* --- 3. 電腦版選單 (無底線) --- */
+/* --- 3. 電腦版選單樣式 --- */
 .nav-menu { display: flex; align-items: center; }
 .nav-menu a {
     text-decoration: none !important;
@@ -93,14 +97,14 @@ header.scrolled .logo-img { height: 35px; }
     margin-left: 25px;
     font-weight: 500;
     font-size: 1rem;
-    transition: 0.3s;
+    transition: color 0.3s;
 }
 header.scrolled .nav-menu a { color: #333; }
 .nav-menu a:hover { color: var(--brand-color) !important; }
 
-/* --- 4. 漢堡按鈕 (預設隱藏) --- */
+/* --- 4. 手機版漢堡按鈕 --- */
 .menu-toggle {
-    display: none;
+    display: none; /* 電腦預設藏 */
     flex-direction: column;
     justify-content: space-between;
     width: 28px; height: 18px;
@@ -113,29 +117,22 @@ header.scrolled .nav-menu a { color: #333; }
     transition: 0.3s;
 }
 
-/* --- 📱 手機版：導覽列 + 大圖氣派感合體版 --- */
+/* --- 📱 手機版專屬 (強制覆蓋所有舊錯誤) --- */
 @media (max-width: 768px) {
-    /* 1. 基礎設定：移除推擠，讓大圖頂天立地 */
-    body { padding-top: 0 !important; }
-    header { padding: 12px 20px !important; }
-    .logo-img { height: 32px !important; }
-    .menu-toggle { display: flex !important; }
-
-    /* 2. Hero Section 大圖優化：讓照片穿透導覽列 */
-    .hero-container {
-        height: 80vh !important; /* 增加高度，更有氣勢 */
-        margin-top: 0 !important; 
-    }
-    .hero-image {
-        top: 0 !important;
-        height: 100% !important;
-        object-position: center 25% !important; /* 確保手部特寫在視覺中心 */
-    }
-    .hero-content {
-        padding-top: 80px !important; /* 標題往下推一點，避開左上角 LOGO */
+    header { 
+        padding: 12px 15px !important; /* 縮小邊距讓橫向空間變大 */
     }
 
-    /* 3. 側邊抽屜選單樣式 (保持原本的功能) */
+    /* 手機版 LOGO 也要大才氣派 */
+    .logo-img { 
+        height: 42px !important; /* 🔥 妳原本截圖中 LOGO 太小，我們把它放大！ */
+    }
+
+    .menu-toggle { 
+        display: flex !important; /* 手機版顯示漢堡鈕 */
+    }
+
+    /* 側邊抽屜選單：不再遮住全家，只遮一邊 */
     .nav-menu {
         position: fixed !important;
         top: 0 !important; right: 0 !important;
@@ -144,9 +141,9 @@ header.scrolled .nav-menu a { color: #333; }
         flex-direction: column !important;
         justify-content: center !important;
         align-items: flex-start !important;
-        padding-left: 40px !important;
+        padding-left: 45px !important;
         box-shadow: -5px 0 20px rgba(0,0,0,0.15) !important;
-        transform: translateX(100%) !important; /* 預設藏在右邊 */
+        transform: translateX(100%) !important; /* 藏右邊 */
         transition: transform 0.4s ease !important;
         display: flex !important;
     }
@@ -155,12 +152,10 @@ header.scrolled .nav-menu a { color: #333; }
 
     .nav-menu a {
         color: #333 !important;
-        font-size: 1.2rem !important; /* 字稍微大一點好點選 */
+        font-size: 1.1rem !important;
         margin: 15px 0 !important;
-        text-decoration: none !important;
     }
 
-    /* 4. 遮罩與動畫 (保持原本的功能) */
     #nav-overlay {
         display: none;
         position: fixed; top: 0; left: 0;
@@ -169,10 +164,6 @@ header.scrolled .nav-menu a { color: #333; }
         z-index: 1999;
     }
     header.menu-open #nav-overlay { display: block; }
-
-    .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); background-color: #333; }
-    .menu-toggle.active span:nth-child(2) { opacity: 0; }
-    .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background-color: #333; }
 }
         /* --- 通用區塊 --- */
         /* --- 修正前台通用區塊間距 (電腦版) --- */
@@ -680,7 +671,7 @@ header.scrolled .nav-menu a { color: #333; }
     </div>
     <div id="nav-overlay" onclick="closeMenu()"></div>
 </header>
-
+    
 <section id="hero-banner" class="hero-container">
     <img src="images/hero_bg.png" class="hero-image" alt="專業運動按摩特寫">
     
