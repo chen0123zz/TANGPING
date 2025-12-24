@@ -50,10 +50,10 @@
         .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
 /* ========================================= */
-/* 🚀 導覽列與手機抽屜選單 - 100 分修正版     */
+/* 🚀 質感導覽列與手機側邊選單 - 終極版       */
 /* ========================================= */
 
-/* --- 1. 全域 Header 基礎 --- */
+/* --- 1. 導覽列基礎設定 (電腦與全域) --- */
 header {
     background-color: transparent;
     padding: 15px 5%;
@@ -70,19 +70,17 @@ header.scrolled {
     box-shadow: 0 2px 15px rgba(0,0,0,0.08);
 }
 
-/* 💡 這一段是讓 LOGO 跟 漢堡鈕乖乖左右站的關鍵 */
 .header-content {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     display: flex !important;
-    flex-direction: row !important;      /* 強制橫向排隊 */
-    flex-wrap: nowrap !important;        /* 強制不准換行 */
-    justify-content: space-between !important; /* 左右推開 */
+    flex-direction: row !important;      /* 🔥 強制手機版也要橫著排 */
+    flex-wrap: nowrap !important;        /* 🔥 絕對不准換行 */
+    justify-content: space-between !important; 
     align-items: center !important;
 }
 
-/* --- 2. LOGO 連結與圖片 --- */
 .logo-link {
     display: block !important;
     width: auto !important;
@@ -90,18 +88,17 @@ header.scrolled {
 }
 
 .logo-img {
-    height: 55px; /* 電腦版大 LOGO */
+    height: 55px; /* 電腦版 LOGO 尺寸 */
     width: auto;
-    display: block;
     transition: 0.3s;
 }
 
 header.scrolled .logo-img { height: 45px; }
 
-/* --- 3. 電腦版導覽選單 --- */
+/* --- 2. 電腦版選單樣式 --- */
 .nav-menu { display: flex; align-items: center; }
 .nav-menu a {
-    text-decoration: none !important; /* 移除所有底線 */
+    text-decoration: none !important;
     color: #fff; 
     margin-left: 25px;
     font-weight: 500;
@@ -111,7 +108,7 @@ header.scrolled .logo-img { height: 45px; }
 header.scrolled .nav-menu a { color: #333; }
 .nav-menu a:hover { color: var(--brand-color) !important; }
 
-/* --- 4. 漢堡按鈕圖示 --- */
+/* --- 3. 手機漢堡按鈕圖示 --- */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -119,7 +116,6 @@ header.scrolled .nav-menu a { color: #333; }
     width: 28px; height: 18px;
     cursor: pointer;
     z-index: 2002;
-    flex-shrink: 0 !important; /* 不准被擠壓 */
 }
 
 .menu-toggle span {
@@ -128,28 +124,26 @@ header.scrolled .nav-menu a { color: #333; }
     transition: 0.3s;
 }
 
-/* --- 📱 手機版專屬修正 (強制覆蓋) --- */
+/* --- 4. 📱 手機版專屬修正 (強制覆蓋) --- */
 @media (max-width: 768px) {
     body { padding-top: 0 !important; }
     header { padding: 12px 20px !important; }
 
-    /* 強制手機版 LOGO 加大一點點 */
-    .logo-img { height: 40px !important; }
-    
+    .logo-img { height: 40px !important; } /* 🔥 手機版 LOGO 放大 */
     .menu-toggle { display: flex !important; }
 
-    /* 💡 右側抽屜選單：只佔據一部分畫面 */
+    /* 右側抽屜選單樣式 */
     .nav-menu {
         position: fixed !important;
         top: 0 !important; right: 0 !important;
-        width: 250px !important; height: 100vh !important;
+        width: 260px !important; height: 100vh !important;
         background: #fff !important;
         flex-direction: column !important;
         justify-content: center !important;
         align-items: flex-start !important;
         padding-left: 45px !important;
         box-shadow: -5px 0 20px rgba(0,0,0,0.15) !important;
-        transform: translateX(100%) !important; /* 預設藏在右側外面 */
+        transform: translateX(100%) !important; /* 藏在右邊 */
         transition: transform 0.4s ease !important;
         display: flex !important;
     }
@@ -158,7 +152,7 @@ header.scrolled .nav-menu a { color: #333; }
 
     .nav-menu a {
         color: #333 !important;
-        font-size: 1.15rem !important;
+        font-size: 1.2rem !important;
         margin: 15px 0 !important;
     }
 
@@ -177,7 +171,7 @@ header.scrolled .nav-menu a { color: #333; }
     .menu-toggle.active span:nth-child(2) { opacity: 0; }
     .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background-color: #333; }
 
-    /* 手機版大圖頂部修正 */
+    /* 大圖與頂部位置優化 */
     .hero-container { height: 80vh !important; margin-top: 0 !important; }
     .hero-image { top: 0 !important; height: 100% !important; }
     .hero-content { padding-top: 80px !important; }
