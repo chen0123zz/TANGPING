@@ -49,21 +49,68 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
-        /* --- 導覽列 --- */
-        header {
-            background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky; top: 0; z-index: 1000; display: block; transition: transform 0.3s ease;
-        }
-        header.nav-hidden { transform: translateY(-100%); }
-        .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; }
-        .logo-img { height: 50px; width: auto; }
-        .nav-menu a {
-            text-decoration: none; color: #333; margin-left: 20px;
-            font-weight: bold; font-size: 0.95rem; transition: color 0.3s;
-            white-space: nowrap; 
-        }
-        .nav-menu a:hover { color: var(--brand-color); }
+        /* --- 質感導覽列基礎 --- */
+header {
+    background-color: transparent; /* 預設透明，展現氣派大圖 */
+    padding: 15px 20px;
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    z-index: 2000;
+    transition: background-color 0.4s ease, padding 0.4s ease;
+}
 
+/* 捲動後變色 */
+header.scrolled {
+    background-color: rgba(255, 255, 255, 0.98);
+    padding: 10px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* 漢堡按鈕圖示樣式 */
+.menu-toggle {
+    display: none; /* 電腦版先藏起來 */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px; height: 20px;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+.menu-toggle span {
+    display: block; width: 100%; height: 3px;
+    background-color: var(--brand-color); /* 使用妳的品牌金 */
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+/* 手機版樣式切換 */
+@media (max-width: 768px) {
+    .menu-toggle { display: flex; } /* 手機版顯示漢堡 */
+
+    .nav-menu {
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 100vh;
+        background: white;
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
+        transform: translateY(-100%); /* 藏在上面 */
+        transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+        z-index: 1999;
+    }
+
+    .nav-menu.active { transform: translateY(0); } /* 滑下來 */
+
+    .nav-menu a { font-size: 1.5rem !important; margin: 20px 0; }
+}
+
+/* 預約膠囊按鈕 */
+.nav-booking-btn {
+    background-color: var(--brand-color);
+    color: #fff !important;
+    padding: 8px 20px !important;
+    border-radius: 50px;
+    font-weight: bold;
+}
         /* --- 通用區塊 --- */
         /* --- 修正前台通用區塊間距 (電腦版) --- */
         .content-section { 
@@ -547,18 +594,28 @@
 </head>
 <body>
 
-    <header>
-        <div class="header-content">
-            <img src="images/logo.png" alt="躺平運動按摩 LOGO" class="logo-img">
-            <nav class="nav-menu">
-                <a href="#news">最新優惠</a>
-                <a href="#about">關於躺平</a>
-                <a href="#services">價目表</a>
-                <a href="#notice">預約須知</a>
-                <a href="#contact">聯絡我們</a>
-            </nav>
+    <header id="dynamic-header">
+    <div class="header-content">
+        <a href="#" onclick="scrollToTop(); return false;">
+            <img src="images/logo.png" alt="TANG PING LOGO" class="logo-img">
+        </a>
+        
+        <div class="menu-toggle" id="menu-toggle-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-    </header>
+
+        <nav class="nav-menu" id="main-nav">
+            <a href="#news" onclick="toggleMenu()">最新優惠</a>
+            <a href="#about" onclick="toggleMenu()">關於躺平</a>
+            <a href="#services" onclick="toggleMenu()">價目表</a>
+            <a href="#booking" class="nav-booking-btn" onclick="toggleMenu()">線上預約</a>
+            <a href="#notice" onclick="toggleMenu()">預約須知</a>
+            <a href="#contact" onclick="toggleMenu()">聯絡我們</a>
+        </nav>
+    </div>
+</header>
 
 <section id="hero-banner" class="hero-container">
     <img src="images/hero_bg.png" class="hero-image" alt="專業運動按摩特寫">
@@ -1731,6 +1788,30 @@ async function fetchYearlyReport() {
                 });
             }, 500); 
         }
+// 控制漢堡選單開關
+function toggleMenu() {
+    // 只有在手機版（螢幕寬度小於 768px）時才運作
+    if (window.innerWidth <= 768) {
+        const nav = document.getElementById('main-nav');
+        const btn = document.getElementById('menu-toggle-btn');
+        nav.classList.toggle('active');
+        btn.classList.toggle('active'); // 讓三條線變叉叉 (如果妳有設動畫)
+        
+        // 選單打開時，背景禁止捲動
+        document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+    }
+}
+
+// 捲動變色邏輯
+window.addEventListener('scroll', function() {
+    const header = document.getElementById('dynamic-header');
+    if (window.scrollY > 80) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+        
     </script>
 </body>
 </html>
