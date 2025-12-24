@@ -30,7 +30,7 @@
         }
         html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
         body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
-        section, .content-section { scroll-margin-top: 80px; }
+        section, .content-section { scroll-margin-top: 65px; }
 
         /* --- 局部 Loading 遮罩 --- */
         .local-loading-overlay {
@@ -49,10 +49,10 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
-/* --- 基礎 Header 佈局 --- */
+/* --- 基礎佈局：LOGO 與漢堡線同一排 --- */
 header {
     background-color: transparent;
-    padding: 20px;
+    padding: 15px 20px;
     position: fixed;
     top: 0; left: 0; width: 100%;
     z-index: 2000;
@@ -62,7 +62,7 @@ header {
 
 header.scrolled {
     background-color: rgba(255, 255, 255, 0.98);
-    padding: 12px 20px;
+    padding: 10px 20px;
     box-shadow: 0 2px 15px rgba(0,0,0,0.08);
 }
 
@@ -70,41 +70,22 @@ header.scrolled {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between; /* 讓 LOGO 在左，選單在右 */
+    justify-content: space-between; /* 關鍵：讓左右分開 */
     align-items: center;
 }
 
 .logo-img {
-    height: 35px; /* 修正哥吉拉 LOGO，精緻大小 */
+    height: 32px; /* 修正哥吉拉 LOGO，變精緻 */
     width: auto;
     transition: 0.3s;
 }
 
-/* --- 電腦版選單樣式 --- */
-.nav-menu a {
-    text-decoration: none;
-    color: #fff; /* 初始在大圖上是白色 */
-    margin-left: 25px;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: 0.3s;
-    letter-spacing: 1px;
-}
-
-header.scrolled .nav-menu a {
-    color: #333; /* 捲動變白底後字變黑 */
-}
-
-.nav-menu a:hover {
-    color: var(--brand-color) !important;
-}
-
-/* --- 精緻漢堡按鈕 --- */
+/* --- 漢堡按鈕樣式 --- */
 .menu-toggle {
     display: none;
     flex-direction: column;
     justify-content: space-around;
-    width: 26px; height: 20px;
+    width: 26px; height: 18px;
     cursor: pointer;
     z-index: 2002;
 }
@@ -115,14 +96,14 @@ header.scrolled .nav-menu a {
     transition: 0.3s;
 }
 
-/* --- 📱 手機版：側邊抽屜選單 --- */
+/* --- 📱 手機版：右側抽屜式選單 --- */
 @media (max-width: 768px) {
-    .menu-toggle { display: flex; }
-    
+    .menu-toggle { display: flex; } /* 手機版顯示漢堡 */
+
     .nav-menu {
         position: fixed;
-        top: 0; right: 0; /* 改為從右邊出來 */
-        width: 250px; height: 100vh; /* 寬度只有一部分 */
+        top: 0; right: 0; /* 選單固定在右側 */
+        width: 240px; height: 100vh; /* 寬度只佔一部分，更專業 */
         background: #fff;
         flex-direction: column !important;
         justify-content: center;
@@ -135,19 +116,41 @@ header.scrolled .nav-menu a {
     }
 
     .nav-menu.active {
-        transform: translateX(0); /* 抽屜拉出來 */
+        transform: translateX(0); /* 抽屜滑入 */
     }
+
+    /* 遮罩層效果 */
+    #nav-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100vh;
+        background: rgba(0,0,0,0.4);
+        z-index: 2000;
+    }
+    
+    header.menu-open #nav-overlay { display: block; }
 
     .nav-menu a {
-        color: #333 !important; /* 側邊欄永遠是白底黑字 */
+        color: #333 !important; /* 抽屜選單固定黑字 */
         font-size: 1.1rem !important;
-        margin: 15px 0 !important;
+        margin: 18px 0 !important;
+        text-decoration: none;
+        font-weight: 500;
     }
 
-    /* 選單開啟時，漢堡線變黑色(或維持金色)避免看不見 */
-    .menu-toggle.active span {
-        background-color: #333;
+    /* 點開選單後漢堡線變 X 動畫 */
+    .menu-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); background-color: #333; }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); background-color: #333; }
+}
+
+/* 電腦版選單保持橫向 */
+@media (min-width: 769px) {
+    .nav-menu { display: flex; align-items: center; }
+    .nav-menu a {
+        color: #fff; margin-left: 25px; font-size: 0.95rem; font-weight: 500;
     }
+    header.scrolled .nav-menu a { color: #333; }
 }
         /* --- 通用區塊 --- */
         /* --- 修正前台通用區塊間距 (電腦版) --- */
@@ -632,7 +635,7 @@ header.scrolled .nav-menu a {
 </head>
 <body>
 
-   <header id="dynamic-header">
+<header id="dynamic-header">
     <div class="header-content">
         <a href="#" onclick="scrollToTop(); return false;" class="logo-link">
             <img src="images/logo.png" alt="TANG PING LOGO" class="logo-img">
@@ -640,12 +643,12 @@ header.scrolled .nav-menu a {
         
         <div class="nav-container">
             <nav class="nav-menu" id="main-nav">
-                <a href="#news" onclick="toggleMenu()">最新優惠</a>
-                <a href="#about" onclick="toggleMenu()">關於躺平</a>
-                <a href="#services" onclick="toggleMenu()">價目表</a>
-                <a href="#booking" onclick="toggleMenu()">線上預約</a>
-                <a href="#notice" onclick="toggleMenu()">預約須知</a>
-                <a href="#contact" onclick="toggleMenu()">聯絡我們</a>
+                <a href="#news" onclick="closeMenu()">最新優惠</a>
+                <a href="#about" onclick="closeMenu()">關於躺平</a>
+                <a href="#services" onclick="closeMenu()">價目表</a>
+                <a href="#booking" onclick="closeMenu()">線上預約</a>
+                <a href="#notice" onclick="closeMenu()">預約須知</a>
+                <a href="#contact" onclick="closeMenu()">聯絡我們</a>
             </nav>
 
             <div class="menu-toggle" id="menu-toggle-btn" onclick="toggleMenu()">
@@ -655,6 +658,7 @@ header.scrolled .nav-menu a {
             </div>
         </div>
     </div>
+    <div id="nav-overlay" onclick="toggleMenu()"></div>
 </header>
 
 <section id="hero-banner" class="hero-container">
@@ -1828,34 +1832,40 @@ async function fetchYearlyReport() {
                 });
             }, 500); 
         }
-// 控制漢堡選單開關
+// 控制選單開關
 function toggleMenu() {
-    // 只有手機版運作
     if (window.innerWidth <= 768) {
         const nav = document.getElementById('main-nav');
         const btn = document.getElementById('menu-toggle-btn');
+        const header = document.getElementById('dynamic-header');
+        
         nav.classList.toggle('active');
         btn.classList.toggle('active');
+        header.classList.toggle('menu-open');
         
-        // 鎖定頁面滾動
+        // 選單開啟時禁止背景頁面捲動
         document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
     }
 }
 
-// 監聽捲動變色 (原本的繼續延用)
+// 點擊選項後自動關閉選單 (UX優化)
+function closeMenu() {
+    if (window.innerWidth <= 768) {
+        const nav = document.getElementById('main-nav');
+        const btn = document.getElementById('menu-toggle-btn');
+        const header = document.getElementById('dynamic-header');
+        
+        nav.classList.remove('active');
+        btn.classList.remove('active');
+        header.classList.remove('menu-open');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// 捲動變色監聽
 window.addEventListener('scroll', function() {
     const header = document.getElementById('dynamic-header');
     if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
-});
-
-// 捲動變色邏輯
-window.addEventListener('scroll', function() {
-    const header = document.getElementById('dynamic-header');
-    if (window.scrollY > 80) {
         header.classList.add('scrolled');
     } else {
         header.classList.remove('scrolled');
