@@ -113,15 +113,29 @@ header.scrolled .nav-menu a { color: #333; }
     transition: 0.3s;
 }
 
-/* --- 📱 手機版專屬 (強制覆蓋所有舊樣式) --- */
+/* --- 📱 手機版：導覽列 + 大圖氣派感合體版 --- */
 @media (max-width: 768px) {
-    body { padding-top: 0 !important; } /* 移除原本舊代碼的 padding */
+    /* 1. 基礎設定：移除推擠，讓大圖頂天立地 */
+    body { padding-top: 0 !important; }
     header { padding: 12px 20px !important; }
-    
     .logo-img { height: 32px !important; }
     .menu-toggle { display: flex !important; }
 
-    /* 側邊抽屜選單 */
+    /* 2. Hero Section 大圖優化：讓照片穿透導覽列 */
+    .hero-container {
+        height: 80vh !important; /* 增加高度，更有氣勢 */
+        margin-top: 0 !important; 
+    }
+    .hero-image {
+        top: 0 !important;
+        height: 100% !important;
+        object-position: center 25% !important; /* 確保手部特寫在視覺中心 */
+    }
+    .hero-content {
+        padding-top: 80px !important; /* 標題往下推一點，避開左上角 LOGO */
+    }
+
+    /* 3. 側邊抽屜選單樣式 (保持原本的功能) */
     .nav-menu {
         position: fixed !important;
         top: 0 !important; right: 0 !important;
@@ -141,11 +155,12 @@ header.scrolled .nav-menu a { color: #333; }
 
     .nav-menu a {
         color: #333 !important;
-        font-size: 1.15rem !important;
+        font-size: 1.2rem !important; /* 字稍微大一點好點選 */
         margin: 15px 0 !important;
+        text-decoration: none !important;
     }
 
-    /* 遮罩 */
+    /* 4. 遮罩與動畫 (保持原本的功能) */
     #nav-overlay {
         display: none;
         position: fixed; top: 0; left: 0;
@@ -154,6 +169,10 @@ header.scrolled .nav-menu a { color: #333; }
         z-index: 1999;
     }
     header.menu-open #nav-overlay { display: block; }
+
+    .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); background-color: #333; }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background-color: #333; }
 }
         /* --- 通用區塊 --- */
         /* --- 修正前台通用區塊間距 (電腦版) --- */
