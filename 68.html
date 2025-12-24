@@ -30,7 +30,7 @@
         }
         html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
         body { font-family: 'Noto Sans TC', sans-serif; margin: 0; padding: 0; background-color: var(--bg-beige); color: var(--text-dark); }
-        section, .content-section { scroll-margin-top: 70px; }
+        section, .content-section { scroll-margin-top: 80px; }
 
         /* --- 局部 Loading 遮罩 --- */
         .local-loading-overlay {
@@ -111,6 +111,19 @@ header.scrolled {
     border-radius: 50px;
     font-weight: bold;
 }
+
+      /* --- 限制導覽列 LOGO 大小 --- */
+.header-content .logo-img {
+    height: 40px; /* 強制設定高度，寬度會自動等比例縮小 */
+    width: auto;
+    display: block;
+    transition: height 0.3s ease; /* 捲動時縮小時會很平滑 */
+}
+
+/* 當導覽列變色(scrolled)時，LOGO 可以稍微再縮小一點點點 */
+header.scrolled .logo-img {
+    height: 35px;
+}  
         /* --- 通用區塊 --- */
         /* --- 修正前台通用區塊間距 (電腦版) --- */
         .content-section { 
