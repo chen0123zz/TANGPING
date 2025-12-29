@@ -124,80 +124,82 @@ header.scrolled .nav-menu a { color: #333; }
 
 /* --- 2. 📱 手機版專屬修正 (強制覆蓋) --- */
 @media (max-width: 768px) {
-    body { padding-top: 0 !important; }
-    header { 
-        padding: 10px 20px !important; 
-        background-color: rgba(255, 255, 255, 0.98) !important; 
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
-    }
+    body { padding-top: 0 !important; }
 
-    /* 💡 關鍵：強制橫向排列，且置兩端 (LOGO在左、漢堡在右) */
-    .header-content { 
-        flex-direction: row !important; 
-        justify-content: space-between !important; 
-        align-items: center !important;
-        padding: 0 !important;
-    }
+    /* 💡 1. 讓手機版 Header 初始狀態透明 */
+    header { 
+        background-color: transparent !important; /* 強制初始透明 */
+        box-shadow: none !important;
+        padding: 15px 20px !important;
+        transition: background-color 0.4s ease, padding 0.4s ease !important;
+        backdrop-filter: none !important; /* 初始不要模糊，首圖才乾淨 */
+    }
 
-    /* 手機版 LOGO 尺寸優化 */
-    .logo-img { height: 35px !important; } 
-    
-    /* 確保漢堡按鈕在手機版顯示 */
-    .menu-toggle { display: flex !important; }
+    /* 💡 2. 當手機版「捲動後」或「選單打開後」變色 */
+    header.scrolled, 
+    header.menu-open {
+        background-color: rgba(255, 255, 255, 0.98) !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+        padding: 10px 20px !important;
+        backdrop-filter: blur(10px) !important;
+    }
 
-    /* 💡 右側滑出抽屜選單 */
-    .nav-menu {
-        position: fixed !important;
-        top: 0 !important; 
-        right: 0 !important;
-        width: 240px !important; 
-        height: 100vh !important;
-        background: #fff !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: flex-start !important;
-        padding-left: 40px !important;
-        box-shadow: -5px 0 20px rgba(0,0,0,0.1) !important;
-        transform: translateX(100%) !important; 
-        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important; /* 讓滑入動作「先快後慢」 */
-        z-index: 2001;
-    }
+    /* 💡 3. 強制讓漢堡選單顯現 (避免隱身) */
+    .menu-toggle { 
+        display: flex !important; 
+        z-index: 2002 !important; 
+    }
+    .menu-toggle span { background-color: var(--brand-color) !important; }
 
-    .nav-menu.active { transform: translateX(0) !important; }
-    .nav-menu a {
-        color: #333 !important;
-        font-size: 1.1rem !important;
-        margin: 15px 0 !important;
-        width: 100%;
-        text-decoration: none !important;
-    }
+    /* 💡 4. 左右並排：LOGO 在左、漢堡在右 */
+    .header-content { 
+        flex-direction: row !important; 
+        justify-content: space-between !important; 
+        align-items: center !important;
+        width: 100% !important;
+    }
 
-    /* 💡 漢堡變叉叉動畫 (必須在大括號內) */
-    .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background-color: #333; }
-    .menu-toggle.active span:nth-child(2) { opacity: 0; }
-    .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background-color: #333; }
+    .logo-img { height: 35px !important; transition: 0.3s !important; } 
 
-    /* 大圖與遮罩優化 */
-    /* 💡 讓遮罩在手機版活過來 */
-    #nav-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5); /* 半透明黑 */
-        z-index: 2000; /* 剛好在選單下方，Header上方 */
-        display: none; /* 預設隱藏，由 JS 控制顯示 */
-        backdrop-filter: blur(3px); /* 幫背景加點模糊感，質感大升級！ */
-    }
+    /* 💡 5. 右側滑出抽屜選單維持原樣 */
+    .nav-menu {
+        position: fixed !important;
+        top: 0 !important; right: 0 !important;
+        width: 240px !important; height: 100vh !important;
+        background: #fff !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        padding-left: 40px !important;
+        box-shadow: -5px 0 20px rgba(0,0,0,0.1) !important;
+        transform: translateX(100%) !important; 
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        z-index: 2001;
+    }
+    .nav-menu.active { transform: translateX(0) !important; }
+    .nav-menu a {
+        color: #333 !important;
+        font-size: 1.1rem !important;
+        margin: 15px 0 !important;
+        width: 100%;
+        text-decoration: none !important;
+    }
 
-    /* 當 Header 標記為選單開啟時，顯示遮罩 */
-    header.menu-open #nav-overlay {
-        display: block !important;
-    }
-    .hero-container { height: 80vh !important; margin-top: 0 !important; }
-    .hero-image { top: 0 !important; height: 100% !important; }
-    .hero-content { padding-top: 80px !important; }
+    /* 💡 6. 漢堡變叉叉動畫 */
+    .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background-color: #333 !important; }
+    .menu-toggle.active span:nth-child(2) { opacity: 0 !important; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background-color: #333 !important; }
+
+    /* 遮罩、大圖優化維持不變... */
+    #nav-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5); z-index: 2000;
+        display: none; backdrop-filter: blur(3px);
+    }
+    header.menu-open #nav-overlay { display: block !important; }
+    .hero-container { height: 80vh !important; margin-top: 0 !important; }
+    .hero-image { top: 0 !important; height: 100% !important; }
+    .hero-content { padding-top: 80px !important; }
 }
         /* --- 通用區塊 --- */
         /* --- 修正前台通用區塊間距 (電腦版) --- */
@@ -541,7 +543,6 @@ header.scrolled .nav-menu a { color: #333; }
         @media (max-width: 768px) {
             /* 1. 導覽列 */
             header { padding: 10px 0; position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; }
-            body { padding-top: 110px; }
             .logo-img { height: 45px; }
             .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
 
