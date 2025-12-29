@@ -676,6 +676,22 @@ header.scrolled .nav-menu a { color: #333; }
     .hero-desc { font-size: 1rem; }
     .hero-subline { font-size: 0.7rem; }
 }
+
+/* 💻 專屬電腦版微調：當螢幕寬度大於 768px 時生效 */
+@media (min-width: 769px) {
+    /* 針對這四個區塊的標題下方增加間距 */
+    #services .section-title,
+    #booking .section-title,
+    #notice .section-title,
+    #contact .section-title {
+    margin-bottom: 40px !important; /* 原本可能是 5px，我們把它拉大到 40px */
+    }
+
+    /* 如果妳覺得標題下方的描述文字 (section-desc) 也太擠，可以一起調 */
+    .section-desc {
+     margin-bottom: 50px !important; /* 增加描述文字與下方內容（如日曆、卡片）的距離 */
+    }
+}
     </style>
 </head>
 <body>
