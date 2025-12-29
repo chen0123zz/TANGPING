@@ -49,10 +49,6 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
-/* ========================================= */
-/* 🚀 導覽列與側邊選單 - 120分完美修正版       */
-/* ========================================= */
-
 /* --- 1. 全域 Header (電腦版預設) --- */
 header {
     background-color: transparent;
@@ -60,19 +56,30 @@ header {
     position: fixed;
     top: 0; left: 0; width: 100%;
     z-index: 2000;
-    transition: all 0.4s ease;
+    /* 💡 關鍵 1：增加 transform 到動畫設定中 */
+    transition: transform 0.4s ease, background-color 0.4s ease, padding 0.4s ease;
     box-sizing: border-box;
 }
 
+/* 💡 關鍵 2：讓 Header 具備滑動隱藏功能 */
+header.nav-hidden {
+    transform: translateY(-100%);
+}
+
+/* 💡 關鍵 3：如果選單是打開的，強制顯示（不准滑動隱藏） */
+header.menu-open {
+    transform: translateY(0) !important;
+}
+
 header.scrolled {
-    background-color: rgba(255, 255, 255, 0.8) !important; /* 降低透明度 */
-    backdrop-filter: blur(10px); /* 增加毛玻璃模糊感 */
-    -webkit-backdrop-filter: blur(10px); /* 相容 Safari */
+    background-color: rgba(255, 255, 255, 0.8) !important; 
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); 
     padding: 10px 5%;
     box-shadow: 0 2px 15px rgba(0,0,0,0.05);
 }
 
-/* 💡 左右併排的關鍵：強制 Flex */
+/* 💡 以下是妳原本的排版核心，絕對不能刪掉，否則會跑版 */
 .header-content {
     width: 100%;
     max-width: 1200px;
@@ -86,7 +93,7 @@ header.scrolled {
 .logo-link { display: block; width: auto; flex-shrink: 0; text-decoration: none; }
 
 .logo-img {
-    height: 50px; /* 電腦版 LOGO 尺寸 */
+    height: 50px; 
     width: auto;
     display: block;
     transition: 0.3s;
