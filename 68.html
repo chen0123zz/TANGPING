@@ -506,18 +506,54 @@ header.scrolled .nav-menu a { color: #333; }
         
         .ig-footer, .ig-handle, .ig-logo-box { display: none; }
 
-        /* ============================================= */
-        /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
-        /* ============================================= */
-        @media (max-width: 768px) {
-            /* 1. 導覽列 */
-            header { padding: 10px 0; position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; }
-            body { padding-top: 110px; }
-            .header-content { flex-direction: column !important; gap: 10px; }
-            .logo-img { height: 45px; }
-            .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; scrollbar-width: none; }
-            .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
+        /* --- 📱 手機版導覽列專屬修正 --- */
+@media (max-width: 768px) {
+    /* 讓 Header 固定在頂部，並確保有背景色 */
+    header { 
+        padding: 10px 20px !important; 
+        position: fixed !important; 
+        top: 0; left: 0; width: 100%; 
+        z-index: 2000;
+        background-color: rgba(255, 255, 255, 0.98) !important; /* 手機版預設白底 */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
 
+    /* 關鍵：強制 Header 內容橫向排列，左右撐開 */
+    .header-content { 
+        flex-direction: row !important; 
+        justify-content: space-between !important; 
+        align-items: center !important; 
+        gap: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    /* LOGO 靠左 */
+    .logo-link {
+        display: flex !important;
+        align-items: center;
+    }
+    .logo-img { 
+        height: 35px !important; /* 稍微縮小一點避免太擠 */
+        width: auto;
+    }
+
+    /* 漢堡按鈕靠右 */
+    .menu-toggle { 
+        display: flex !important; 
+        order: 2; /* 確保在右邊 */
+    }
+
+    /* 側邊選單維持原樣，但確保不影響上方排版 */
+    .nav-menu { 
+        display: flex; 
+        flex-direction: column !important; 
+        /* ...其餘側邊選單樣式保留原本的... */
+    }
+
+    /* 修正 Body 頂部間距，避免內容被 Header 遮住 */
+    body { padding-top: 65px !important; }
+}
             /* 2. 日曆 */
             .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
             .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 2px !important; width: 100% !important; }
