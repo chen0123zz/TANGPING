@@ -507,86 +507,108 @@ header.scrolled .nav-menu a { color: #333; }
         .ig-footer, .ig-handle, .ig-logo-box { display: none; }
 
 /* ========================================= */
-/* 🚀 導覽列與首頁按鈕 - 最終完美修正版       */
+/* 🚀 導覽列與首頁大圖 - 最終完美修復版       */
 /* ========================================= */
 
-/* --- [1. 全域/電腦版樣式修復] --- */
+/* --- [1. 全域樣式：電腦版預設] --- */
+header {
+    background-color: transparent;
+    padding: 15px 5%;
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    z-index: 2000;
+    transition: all 0.4s ease;
+    box-sizing: border-box;
+}
+
+header.scrolled {
+    background-color: rgba(255, 255, 255, 0.98);
+    padding: 10px 5%;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+
 .header-content {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    flex-direction: row; /* 電腦版維持橫向 */
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-/* 讓 Hero Section 內容區塊在任何裝置都絕對置中 */
+/* 首圖容器：確保圖片一定會顯示 */
+.hero-container {
+    position: relative;
+    width: 100%;
+    height: 75vh; /* 電腦版高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #000; /* 圖片沒出來前的底色 */
+}
+
+.hero-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    z-index: 1;
+}
+
 .hero-content {
     position: relative;
     z-index: 3;
     text-align: center;
     color: #fff;
-    padding: 0 20px;
     width: 100%;
-    /* 💡 關鍵：使用 Flex 讓內容垂直居中並橫向對齊中心 */
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    justify-content: center;
-}
-
-.hero-btn {
-    display: inline-block;
-    margin: 0 auto; /* 確保按鈕外距置中 */
+    align-items: center; /* 讓按鈕在首圖中心 */
 }
 
 /* --- [2. 📱 手機版專屬修正 (@media 768px)] --- */
 @media (max-width: 768px) {
-    /* 固定 Header 並確保不透明 */
+    /* 手機版導覽列：LOGO左、漢堡右 */
     header { 
-        padding: 10px 20px !important; 
-        position: fixed !important; 
-        top: 0; left: 0; width: 100%; 
-        z-index: 2000;
+        padding: 12px 20px !important; 
         background-color: rgba(255, 255, 255, 0.98) !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
-    /* 強制 Header 內容左右撐開 */
-    .header-content { 
-        display: flex !important;
-        flex-direction: row !important; 
-        justify-content: space-between !important; 
-        align-items: center !important; 
-        width: 100% !important;
+    .header-content {
+        flex-direction: row !important;
+        justify-content: space-between !important;
     }
 
     .logo-img { height: 35px !important; }
 
-    /* 手機版按鈕置中優化 */
+    /* 手機版首圖高度與內容修正 */
     .hero-container {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+        height: 60vh !important; /* 稍微縮小高度適合手機 */
+        margin-top: 0 !important;
     }
 
-    /* 避開上方導覽列，讓文字往下移一點 */
     .hero-content {
-        padding-top: 60px !important;
+        padding-top: 60px !important; /* 避開 Header */
     }
 
-    /* 恢復側邊選單功能，不影響 Header 排版 */
-    .nav-menu { 
-        display: flex; 
-        flex-direction: column !important; 
+    .hero-title { font-size: 2.2rem !important; }
+
+    /* 手機版側邊選單功能（這段要留著才打得開選單） */
+    .nav-menu {
         position: fixed !important;
-        top: 0 !important;
-        right: 0 !important;
-        /* ...側邊選單其他屬性維持... */
+        top: 0 !important; right: 0 !important;
+        width: 240px !important; height: 100vh !important;
+        background: #fff !important;
+        transform: translateX(100%) !important;
+        transition: transform 0.4s ease !important;
+        display: flex !important;
+        flex-direction: column !important;
+        z-index: 2001;
     }
-
-    body { padding-top: 0 !important; } /* 交由 hero-content 的 padding 處理 */
+    .nav-menu.active { transform: translateX(0) !important; }
 }
             /* 2. 日曆 */
             .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
