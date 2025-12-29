@@ -123,49 +123,60 @@ header.scrolled .nav-menu a { color: #333; }
 /* --- 2. 📱 手機版專屬修正 (強制覆蓋) --- */
 @media (max-width: 768px) {
     body { padding-top: 0 !important; }
-    header { padding: 12px 20px !important; }
+    header { 
+        padding: 10px 20px !important; 
+        background-color: rgba(255, 255, 255, 0.98) !important; 
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+    }
+
+    /* 💡 關鍵：強制橫向排列，且置兩端 (LOGO在左、漢堡在右) */
+    .header-content { 
+        flex-direction: row !important; 
+        justify-content: space-between !important; 
+        align-items: center !important;
+        padding: 0 !important;
+    }
 
     /* 手機版 LOGO 尺寸優化 */
-    .logo-img { height: 38px !important; }
+    .logo-img { height: 35px !important; } 
     
+    /* 確保漢堡按鈕在手機版顯示 */
     .menu-toggle { display: flex !important; }
 
-    /* 💡 右側滑出抽屜 */
+    /* 💡 右側滑出抽屜選單 */
     .nav-menu {
         position: fixed !important;
-        top: 0 !important; right: 0 !important;
-        width: 240px !important; height: 100vh !important;
+        top: 0 !important; 
+        right: 0 !important;
+        width: 240px !important; 
+        height: 100vh !important;
         background: #fff !important;
         flex-direction: column !important;
         justify-content: center !important;
         align-items: flex-start !important;
         padding-left: 40px !important;
         box-shadow: -5px 0 20px rgba(0,0,0,0.1) !important;
-        transform: translateX(100%) !important; /* 預設藏在外面 */
+        transform: translateX(100%) !important; 
         transition: transform 0.4s ease !important;
         z-index: 2001;
     }
 
-    /* 打開時滑進來 */
     .nav-menu.active { transform: translateX(0) !important; }
-
     .nav-menu a {
         color: #333 !important;
         font-size: 1.1rem !important;
         margin: 15px 0 !important;
+        width: 100%;
         text-decoration: none !important;
-        width: 100%; /* 讓點擊範圍變大 */
     }
 
-    /* 💡 遮罩移除：我們直接不給 #nav-overlay 任何背景色和顯示 */
-    #nav-overlay { display: none !important; }
-
-    /* 漢堡動畫 */
+    /* 💡 漢堡變叉叉動畫 (必須在大括號內) */
     .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background-color: #333; }
     .menu-toggle.active span:nth-child(2) { opacity: 0; }
     .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background-color: #333; }
 
-    /* 大圖頂部優化 */
+    /* 大圖與遮罩優化 */
+    #nav-overlay { display: none !important; }
     .hero-container { height: 80vh !important; margin-top: 0 !important; }
     .hero-image { top: 0 !important; height: 100% !important; }
     .hero-content { padding-top: 80px !important; }
@@ -513,9 +524,7 @@ header.scrolled .nav-menu a { color: #333; }
             /* 1. 導覽列 */
             header { padding: 10px 0; position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; }
             body { padding-top: 110px; }
-            .header-content { flex-direction: column !important; gap: 10px; }
             .logo-img { height: 45px; }
-            .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; scrollbar-width: none; }
             .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
 
             /* 2. 日曆 */
