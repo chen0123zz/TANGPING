@@ -120,6 +120,11 @@ header.scrolled .nav-menu a { color: #333; }
     transition: 0.3s;
 }
 
+/* --- 2. 📱 手機版專屬修正 (強制覆蓋) --- */
+@media (max-width: 768px) {
+    body { padding-top: 0 !important; }
+    header { padding: 12px 20px !important; }
+
     /* 手機版 LOGO 尺寸優化 */
     .logo-img { height: 38px !important; }
     
@@ -501,73 +506,18 @@ header.scrolled .nav-menu a { color: #333; }
         
         .ig-footer, .ig-handle, .ig-logo-box { display: none; }
 
-        /* 🚀 冠穎專屬 - 最終手機導覽列修正版 */
-@media (max-width: 768px) {
-    /* 強制 Header 不要太高 */
-    header {
-        padding: 10px 15px !important;
-        background-color: #fff !important; /* 確保手機版背景是白的 */
-        height: 60px !important;
-        display: flex !important;
-        align-items: center !important;
-    }
+        /* ============================================= */
+        /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
+        /* ============================================= */
+        @media (max-width: 768px) {
+            /* 1. 導覽列 */
+            header { padding: 10px 0; position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; }
+            body { padding-top: 110px; }
+            .header-content { flex-direction: column !important; gap: 10px; }
+            .logo-img { height: 45px; }
+            .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; scrollbar-width: none; }
+            .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
 
-    /* 關鍵：讓內容橫向左右撐開 */
-    .header-content {
-        display: flex !important;
-        flex-direction: row !important; /* 確保是橫的 */
-        justify-content: space-between !important; /* 左右撐開 */
-        align-items: center !important;
-        width: 100% !important;
-    }
-
-    /* LOGO 靠左 */
-    .logo-link {
-        margin-right: auto !important;
-    }
-    .logo-img {
-        height: 35px !important; /* 調整適合手機的大小 */
-    }
-
-    /* 漢堡鈕靠右 */
-    .menu-toggle {
-        display: flex !important; /* 顯示漢堡鈕 */
-        margin-left: auto !important;
-    }
-
-    /* 側邊選單：點擊後才滑出來 */
-    .nav-menu {
-        position: fixed !important;
-        top: 0 !important;
-        right: -100% !important; /* 平時藏在右邊之外 */
-        width: 250px !important;
-        height: 100vh !important;
-        background: #fff !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        padding-top: 80px !important;
-        transition: 0.3s ease-in-out !important;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.1) !important;
-        z-index: 2001 !important;
-    }
-
-    /* 當選單被點擊啟動時 */
-    .nav-menu.active {
-        right: 0 !important;
-    }
-
-    .nav-menu a {
-        color: #333 !important;
-        margin: 15px 30px !important;
-        font-size: 1.1rem !important;
-        text-align: left !important;
-    }
-
-    /* 讓內容區塊往下移，不要被固定的 Header 擋住 */
-    body {
-        padding-top: 60px !important;
-    }
-}
             /* 2. 日曆 */
             .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
             .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 2px !important; width: 100% !important; }
