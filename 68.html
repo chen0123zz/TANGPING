@@ -510,14 +510,45 @@ header.scrolled .nav-menu a { color: #333; }
         /* 📱 手機版專屬修正 V25.0 (最終完美版)           */
         /* ============================================= */
         @media (max-width: 768px) {
-            /* 1. 導覽列 */
-            header { padding: 10px 0; position: fixed !important; top: 0; left: 0; width: 100%; z-index: 1000; }
-            body { padding-top: 110px; }
-            .header-content { flex-direction: column !important; gap: 10px; }
-            .logo-img { height: 45px; }
-            .nav-menu { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; width: 100%; justify-content: center; padding: 5px 0; scrollbar-width: none; }
-            .nav-menu a { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin: 0; white-space: nowrap !important; }
+    /* 強制 Header 固定在頂部 */
+    header { 
+        padding: 12px 20px !important; 
+        position: fixed !important; 
+        top: 0; left: 0; width: 100%; 
+    }
 
+    /* 確保抽屜垂直排列且隱藏 */
+    .nav-menu {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 240px !important;
+        height: 100vh !important;
+        background: #ffffff !important;
+        display: flex !important;
+        flex-direction: column !important; /* 👈 關鍵：由上往下排 */
+        justify-content: center !important;
+        align-items: flex-start !important;
+        padding-left: 40px !important;
+        transform: translateX(100%) !important; /* 👈 藏在右邊 */
+        transition: transform 0.4s ease !important;
+        box-shadow: -5px 0 20px rgba(0,0,0,0.1) !important;
+        overflow-x: hidden !important; /* ❌ 徹底關閉橫向捲動 */
+    }
+
+    /* 當點擊漢堡按鈕後出現 */
+    .nav-menu.active {
+        transform: translateX(0) !important;
+    }
+
+    .nav-menu a {
+        color: #333 !important;
+        margin: 15px 0 !important;
+        font-size: 1.1rem !important;
+        white-space: normal !important; /* 恢復正常換行 */
+    }
+}
+            
             /* 2. 日曆 */
             .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
             .calendar-grid { display: grid !important; grid-template-columns: repeat(7, 1fr) !important; gap: 2px !important; width: 100% !important; }
@@ -648,6 +679,14 @@ header.scrolled .nav-menu a { color: #333; }
     .hero-title { font-size: 2.2rem; letter-spacing: 5px; }
     .hero-desc { font-size: 1rem; }
     .hero-subline { font-size: 0.7rem; }
+}
+        #nav-overlay.active {
+    display: block !important;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 半透明黑 */
+    z-index: 2000;
 }
     </style>
 </head>
