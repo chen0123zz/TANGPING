@@ -127,23 +127,9 @@ header.scrolled .nav-menu a { color: #333; }
     body { padding-top: 0 !important; }
     header { 
         padding: 10px 20px !important; 
-        /* 💡 關鍵：把原本的 rgba(255, 255, 255, 0.98) 刪掉 */
-        background-color: transparent !important; 
-        box-shadow: none !important; /* 頂部時不要陰影 */
-        transition: all 0.4s ease; /* 變色時才會優雅 */
-    }
-
-    /* 💡 當手機版選單打開時，背景還是要變色，不然字會看不清楚 */
-    header.menu-open {
-        background-color: rgba(255, 255, 255, 0.98) !important;
-    }
-
-    /* 💡 關鍵：當捲動後 (scrolled)，手機版也要變色 */
-    header.scrolled {
-        background-color: rgba(255, 255, 255, 0.98) !important;
+        background-color: rgba(255, 255, 255, 0.98) !important; 
         box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
     }
-}
 
     /* 💡 關鍵：強制橫向排列，且置兩端 (LOGO在左、漢堡在右) */
     .header-content { 
@@ -154,7 +140,7 @@ header.scrolled .nav-menu a { color: #333; }
     }
 
     /* 手機版 LOGO 尺寸優化 */
-    .logo-img { height: 40px !important; } 
+    .logo-img { height: 35px !important; } 
     
     /* 確保漢堡按鈕在手機版顯示 */
     .menu-toggle { display: flex !important; }
