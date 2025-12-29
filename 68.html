@@ -677,19 +677,33 @@ header.scrolled .nav-menu a { color: #333; }
     .hero-subline { font-size: 0.7rem; }
 }
 
-/* 💻 專屬電腦版微調：當螢幕寬度大於 768px 時生效 */
+/* 💻 專屬電腦版微調：精準控制不跑版 */
 @media (min-width: 769px) {
-    /* 針對這四個區塊的標題下方增加間距 */
-    #services .section-title,
-    #booking .section-title,
-    #notice .section-title,
-    #contact .section-title {
-    margin-bottom: 40px !important; /* 原本可能是 5px，我們把它拉大到 40px */
+    /* 1. 增加標題下方呼吸空間，但不過度推擠 */
+    .content-section .section-title {
+        margin-bottom: 35px !important;
     }
 
-    /* 如果妳覺得標題下方的描述文字 (section-desc) 也太擠，可以一起調 */
+    /* 2. 💡 關鍵：強化最新優惠區的箭頭，讓它顯現 */
+    .offerSwiper .swiper-button-next,
+    .offerSwiper .swiper-button-prev {
+        color: var(--brand-color) !important;
+        background: rgba(255, 255, 255, 0.8); /* 給箭頭一個淡淡圓形底色，保證看得到 */
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        z-index: 100;
+        top: 50%; /* 置中高度 */
+    }
+    
+    /* 把箭頭稍微往左右兩邊拉開一點，不要擋到圖片 */
+    .offerSwiper .swiper-button-next { right: 10px !important; }
+    .offerSwiper .swiper-button-prev { left: 10px !important; }
+
+    /* 3. 讓描述文字不要太擠 */
     .section-desc {
-     margin-bottom: 30px !important; /* 增加描述文字與下方內容（如日曆、卡片）的距離 */
+        margin-bottom: 40px !important;
     }
 }
     </style>
