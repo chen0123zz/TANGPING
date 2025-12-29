@@ -506,53 +506,87 @@ header.scrolled .nav-menu a { color: #333; }
         
         .ig-footer, .ig-handle, .ig-logo-box { display: none; }
 
-        /* --- 📱 手機版導覽列專屬修正 --- */
+/* ========================================= */
+/* 🚀 導覽列與首頁按鈕 - 最終完美修正版       */
+/* ========================================= */
+
+/* --- [1. 全域/電腦版樣式修復] --- */
+.header-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row; /* 電腦版維持橫向 */
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 讓 Hero Section 內容區塊在任何裝置都絕對置中 */
+.hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: #fff;
+    padding: 0 20px;
+    width: 100%;
+    /* 💡 關鍵：使用 Flex 讓內容垂直居中並橫向對齊中心 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+}
+
+.hero-btn {
+    display: inline-block;
+    margin: 0 auto; /* 確保按鈕外距置中 */
+}
+
+/* --- [2. 📱 手機版專屬修正 (@media 768px)] --- */
 @media (max-width: 768px) {
-    /* 讓 Header 固定在頂部，並確保有背景色 */
+    /* 固定 Header 並確保不透明 */
     header { 
         padding: 10px 20px !important; 
         position: fixed !important; 
         top: 0; left: 0; width: 100%; 
         z-index: 2000;
-        background-color: rgba(255, 255, 255, 0.98) !important; /* 手機版預設白底 */
+        background-color: rgba(255, 255, 255, 0.98) !important;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
-    /* 關鍵：強制 Header 內容橫向排列，左右撐開 */
+    /* 強制 Header 內容左右撐開 */
     .header-content { 
+        display: flex !important;
         flex-direction: row !important; 
         justify-content: space-between !important; 
         align-items: center !important; 
-        gap: 0 !important;
         width: 100% !important;
-        max-width: none !important;
     }
 
-    /* LOGO 靠左 */
-    .logo-link {
+    .logo-img { height: 35px !important; }
+
+    /* 手機版按鈕置中優化 */
+    .hero-container {
         display: flex !important;
-        align-items: center;
-    }
-    .logo-img { 
-        height: 35px !important; /* 稍微縮小一點避免太擠 */
-        width: auto;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
-    /* 漢堡按鈕靠右 */
-    .menu-toggle { 
-        display: flex !important; 
-        order: 2; /* 確保在右邊 */
+    /* 避開上方導覽列，讓文字往下移一點 */
+    .hero-content {
+        padding-top: 60px !important;
     }
 
-    /* 側邊選單維持原樣，但確保不影響上方排版 */
+    /* 恢復側邊選單功能，不影響 Header 排版 */
     .nav-menu { 
         display: flex; 
         flex-direction: column !important; 
-        /* ...其餘側邊選單樣式保留原本的... */
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        /* ...側邊選單其他屬性維持... */
     }
 
-    /* 修正 Body 頂部間距，避免內容被 Header 遮住 */
-    body { padding-top: 65px !important; }
+    body { padding-top: 0 !important; } /* 交由 hero-content 的 padding 處理 */
 }
             /* 2. 日曆 */
             .booking-container { padding: 20px 5px !important; width: 100% !important; box-sizing: border-box; }
