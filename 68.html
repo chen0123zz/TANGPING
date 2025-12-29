@@ -65,9 +65,11 @@ header {
 }
 
 header.scrolled {
-    background-color: rgba(255, 255, 255, 0.98);
+    background-color: rgba(255, 255, 255, 0.8) !important; /* 降低透明度 */
+    backdrop-filter: blur(10px); /* 增加毛玻璃模糊感 */
+    -webkit-backdrop-filter: blur(10px); /* 相容 Safari */
     padding: 10px 5%;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
 }
 
 /* 💡 左右併排的關鍵：強制 Flex */
@@ -157,7 +159,7 @@ header.scrolled .nav-menu a { color: #333; }
         padding-left: 40px !important;
         box-shadow: -5px 0 20px rgba(0,0,0,0.1) !important;
         transform: translateX(100%) !important; 
-        transition: transform 0.4s ease !important;
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important; /* 讓滑入動作「先快後慢」 */
         z-index: 2001;
     }
 
