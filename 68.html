@@ -227,131 +227,23 @@ header.scrolled .nav-menu a { color: #333; }
         }
         .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
-       /* --- 最新優惠區：單一視覺校正版 --- */
-#news {
-    max-width: 100% !important; 
-    padding: 60px 0 !important;
-    background-color: #f9f5f0;
-}
+        /* --- 最新優惠 --- */
+        .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
+        .offer-card-layout {
+            background: #fff; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex;
+            max-width: 900px; margin: 0 auto;
+        }
+        .offer-img-box { flex: 1; min-height: 300px; display: flex; align-items: center; justify-content: center; background-color: #fff; padding: 30px; }
+        .offer-img-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .offer-text-box { flex: 1; padding: 40px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
+        .offer-text-box h3 { font-size: 1.8rem; color: #333; margin: 15px 0; }
+        .offer-text-box p { color: #666; line-height: 1.6; margin-bottom: 20px; }
+        .tag-pill { display: inline-block; background-color: #ff4757; color: #fff; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; align-self: flex-start; margin-bottom: 10px; }
+        .offer-list { list-style: none; padding: 0; margin-bottom: 20px; color: #555; }
+        .offer-list li { margin-bottom: 8px; }
+        .price-highlight { display: flex; gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--brand-color); }
 
-.offerSwiper {
-    width: 90% !important; /* 💡 給左右留 5% 呼吸空間，箭頭才不會撞牆 */
-    max-width: 1000px;
-    margin: 0 auto;
-    padding-bottom: 50px !important;
-    position: relative;
-    /* 💡 恢復裁切：絕對不讓鄰居露臉 */
-    overflow: hidden !important; 
-}
-
-/* 確保每一張投影片都佔滿容器 */
-.offerSwiper .swiper-slide {
-    width: 100% !important;
-    display: flex;
-    justify-content: center;
-}
-
-.offer-card-layout {
-    background: #fff;
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    width: 100%; /* 💡 鎖定寬度 */
-}
-
-.offer-img-box {
-    flex: 1;
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.offer-img-box img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;
-}
-
-.offer-text-box {
-    flex: 1;
-    padding: 40px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-/* 🎯 箭頭去背固定位置 (電腦版) */
-@media (min-width: 769px) {
-    /* 💡 使用剛才 HTML 新改的 class 名稱 */
-    .offer-prev, .offer-next {
-        position: absolute !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important; /* 垂直置中 */
-        color: var(--brand-color) !important;
-        background-color: transparent !important; /* 去背 */
-        width: 40px !important;
-        height: 40px !important;
-        z-index: 100; /* 確保在最前面 */
-        cursor: pointer;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* 把箭頭貼在 Swiper 容器的最邊緣 */
-    .offer-prev { left: 10px !important; }
-    .offer-next { right: 10px !important; }
-
-    /* 讓箭頭符號變大變粗 */
-    .offer-prev::after, .offer-next::after {
-        font-size: 2.5rem !important;
-        font-weight: bold;
-    }
-}
-
-/* 🏷️ 標籤樣式 */
-.tag-pill {
-    display: inline-block;
-    background-color: #ff4757; 
-    color: #fff !important;
-    padding: 5px 15px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    align-self: flex-start;
-    margin-bottom: 10px;
-}
-
-/* 💰 包堂價格框 */
-.price-highlight {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 15px;
-    background: #f9f9f9;
-    padding: 12px 18px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    color: var(--brand-color);
-    font-weight: bold;
-    width: fit-content;
-}
-
-/* 📱 手機版專屬修正 */
-@media (max-width: 768px) {
-    .offerSwiper { width: 100% !important; }
-    .offer-card-layout { flex-direction: column; border-radius: 0; }
-    .offer-text-box { padding: 30px 20px; text-align: center; align-items: center; }
-    .offer-prev, .offer-next { display: none !important; } /* 手機隱藏箭頭 */
-    .tag-pill { align-self: center; }
-    .price-highlight { width: 90%; justify-content: center; box-sizing: border-box; }
-    .offer-text-box .btn-main { width: 100%; text-align: center; }
-}
         /* --- 關於運動按摩 --- */
         .swiper { width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; padding-top: 20px; }
         .swiper-slide { background-position: center; background-size: cover; width: auto; height: auto; }
@@ -881,56 +773,22 @@ header.scrolled .nav-menu a { color: #333; }
     </div>
 </section>
     
-   <section class="content-section" id="news" style="background-color: #f9f5f0; padding-bottom: 40px;">
-    <h2 class="section-title">🎉 最新活動 & 獨家優惠</h2>
-    <p class="section-desc">為您準備的專屬放鬆提案 👇</p>
-    
-    <div class="swiper offerSwiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="offer-card-layout">
-                    <div class="offer-img-box"><img src="images/當月壽星優惠.png" alt="生日優惠"></div>
-                    <div class="offer-text-box">
-                        <span class="tag-pill">壽星獨享 🎂</span>
-                        <h3>當月壽星折抵 $200</h3>
-                        <p>生日是專屬於自己的日子，值得被好好慶祝！<br>歡迎來躺平運動按摩，卸下疲憊，給身心一份放鬆的禮物。</p>
-                        <a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 立即預約生日禮</a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="offer-card-layout">
-                    <div class="offer-img-box"><img src="images/學生優惠.png" alt="學生優惠"></div>
-                    <div class="offer-text-box">
-                        <span class="tag-pill" style="background:#e67e22;">學生限定 🎓</span>
-                        <h3>憑學生證折抵 $200</h3>
-                        <p>不論你是在操場揮汗，還是在考場中拼搏。<br>快來放鬆肌肉與壓力，重整身心，補好能量再出發！</p>
-                        <a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 學生專屬預約</a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="offer-card-layout">
-                    <div class="offer-img-box"><img src="images/包堂優惠方案.png" alt="包堂優惠"></div>
-                    <div class="offer-text-box">
-                        <span class="tag-pill" style="background:#d35400;">最划算 🔥</span>
-                        <h3>包堂優惠方案</h3>
-                        <p>想要定期保養身體嗎？包堂方案讓您省更多！</p>
-                        <div class="price-highlight" style="display: flex; justify-content: center; align-items: center; gap: 15px; font-weight: bold; white-space: nowrap;">
-                            <span>包五堂 <span style="color: #666; font-weight: normal;">省 $500</span></span><span style="color: #ddd;">|</span> <span>包十堂 <span style="color: #666; font-weight: normal;">省 $2000</span></span>
-                        </div>
-                        <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="margin-top: 15px;">💬 私訊詢問包堂</a>
-                    </div>
-                </div>
-            </div>
+    <section class="content-section" id="news" style="background-color: #f9f5f0; padding-bottom: 40px;">
+        <h2 class="section-title">🎉 最新活動 & 獨家優惠</h2>
+        <p class="section-desc">為您準備的專屬放鬆提案 👇</p>
+        <div class="swiper offerSwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/當月壽星優惠.png" alt="生日優惠"></div><div class="offer-text-box"><span class="tag-pill">壽星獨享 🎂</span><h3>當月壽星折抵 $200</h3><p>生日是專屬於自己的日子，值得被好好慶祝！<br>歡迎來躺平運動按摩，卸下疲憊，給身心一份放鬆的禮物。</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 立即預約生日禮</a></div></div></div>
+                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/學生優惠.png" alt="學生優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#e67e22;">學生限定 🎓</span><h3>憑學生證折抵 $200</h3><p>不論你是在操場揮汗，還是在考場中拼搏。<br>快來放鬆肌肉與壓力，重整身心，補好能量再出發！</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 學生專屬預約</a></div></div></div>
+                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/包堂優惠方案.png" alt="包堂優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#d35400;">最划算 🔥</span><h3>包堂優惠方案</h3><p>想要定期保養身體嗎？包堂方案讓您省更多！</p><div class="price-highlight" style="display: flex; justify-content: center; align-items: center; gap: 15px; font-weight: bold; white-space: nowrap;"><span>包五堂 <span style="color: #666; font-weight: normal;">省 $500</span></span><span style="color: #ddd;">|</span> <span>包十堂 <span style="color: #666; font-weight: normal;">省 $2000</span></span></div><a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="margin-top: 15px;">💬 私訊詢問包堂</a>
         </div>
-
-        <div class="swiper-button-prev offer-prev"></div>
-        <div class="swiper-button-next offer-next"></div>
-
-        <div class="swiper-pagination"></div>
     </div>
-</section>
+</div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next" style="color: var(--brand-color);"></div>
+            <div class="swiper-button-prev" style="color: var(--brand-color);"></div>
+        </div>
+    </section>
 
     <section class="content-section" id="about" style="background-color: #fffaf0; padding-bottom: 50px; border-radius: 20px; margin: 40px auto; max-width: 900px; position: relative; padding-left: 60px; padding-right: 60px; box-sizing: border-box;">
         <h2 class="section-title" style="padding-top: 20px;">關於運動按摩</h2>
@@ -1937,24 +1795,14 @@ async function fetchYearlyReport() {
         function scrollToBottom() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
         
         var swiper = new Swiper(".mySwiper", { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 20, loop: true, breakpoints: { 768: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 30 } }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".my-next-btn", prevEl: ".my-prev-btn" }, autoplay: { delay: 4000, disableOnInteraction: false } });
-       var offerSwiper = new Swiper(".offerSwiper", {
-        slidesPerView: 1,           
-        centeredSlides: true,       
-        loop: true,
+        var offerSwiper = new Swiper(".offerSwiper", { 
+        slidesPerView: 1, 
+        spaceBetween: 30, 
+        loop: true, 
         autoplay: { 
-        delay: 3500,            // 💡 改回妳喜歡的 3.5 秒
+        delay: 3500, // 3.5秒自動換一張
         disableOnInteraction: false 
-        },
-        pagination: { 
-        el: ".offerSwiper .swiper-pagination", 
-        clickable: true 
-        },
-        navigation: {
-        nextEl: ".offer-next",  // 💡 對應新的 HTML 箭頭 class
-        prevEl: ".offer-prev",
-        },
-        watchOverflow: false 
-        });
+        }, 
         pagination: { el: ".offerSwiper .swiper-pagination", clickable: true }, 
         navigation: { nextEl: ".offerSwiper .swiper-button-next", prevEl: ".offerSwiper .swiper-button-prev" } 
         });
