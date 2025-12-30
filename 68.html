@@ -658,42 +658,42 @@ header.scrolled .nav-menu a { color: #333; }
     font-weight: 400;
 }
 
-/* --- 修正首頁按鈕外觀與光暈 --- */
+/* --- 修正首頁按鈕：常駐呼吸光暈版 --- */
 .hero-btn {
     display: inline-block;
     padding: 15px 40px;
-    background-color: var(--brand-color); /* 回復金黃色 */
-    color: #fff !important;               /* 強制文字白色 */
+    background-color: var(--brand-color);
+    color: #fff !important;
     text-decoration: none;
     font-weight: bold;
     border-radius: 50px;
-    position: relative;                  /* 光暈定位基準 */
-    overflow: hidden;                    /* 隱藏跑出去的光暈 */
-    transition: all 0.4s ease;
-    box-shadow: 0 4px 15px rgba(239, 183, 72, 0.4);
-    z-index: 5;                          /* 確保在遮罩上面 */
+    position: relative;
+    z-index: 5;
+    transition: all 0.3s ease;
+    
+    /* 💡 啟動呼吸動畫：名稱是 pulse，時間 2 秒，無限循環 */
+    animation: hero-pulse 2s infinite;
 }
 
-/* 光暈層：斜斜的白光 */
-.hero-btn::after {
-    content: '';
-    position: absolute;
-    top: -50%; left: -100%;             /* 初始在左邊外面 */
-    width: 30%; height: 200%;
-    background: rgba(255, 255, 255, 0.4); 
-    transform: rotate(30deg);
-    transition: all 0.6s ease;
+/* 建立呼吸光暈的動畫關鍵幀 */
+@keyframes hero-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(239, 183, 72, 0.7);
+    }
+    70% {
+        /* 擴散開來的光暈 */
+        box-shadow: 0 0 0 15px rgba(239, 183, 72, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(239, 183, 72, 0);
+    }
 }
 
-/* 滑鼠移上去：閃光掃過 */
-.hero-btn:hover::after {
-    left: 150%;
-}
-
+/* 電腦版滑鼠移上去依然可以有一點縮放感，增加互動 */
 .hero-btn:hover {
     transform: scale(1.05);
+    animation: none; /* 移上去時可以停止跳動，或是維持皆可 */
     box-shadow: 0 6px 20px rgba(239, 183, 72, 0.6);
-    color: #fff !important;
 }
 
 /* 📱 手機版微調 */
