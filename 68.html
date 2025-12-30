@@ -227,50 +227,16 @@ header.scrolled .nav-menu a { color: #333; }
         }
         .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
-        /* --- 最新優惠區：大方且不吃圖升級版 --- */
+       /* --- 最新優惠區：回歸經典大方版 --- */
 #news {
     max-width: 100% !important; 
-    padding: 60px 0 !important;
+    padding: 40px 0 !important;
     background-color: #f9f5f0;
 }
 
-/* --- 補回並升級：高級感優惠標籤設計 --- */
-.tag-pill {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 4px; /* 微圓角，更有專業感 */
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-    align-self: flex-start; /* 讓它乖乖待在左邊 */
-    
-    /* 💡 使用「品牌色」的淡化版本，這叫 Ghost UI 視覺 */
-    background-color: rgba(239, 183, 72, 0.12); 
-    color: #d39e33; /* 比品牌色深一點點，確保字體清晰 */
-    border: 1px solid rgba(239, 183, 72, 0.3);
-}
-
-/* 針對「最划算」這種需要搶眼的標籤，給它一個紅色系版本 */
-.tag-pill[style*="background:#ff4757"], 
-.tag-pill[style*="background:#d35400"],
-.tag-pill.hot {
-    background-color: #fff0f0 !important;
-    color: #e74c3c !important;
-    border: 1px solid #ffcccc !important;
-}
-
-/* 修正在手機版的位置：置中 */
-@media (max-width: 768px) {
-    .tag-pill {
-        align-self: center; 
-        margin-bottom: 15px;
-    }
-}
-        
 .offerSwiper {
     width: 95%;
-    max-width: 1000px; /* 縮小一點點，讓左右更有呼吸感 */
+    max-width: 1000px;
     margin: 0 auto;
     padding-bottom: 50px !important;
 }
@@ -282,13 +248,11 @@ header.scrolled .nav-menu a { color: #333; }
     display: flex;
     flex-direction: row; 
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border: 1px solid #eee; /* 加一個細邊框，更有雜誌感 */
 }
 
 .offer-img-box {
-    flex: 1; /* 左右 1:1 分配 */
+    flex: 1;
     background-color: #fff;
-    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -296,54 +260,68 @@ header.scrolled .nav-menu a { color: #333; }
 
 .offer-img-box img {
     width: 100%;
-    height: auto; /* 💡 改回 auto，確保 1:1 完整呈現不裁切 */
+    height: auto;
     display: block;
+    object-fit: contain;
 }
 
 .offer-text-box {
     flex: 1;
     padding: 40px;
-    text-align: left;
+    text-align: left; /* 💡 確保所有文字靠左，看起來更大方 */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #ffffff; /* 確保右邊也是純白，跟左邊融合 */
 }
 
-.offer-text-box h3 {
-    font-size: 1.8rem;
-    color: #333;
-    margin: 15px 0;
+/* 🏷️ 恢復最一開始的標籤樣式 */
+.tag-pill {
+    display: inline-block;
+    background-color: #ff4757; /* 經典紅 */
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    align-self: flex-start;
+    margin-bottom: 10px;
 }
 
-/* 📱 手機版專屬修正：讓 1:1 圖片完整呈現 */
+/* 💰 包堂價格資訊：改為靠左對齊 */
+.price-highlight {
+    display: flex;
+    justify-content: flex-start; /* 💡 改為靠左 */
+    align-items: center;
+    gap: 15px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: var(--brand-color);
+    font-weight: bold;
+    width: fit-content; /* 讓框框根據文字長度縮放，不強制撐滿 */
+}
+
+/* 📱 手機版專屬修正 */
 @media (max-width: 768px) {
-    .offerSwiper {
-        width: 100%;
-    }
-    
     .offer-card-layout {
         flex-direction: column; 
         border-radius: 0;
-        box-shadow: none;
-    }
-
-    .offer-img-box {
-        width: 100%;
-        height: auto; /* 手機版讓圖片根據寬度自動長高 */
-    }
-
-    .offer-img-box img {
-        width: 100%;
-        height: auto;
-        /* 💡 確保手機版不會裁切圖片內容 */
-        object-fit: contain; 
     }
 
     .offer-text-box {
         padding: 30px 20px;
-        text-align: center; /* 手機版文字居中比較大方 */
-        align-items: center;
+    }
+
+    .price-highlight {
+        width: 100%; /* 手機版則讓它撐滿 */
+        justify-content: center; /* 手機版維持居中比較平衡 */
+        box-sizing: border-box;
+    }
+    
+    .offer-text-box .btn-main {
+        width: 100%;
+        text-align: center;
     }
 }
         /* --- 關於運動按摩 --- */
