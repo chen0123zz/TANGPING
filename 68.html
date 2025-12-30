@@ -227,17 +227,16 @@ header.scrolled .nav-menu a { color: #333; }
         }
         .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
-        /* --- 最新優惠區：大方全屏升級版 --- */
+        /* --- 最新優惠區：大方且不吃圖升級版 --- */
 #news {
     max-width: 100% !important; 
-    padding: 60px 0 !important; /* 增加上下間距，視覺更透氣 */
+    padding: 60px 0 !important;
     background-color: #f9f5f0;
 }
 
-/* 讓輪播容器在電腦版置中且有限制寬度，保持精緻感 */
 .offerSwiper {
     width: 95%;
-    max-width: 1100px;
+    max-width: 1000px; /* 縮小一點點，讓左右更有呼吸感 */
     margin: 0 auto;
     padding-bottom: 50px !important;
 }
@@ -247,62 +246,70 @@ header.scrolled .nav-menu a { color: #333; }
     border-radius: 20px;
     overflow: hidden;
     display: flex;
-    flex-direction: row; /* 電腦版左右併排 */
-    min-height: 480px;   /* 強制所有卡片最小高度一致，解決大小不一問題 */
-    box-shadow: 0 15px 45px rgba(0,0,0,0.06); /* 更柔和的陰影 */
+    flex-direction: row; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #eee; /* 加一個細邊框，更有雜誌感 */
 }
 
 .offer-img-box {
-    flex: 1.2; /* 讓圖片佔比稍微多一點 */
+    flex: 1; /* 左右 1:1 分配 */
     background-color: #fff;
-    padding: 0; /* 移除內縮，讓圖片貼邊更大方 */
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .offer-img-box img {
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* 💡 關鍵：裁切圖片填滿區域，不管原圖比例，高度永遠整齊 */
+    height: auto; /* 💡 改回 auto，確保 1:1 完整呈現不裁切 */
+    display: block;
 }
 
 .offer-text-box {
     flex: 1;
-    padding: 50px;
+    padding: 40px;
     text-align: left;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* 文字內容垂直置中 */
+    justify-content: center;
+    background-color: #ffffff; /* 確保右邊也是純白，跟左邊融合 */
 }
 
-/* 📱 手機版專屬修正：達成「大方全屏」 */
-@media (max-width: 768px) {
-    #news {
-        padding: 40px 0 !important;
-    }
+.offer-text-box h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 15px 0;
+}
 
+/* 📱 手機版專屬修正：讓 1:1 圖片完整呈現 */
+@media (max-width: 768px) {
     .offerSwiper {
-        width: 100%; /* 讓容器填滿寬度 */
+        width: 100%;
     }
     
     .offer-card-layout {
-        flex-direction: column; /* 手機版變垂直排列 */
-        min-height: auto;
-        border-radius: 0; /* 移除圓角，讓卡片直接撞邊全屏 */
-        box-shadow: none;  /* 移除陰影，增加現代簡潔感 */
+        flex-direction: column; 
+        border-radius: 0;
+        box-shadow: none;
     }
 
     .offer-img-box {
-        height: 280px; /* 手機版固定圖片高度，看起來很大方 */
+        width: 100%;
+        height: auto; /* 手機版讓圖片根據寬度自動長高 */
+    }
+
+    .offer-img-box img {
+        width: 100%;
+        height: auto;
+        /* 💡 確保手機版不會裁切圖片內容 */
+        object-fit: contain; 
     }
 
     .offer-text-box {
-        padding: 35px 20px; /* 文字間距微調 */
-    }
-
-    /* 手機版按鈕撐滿，更容易點擊 */
-    .offer-text-box .btn-main {
-        width: 100%;
-        text-align: center;
-        box-sizing: border-box;
+        padding: 30px 20px;
+        text-align: center; /* 手機版文字居中比較大方 */
+        align-items: center;
     }
 }
         /* --- 關於運動按摩 --- */
