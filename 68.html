@@ -227,23 +227,84 @@ header.scrolled .nav-menu a { color: #333; }
         }
         .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
-        /* --- 最新優惠 --- */
-        .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
-        .offer-card-layout {
-            background: #fff; border-radius: 20px; overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex;
-            max-width: 900px; margin: 0 auto;
-        }
-        .offer-img-box { flex: 1; min-height: 300px; display: flex; align-items: center; justify-content: center; background-color: #fff; padding: 30px; }
-        .offer-img-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
-        .offer-text-box { flex: 1; padding: 40px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
-        .offer-text-box h3 { font-size: 1.8rem; color: #333; margin: 15px 0; }
-        .offer-text-box p { color: #666; line-height: 1.6; margin-bottom: 20px; }
-        .tag-pill { display: inline-block; background-color: #ff4757; color: #fff; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; align-self: flex-start; margin-bottom: 10px; }
-        .offer-list { list-style: none; padding: 0; margin-bottom: 20px; color: #555; }
-        .offer-list li { margin-bottom: 8px; }
-        .price-highlight { display: flex; gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--brand-color); }
+        /* --- 最新優惠區：大方全屏升級版 --- */
+#news {
+    max-width: 100% !important; 
+    padding: 60px 0 !important; /* 增加上下間距，視覺更透氣 */
+    background-color: #f9f5f0;
+}
 
+/* 讓輪播容器在電腦版置中且有限制寬度，保持精緻感 */
+.offerSwiper {
+    width: 95%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-bottom: 50px !important;
+}
+
+.offer-card-layout {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row; /* 電腦版左右併排 */
+    min-height: 480px;   /* 強制所有卡片最小高度一致，解決大小不一問題 */
+    box-shadow: 0 15px 45px rgba(0,0,0,0.06); /* 更柔和的陰影 */
+}
+
+.offer-img-box {
+    flex: 1.2; /* 讓圖片佔比稍微多一點 */
+    background-color: #fff;
+    padding: 0; /* 移除內縮，讓圖片貼邊更大方 */
+}
+
+.offer-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 💡 關鍵：裁切圖片填滿區域，不管原圖比例，高度永遠整齊 */
+}
+
+.offer-text-box {
+    flex: 1;
+    padding: 50px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 文字內容垂直置中 */
+}
+
+/* 📱 手機版專屬修正：達成「大方全屏」 */
+@media (max-width: 768px) {
+    #news {
+        padding: 40px 0 !important;
+    }
+
+    .offerSwiper {
+        width: 100%; /* 讓容器填滿寬度 */
+    }
+    
+    .offer-card-layout {
+        flex-direction: column; /* 手機版變垂直排列 */
+        min-height: auto;
+        border-radius: 0; /* 移除圓角，讓卡片直接撞邊全屏 */
+        box-shadow: none;  /* 移除陰影，增加現代簡潔感 */
+    }
+
+    .offer-img-box {
+        height: 280px; /* 手機版固定圖片高度，看起來很大方 */
+    }
+
+    .offer-text-box {
+        padding: 35px 20px; /* 文字間距微調 */
+    }
+
+    /* 手機版按鈕撐滿，更容易點擊 */
+    .offer-text-box .btn-main {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+}
         /* --- 關於運動按摩 --- */
         .swiper { width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; padding-top: 20px; }
         .swiper-slide { background-position: center; background-size: cover; width: auto; height: auto; }
