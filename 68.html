@@ -241,6 +241,48 @@ header.scrolled .nav-menu a { color: #333; }
     padding-bottom: 50px !important;
 }
 
+/* --- 強制顯示並美化電腦版箭頭 --- */
+@media (min-width: 769px) {
+    /* 1. 確保箭頭容器永遠顯示，並調整位置 */
+    .offerSwiper .swiper-button-next, 
+    .offerSwiper .swiper-button-prev {
+        display: flex !important; /* 💡 強制現身 */
+        color: var(--brand-color) !important;
+        background-color: rgba(255, 255, 255, 0.9); /* 白色圓底 */
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* 增加立體感 */
+        transition: all 0.3s ease;
+        top: 50%; /* 垂直置中 */
+        transform: translateY(-50%);
+    }
+
+    /* 2. 把箭頭往外推一點，不要壓到海報內容 */
+    .offerSwiper .swiper-button-prev { left: -25px; }
+    .offerSwiper .swiper-button-next { right: -25px; }
+
+    /* 3. 滑鼠移上去的互動效果 */
+    .offerSwiper .swiper-button-next:hover, 
+    .offerSwiper .swiper-button-prev:hover {
+        background-color: var(--brand-color);
+        color: #fff !important;
+        transform: translateY(-50%) scale(1.1); /* 微微放大 */
+    }
+
+    /* 4. 讓箭頭符號變粗一點 */
+    .offerSwiper .swiper-button-next:after, 
+    .offerSwiper .swiper-button-prev:after {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    
+    /* 💡 讓容器不要把箭頭切掉 */
+    #news .content-section {
+        overflow: visible !important;
+    }
+}
+        
 .offer-card-layout {
     background: #fff;
     border-radius: 20px;
