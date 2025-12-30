@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>躺平運動按摩 TANG PING 官網</title>
     
-    <meta property="og:title" content="躺平運動按摩 TANG PING - 預約官網">
+    <meta property="og:title" content="躺平運動按摩 TANG PING 官網">
     <meta property="og:description" content="專業運動按摩、張力調整，幫您重塑身體張力。立即預約享受深度放鬆。">
     <meta property="og:image" content="images/LOGO2.png"> <meta property="og:type" content="website">
     <link rel="icon" href="images/LOGO2.png" type="image/png">
@@ -227,18 +227,21 @@ header.scrolled .nav-menu a { color: #333; }
         }
         .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
-     /* --- 最新優惠區：回歸經典 + 大方好截圖版 --- */
+    /* --- 最新優惠區：空間釋放版 --- */
 #news {
     max-width: 100% !important; 
-    padding: 30px 0 !important; /* 縮減間距更緊湊 */
+    padding: 40px 0 !important;
     background-color: #f9f5f0;
 }
 
 .offerSwiper {
-    width: 95%;
+    /* 💡 縮小一點點寬度 (從 95% 降到 88%)，把走道留給箭頭 */
+    width: 88%;
     max-width: 1000px;
     margin: 0 auto;
-    padding-bottom: 40px !important;
+    padding-bottom: 50px !important;
+    /* 💡 關鍵：允許箭頭跑出這個框框 */
+    overflow: visible !important; 
 }
 
 .offer-card-layout {
@@ -251,7 +254,7 @@ header.scrolled .nav-menu a { color: #333; }
 }
 
 .offer-img-box {
-    flex: 1; /* 電腦版左右平分 */
+    flex: 1; /* 左右各一半 */
     background-color: #fff;
     display: flex;
     align-items: center;
@@ -267,86 +270,65 @@ header.scrolled .nav-menu a { color: #333; }
 
 .offer-text-box {
     flex: 1;
-    padding: 30px 40px;
+    padding: 40px;
     text-align: left;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-/* 🏷️ 妳最喜歡的原始色塊標籤 */
+/* 🏷️ 標籤與價格框 */
 .tag-pill {
     display: inline-block;
     background-color: #ff4757; 
     color: #fff;
-    padding: 4px 12px;
+    padding: 5px 15px;
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: bold;
     align-self: flex-start;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
-/* 💰 包堂價格框：精簡尺寸並靠左 */
 .price-highlight {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     background: #f9f9f9;
-    padding: 8px 12px; /* 縮小內距 */
-    border-radius: 8px;
-    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
     color: var(--brand-color);
-    font-size: 0.9rem;
     font-weight: bold;
     width: fit-content;
 }
 
-/* 📱 手機版專屬：大方、好截圖、不切按鈕 */
+/* 🎯 電腦版箭頭強制現身樣式 */
+@media (min-width: 769px) {
+    .offerSwiper .swiper-button-next, 
+    .offerSwiper .swiper-button-prev {
+        display: flex !important;
+        background-color: rgba(255, 255, 255, 0.9);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        z-index: 100;
+        /* 💡 把箭頭往外推到白框外面 */
+        margin-top: -22px; 
+    }
+    .offerSwiper .swiper-button-prev { left: -50px !important; }
+    .offerSwiper .swiper-button-next { right: -50px !important; }
+}
+
+/* 📱 手機版不變 */
 @media (max-width: 768px) {
-    .offer-card-layout {
-        flex-direction: column; 
-        border-radius: 15px; /* 恢復一點點圓角，截圖才漂亮 */
-        width: 90%; /* 讓它不要完全撞邊，留一點餘裕像張卡片 */
-        margin: 0 auto;
-    }
-
-    .offer-img-box {
-        width: 100%;
-        height: auto;
-    }
-
-    .offer-text-box {
-        padding: 20px; /* 縮減白框的空間 */
-        text-align: center;
-        align-items: center;
-    }
-
-    .offer-text-box h3 {
-        font-size: 1.4rem; /* 縮小手機版標題，節省空間 */
-        margin: 5px 0;
-    }
-
-    .offer-text-box p {
-        font-size: 0.9rem; /* 縮小字體 */
-        margin-bottom: 15px;
-        line-height: 1.4;
-    }
-
-    .price-highlight {
-        width: 100%; 
-        justify-content: center;
-        margin: 0 0 15px 0;
-    }
-    
-    /* 💡 強制按鈕寬度，且確保有足夠空間顯示 */
-    .offer-text-box .btn-main {
-        width: 100%;
-        padding: 10px 0;
-        font-size: 0.95rem;
-        box-sizing: border-box;
-    }
+    .offerSwiper { width: 100%; }
+    .offer-card-layout { flex-direction: column; border-radius: 0; }
+    .offer-text-box { padding: 30px 20px; }
+    .price-highlight { width: 100%; justify-content: center; box-sizing: border-box; }
+    .offer-text-box .btn-main { width: 100%; text-align: center; }
 }
         /* --- 關於運動按摩 --- */
         .swiper { width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; padding-top: 20px; }
@@ -882,8 +864,8 @@ header.scrolled .nav-menu a { color: #333; }
         <p class="section-desc">為您準備的專屬放鬆提案 👇</p>
         <div class="swiper offerSwiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/當月壽星優惠.png" alt="生日優惠"></div><div class="offer-text-box"><span class="tag-pill">壽星獨享 🎂</span><h3>當月壽星折抵 $200</h3><p>生日是專屬於自己的日子，值得被好好慶祝！<br>歡迎來躺平運動按摩，卸下疲憊，給身心一份放鬆的禮物。</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 立即預約生日禮</a></div></div></div>
-                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/學生優惠.png" alt="學生優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#e67e22;">學生限定 🎓</span><h3>憑學生證折抵 $200</h3><p>不論你是在操場揮汗，還是在考場中拼搏。<br>快來放鬆肌肉與壓力，重整身心，補好能量再出發！</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 學生專屬預約</a></div></div></div>
+                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/當月壽星優惠.png" alt="生日優惠"></div><div class="offer-text-box"><span class="tag-pill">壽星獨享 🎂</span><h3>當月壽星折抵 $200</h3><p>生日是專屬於自己的日子，值得被好好慶祝！<br>歡迎來躺平運動按摩，給身心一份放鬆的禮物。</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 立即預約生日禮</a></div></div></div>
+                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/學生優惠.png" alt="學生優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#e67e22;">學生限定 🎓</span><h3>憑學生證折抵 $200</h3><p>不論你是在操場揮汗，還是在考場中拼搏。<br>快來放鬆肌肉與壓力，補好能量再出發！</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 學生專屬預約</a></div></div></div>
                 <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/包堂優惠方案.png" alt="包堂優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#d35400;">最划算 🔥</span><h3>包堂優惠方案</h3><p>想要定期保養身體嗎？包堂方案讓您省更多！</p><div class="price-highlight" style="display: flex; justify-content: center; align-items: center; gap: 15px; font-weight: bold; white-space: nowrap;"><span>包五堂 <span style="color: #666; font-weight: normal;">省 $500</span></span><span style="color: #ddd;">|</span> <span>包十堂 <span style="color: #666; font-weight: normal;">省 $2000</span></span></div><a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="margin-top: 15px;">💬 私訊詢問包堂</a>
         </div>
     </div>
