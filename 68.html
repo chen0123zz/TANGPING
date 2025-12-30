@@ -228,7 +228,16 @@ header.scrolled .nav-menu a { color: #333; }
         .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
         /* --- 最新優惠 --- */
-        .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
+        .offerSwiper { width: 100%; padding: 20px 0 50px 0; position: relative; /* 💡 救星 1：幫箭頭定基準位 */overflow: visible !important; /* 💡 救星 2：讓箭頭跑出框框外也看得到 */}
+        /* --- 確保箭頭在大螢幕上乖乖現身 --- */
+        @media (min-width: 769px) {
+        .offerSwiper .swiper-button-next, 
+        .offerSwiper .swiper-button-prev {
+        display: flex !important; /* 強制現身 */
+        z-index: 10; /* 站在卡片前面 */
+        color: var(--brand-color) !important;
+    }
+}
         .offer-card-layout {
             background: #fff; border-radius: 20px; overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex;
