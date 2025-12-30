@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>躺平運動按摩 TANG PING - 預約官網</title>
+    
+    <meta property="og:title" content="躺平運動按摩 TANG PING - 預約官網">
+    <meta property="og:description" content="專業運動按摩、張力調整，幫您重塑身體張力。立即預約享受深度放鬆。">
+    <meta property="og:image" content="images/LOGO2.png"> <meta property="og:type" content="website">
     <link rel="icon" href="images/LOGO2.png" type="image/png">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -618,7 +622,8 @@ header.scrolled .nav-menu a { color: #333; }
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* 40% 的黑色遮罩 */
+    /* 使用漸層遮罩：中間較透明，上下兩端深一點，讓導覽列與文字更清楚 */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.6) 100%);
     z-index: 2;
 }
 
@@ -642,7 +647,8 @@ header.scrolled .nav-menu a { color: #333; }
     font-weight: 700;
     letter-spacing: 8px;
     margin: 0 0 15px 0;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    /* 加入多重陰影，增加深度感 */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.2); 
 }
 
 .hero-desc {
@@ -653,15 +659,25 @@ header.scrolled .nav-menu a { color: #333; }
 }
 
 .hero-btn {
-    display: inline-block;
-    padding: 15px 40px;
-    background-color: var(--brand-color);
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(239, 183, 72, 0.4);
+    position: relative;
+    overflow: hidden; /* 確保光暈不會跑出去 */
+    transition: all 0.4s ease;
+}
+
+/* 建立一個斜斜的光暈層 */
+.hero-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 20%; height: 200%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: rotate(30deg);
+    transition: all 0.6s ease;
+}
+
+/* 滑鼠移上去時，光暈掃過去 */
+.hero-btn:hover::after {
+    left: 120%;
 }
 
 .hero-btn:hover {
@@ -692,6 +708,19 @@ header.scrolled .nav-menu a { color: #333; }
      margin-bottom: 30px !important; /* 增加描述文字與下方內容（如日曆、卡片）的距離 */
     }
 }
+
+/* 初始狀態：透明且往下掉一點 */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+/* 啟動狀態：變回原位 */
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}        
     </style>
 </head>
 <body>
@@ -883,7 +912,7 @@ header.scrolled .nav-menu a { color: #333; }
             <h3>預約確認</h3>
             <p id="booking-info-text"></p>
             <div class="form-group"><label class="form-label">姓名 <span class="required">*</span></label><input type="text" id="booking-name" class="form-input" placeholder="請輸入真實姓名"></div>
-            <div class="form-group"><label class="form-label">聯絡電話 <span class="required">*</span></label><input type="tel" id="booking-phone" class="form-input" placeholder="09xx-xxx-xxx" maxlength="15" oninput="this.value = formatPhone(this.value)"></div>
+            <<div class="form-group"><label class="form-label">聯絡電話 <span class="required">*</span></label><input type="tel" id="booking-phone" class="form-input" placeholder="09xx-xxx-xxx" maxlength="15" oninput="this.value = formatPhone(this.value)" inputmode="numeric"></div>
             <div class="form-group"><label class="form-label">LINE ID (選填)</label><input type="text" id="booking-line" class="form-input" placeholder="方便我們聯繫您"></div>
             <div class="form-group">
                 <label class="form-label">選擇服務項目 <span class="required">*</span></label>
@@ -1009,12 +1038,32 @@ header.scrolled .nav-menu a { color: #333; }
         const chnNumChar = ["零","一","二","三","四","五","六","七","八","九","十","十一","十二"];
 
         window.onload = function() {
-            const frontGrid = document.querySelector('.calendar-grid');
-            if(frontGrid) frontGrid.id = 'calendar-grid-front';
-            updateCalendars(); 
-            checkLoginState();
-            fetchOrders();
-        };
+    // 1. 原本的功能 (維持不動)
+    const frontGrid = document.querySelector('.calendar-grid');
+    if(frontGrid) frontGrid.id = 'calendar-grid-front';
+    updateCalendars(); 
+    checkLoginState();
+    fetchOrders();
+
+    // 2. 新增的滾動觀察器 (Intersection Observer)
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // 當區塊進入視窗時，加上 .active
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 }); // 只要露出 10% 就觸發動畫
+
+    // 3. 找出所有想要有動畫的元素，並開始觀察它們
+    // 我們選取了：所有區塊、服務卡片、訊息卡片、甚至最新的優惠卡片
+    const animateElements = document.querySelectorAll('.content-section, .service-card, .info-card, .qa-card, .offer-card-layout');
+    
+    animateElements.forEach(el => {
+        el.classList.add('reveal'); // 先幫它們穿上「隱身衣」
+        observer.observe(el);       // 交給觀察器盯著
+    });
+};
 
         function formatPhone(val) {
             val = val.replace(/\D/g, ''); 
