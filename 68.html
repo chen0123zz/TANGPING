@@ -234,6 +234,40 @@ header.scrolled .nav-menu a { color: #333; }
     background-color: #f9f5f0;
 }
 
+/* --- 補回並升級：高級感優惠標籤設計 --- */
+.tag-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px; /* 微圓角，更有專業感 */
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    align-self: flex-start; /* 讓它乖乖待在左邊 */
+    
+    /* 💡 使用「品牌色」的淡化版本，這叫 Ghost UI 視覺 */
+    background-color: rgba(239, 183, 72, 0.12); 
+    color: #d39e33; /* 比品牌色深一點點，確保字體清晰 */
+    border: 1px solid rgba(239, 183, 72, 0.3);
+}
+
+/* 針對「最划算」這種需要搶眼的標籤，給它一個紅色系版本 */
+.tag-pill[style*="background:#ff4757"], 
+.tag-pill[style*="background:#d35400"],
+.tag-pill.hot {
+    background-color: #fff0f0 !important;
+    color: #e74c3c !important;
+    border: 1px solid #ffcccc !important;
+}
+
+/* 修正在手機版的位置：置中 */
+@media (max-width: 768px) {
+    .tag-pill {
+        align-self: center; 
+        margin-bottom: 15px;
+    }
+}
+        
 .offerSwiper {
     width: 95%;
     max-width: 1000px; /* 縮小一點點，讓左右更有呼吸感 */
