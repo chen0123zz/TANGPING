@@ -780,8 +780,22 @@ header.scrolled .nav-menu a { color: #333; }
             <div class="swiper-wrapper">
                 <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/當月壽星優惠.png" alt="生日優惠"></div><div class="offer-text-box"><span class="tag-pill">壽星獨享 🎂</span><h3>當月壽星折抵 $200</h3><p>生日是專屬於自己的日子，值得被好好慶祝！<br>歡迎來躺平運動按摩，卸下疲憊，給身心一份放鬆的禮物。</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 立即預約生日禮</a></div></div></div>
                 <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/學生優惠.png" alt="學生優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#e67e22;">學生限定 🎓</span><h3>憑學生證折抵 $200</h3><p>不論你是在操場揮汗，還是在考場中拼搏。<br>快來放鬆肌肉與壓力，重整身心，補好能量再出發！</p><a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 學生專屬預約</a></div></div></div>
-                <div class="swiper-slide"><div class="offer-card-layout"><div class="offer-img-box"><img src="images/包堂優惠方案.png" alt="包堂優惠"></div><div class="offer-text-box"><span class="tag-pill" style="background:#d35400;">最划算 🔥</span><h3>包堂優惠方案</h3><p>想要定期保養身體嗎？包堂方案讓您省更多！</p><div class="price-highlight" style="display: flex; justify-content: center; align-items: center; gap: 15px; font-weight: bold; white-space: nowrap;"><span>包五堂 <span style="color: #666; font-weight: normal;">省 $500</span></span><span style="color: #ddd;">|</span> <span>包十堂 <span style="color: #666; font-weight: normal;">省 $2000</span></span></div><a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="margin-top: 15px;">💬 私訊詢問包堂</a>
+                <div class="swiper-slide">
+    <div class="offer-card-layout">
+        <div class="offer-img-box">
+            <img src="images/包堂優惠方案.png" alt="包堂優惠">
         </div>
+        <div class="offer-text-box">
+            <span class="tag-pill" style="background:#d35400;">最划算 🔥</span>
+            <h3>包堂優惠方案</h3>
+            <p>想要定期保養身體嗎？包堂方案讓您省更多！</p>
+            <div class="price-highlight" style="display: flex; justify-content: center; align-items: center; gap: 15px; font-weight: bold; white-space: nowrap;">
+                <span>包五堂 <span style="color: #666; font-weight: normal;">省 $500</span></span>
+                <span style="color: #ddd;">|</span> 
+                <span>包十堂 <span style="color: #666; font-weight: normal;">省 $2000</span></span>
+            </div>
+            <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="margin-top: 15px;">💬 私訊詢問包堂</a>
+        </div> 
     </div>
 </div>
             <div class="swiper-pagination"></div>
@@ -1799,10 +1813,12 @@ async function fetchYearlyReport() {
         slidesPerView: 1, 
         spaceBetween: 30, 
         loop: true, 
-        autoplay: { 
-        delay: 3500, // 3.5秒自動換一張
-        disableOnInteraction: false 
-        }, 
+        observer: true,       // 💡 加上這行
+        observeParents: true, // 💡 加上這行
+        autoplay: { delay: 3500, disableOnInteraction: false }, 
+        pagination: { el: ".offerSwiper .swiper-pagination", clickable: true }, 
+        navigation: { nextEl: ".offerSwiper .swiper-button-next", prevEl: ".offerSwiper .swiper-button-prev" } 
+        });
         pagination: { el: ".offerSwiper .swiper-pagination", clickable: true }, 
         navigation: { nextEl: ".offerSwiper .swiper-button-next", prevEl: ".offerSwiper .swiper-button-prev" } 
         });
