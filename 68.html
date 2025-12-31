@@ -23,7 +23,7 @@
     
     <style>
         /* ========================================= */
-        /* 🎨 基礎樣式                                */
+        /* 🎨 基礎樣式 (保留 V25)                    */
         /* ========================================= */
         :root {
             --brand-color: #efb748;
@@ -54,100 +54,102 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text { color: var(--brand-color); font-weight: bold; font-size: 0.95rem; }
 
-        /* ========================================= */
-        /* 🚀 導覽列與側邊選單                        */
-        /* ========================================= */
-        header {
-            background-color: transparent;
-            padding: 15px 5%;
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            z-index: 2000;
-            transition: all 0.4s ease;
-            box-sizing: border-box;
-        }
+/* ========================================= */
+/* 🚀 導覽列與側邊選單                        */
+/* ========================================= */
 
-        header.scrolled {
-            background-color: rgba(255, 255, 255, 0.8) !important; 
-            backdrop-filter: blur(10px); 
-            -webkit-backdrop-filter: blur(10px); 
-            padding: 10px 5%;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-        }
+header {
+    background-color: transparent;
+    padding: 15px 5%;
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    z-index: 2000;
+    transition: all 0.4s ease;
+    box-sizing: border-box;
+}
 
-        .header-content {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex !important;
-            flex-direction: row !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-        }
+header.scrolled {
+    background-color: rgba(255, 255, 255, 0.8) !important; 
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); 
+    padding: 10px 5%;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
 
-        .logo-link { display: block; width: auto; flex-shrink: 0; text-decoration: none; }
-        .logo-img { height: 50px; width: auto; display: block; transition: 0.3s; }
-        header.scrolled .logo-img { height: 40px; }
+.header-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
 
-        .nav-menu { display: flex; align-items: center; }
-        .nav-menu a {
-            text-decoration: none !important;
-            color: #fff; 
-            margin-left: 25px;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-        header.scrolled .nav-menu a { color: #333; }
-        .nav-menu a:hover { color: var(--brand-color) !important; }
+.logo-link { display: block; width: auto; flex-shrink: 0; text-decoration: none; }
+.logo-img { height: 50px; width: auto; display: block; transition: 0.3s; }
+header.scrolled .logo-img { height: 40px; }
 
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 28px; height: 18px;
-            cursor: pointer;
-            z-index: 2002;
-        }
-        .menu-toggle span {
-            display: block; width: 100%; height: 2px;
-            background-color: var(--brand-color);
-            transition: 0.3s;
-        }
+.nav-menu { display: flex; align-items: center; }
+.nav-menu a {
+    text-decoration: none !important;
+    color: #fff; 
+    margin-left: 25px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+header.scrolled .nav-menu a { color: #333; }
+.nav-menu a:hover { color: var(--brand-color) !important; }
 
-        @media (max-width: 768px) {
-            body { padding-top: 0 !important; }
-            header { padding: 15px 20px !important; background-color: transparent !important; box-shadow: none !important; }
-            header.scrolled, header.menu-open {
-                background-color: rgba(255, 255, 255, 0.98) !important;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
-                padding: 10px 20px !important;
-            }
-            .header-content { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; }
-            .logo-img { height: 35px !important; } 
-            .menu-toggle { display: flex !important; }
-            .nav-menu {
-                position: fixed !important;
-                top: 0 !important; right: 0 !important;
-                width: 240px !important; height: 100vh !important;
-                background: #fff !important;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: flex-start !important;
-                padding-left: 40px !important;
-                box-shadow: -5px 0 20px rgba(0,0,0,0.1) !important;
-                transform: translateX(100%) !important; 
-                transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
-                z-index: 2001;
-            }
-            .nav-menu.active { transform: translateX(0) !important; }
-            .nav-menu a { color: #333 !important; font-size: 1.1rem !important; margin: 15px 0 !important; }
-            .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background-color: #333 !important; }
-            .menu-toggle.active span:nth-child(2) { opacity: 0 !important; }
-            .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background-color: #333 !important; }
-            #nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 2000; display: none; backdrop-filter: blur(3px); }
-            header.menu-open #nav-overlay { display: block !important; }
-        }
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px; height: 18px;
+    cursor: pointer;
+    z-index: 2002;
+}
+.menu-toggle span {
+    display: block; width: 100%; height: 2px;
+    background-color: var(--brand-color);
+    transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+    body { padding-top: 0 !important; }
+    header { padding: 15px 20px !important; background-color: transparent !important; box-shadow: none !important; }
+    header.scrolled, header.menu-open {
+        background-color: rgba(255, 255, 255, 0.98) !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+        padding: 10px 20px !important;
+    }
+    .header-content { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; }
+    .logo-img { height: 35px !important; transition: 0.3s !important; } 
+    .menu-toggle { display: flex !important; z-index: 2002 !important; }
+    .menu-toggle span { background-color: var(--brand-color) !important; }
+    .nav-menu {
+        position: fixed !important;
+        top: 0 !important; right: 0 !important;
+        width: 240px !important; height: 100vh !important;
+        background: #fff !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        padding-left: 40px !important;
+        box-shadow: -5px 0 20px rgba(0,0,0,0.1) !important;
+        transform: translateX(100%) !important; 
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        z-index: 2001;
+    }
+    .nav-menu.active { transform: translateX(0) !important; }
+    .nav-menu a { color: #333 !important; font-size: 1.1rem !important; margin: 15px 0 !important; width: 100%; text-decoration: none !important; }
+    .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background-color: #333 !important; }
+    .menu-toggle.active span:nth-child(2) { opacity: 0 !important; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background-color: #333 !important; }
+    #nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 2000; display: none; backdrop-filter: blur(3px); }
+    header.menu-open #nav-overlay { display: block !important; }
+}
 
         /* --- 通用區塊 --- */
         .content-section { padding: 25px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
@@ -161,7 +163,7 @@
         .btn-main:hover { transform: translateY(-2px); background-color: #fffaf0; }
 
         /* --- 最新優惠 --- */
-        .offerSwiper { width: 100%; padding: 20px 0 50px 0; position: relative; }
+        .offerSwiper { width: 100%; padding: 20px 0 50px 0; }
         .offer-card-layout {
             background: #fff; border-radius: 20px; overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex;
@@ -173,7 +175,7 @@
         .offer-text-box h3 { font-size: 1.8rem; color: #333; margin: 15px 0; }
         .offer-text-box p { color: #666; line-height: 1.6; margin-bottom: 20px; }
         .tag-pill { display: inline-block; background-color: #ff4757; color: #fff; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; align-self: flex-start; margin-bottom: 10px; }
-        .price-highlight { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--brand-color); }
+        .price-highlight { display: flex; gap: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--brand-color); }
 
         /* --- 關於運動按摩 --- */
         .swiper { width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; padding-top: 20px; }
@@ -195,45 +197,53 @@
         .card-body h3 { margin: 0 0 10px 0; color: #333; }
         .desc { color: #666; line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
 
-        /* --- 預約日曆 --- */
+        /* --- 預約日曆 (電腦版) --- */
         .booking-container { 
             background: #fff; padding: 30px; border-radius: 15px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 700px; 
             margin: 0 auto; text-align: left; position: relative; min-height: 400px; 
         }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; justify-items: center; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 30px; justify-items: center; align-items: center; }
         .calendar-day { border: 1px solid #ddd; border-radius: 12px; width: 75px; height: 75px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .calendar-day span { font-size: 0.8rem; color: #888; }
-        .calendar-day.active { background-color: var(--brand-color); color: #fff; }
-        .calendar-day.active span { color: #fff; }
+        .calendar-day.active { background-color: var(--brand-color) !important; color: #fff !important; }
+        .calendar-day.active span { color: #fff !important; }
         .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; }
+        .time-btn { padding: 10px; background: #fff; border: 1px solid var(--brand-color); border-radius: 5px; color: var(--brand-color); cursor: pointer; transition: all 0.2s; }
         .time-btn.selected { background-color: var(--brand-color); color: #fff; }
 
         /* --- 聯絡我們 --- */
-        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; }
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; width: 100%; }
         .map-box { height: 300px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
         /* --- 其他 --- */
         .floating-btn-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 999; }
-        .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        footer { text-align: center; padding: 20px; color: #999; font-size: 0.85rem; }
+        .float-btn { width: 45px; height: 45px; background-color: var(--brand-color); color: #fff; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
+        footer { text-align: center; padding: 5px; color: #999; font-size: 0.85rem; margin-top: 20px; }
 
-        /* --- Hero 按鈕光暈 --- */
-        .hero-btn {
-            display: inline-block; padding: 15px 40px; background-color: var(--brand-color); color: #fff !important; text-decoration: none; font-weight: bold; border-radius: 50px; animation: hero-pulse 2s infinite;
-        }
-        @keyframes hero-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(239, 183, 72, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(239, 183, 72, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 183, 72, 0); }
-        }
+        /* --- Hero Section 專屬樣式 --- */
+        .hero-container { position: relative; width: 100%; height: 75vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: #000; }
+        .hero-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; z-index: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; text-align: center; color: #fff; padding: 0 20px; }
+        .hero-title { font-size: 3.5rem; font-weight: 700; letter-spacing: 8px; margin-bottom: 15px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero-btn { display: inline-block; padding: 15px 40px; background-color: var(--brand-color); color: #fff !important; text-decoration: none; font-weight: bold; border-radius: 50px; transition: all 0.3s ease; animation: hero-pulse 2s infinite; }
+        @keyframes hero-pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 183, 72, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(239, 183, 72, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 183, 72, 0); } }
 
         @media (max-width: 768px) {
+            .hero-container { height: 60vh; }
+            .hero-title { font-size: 2.2rem; }
+            .content-section { padding: 15px; margin: 10px; border-radius: 20px; }
             .offer-card-layout { flex-direction: column; }
-            .content-section { padding: 15px; }
-            .contact-container { grid-template-columns: 1fr; }
+            .contact-container { display: flex; flex-direction: column; }
         }
+
+        @media (min-width: 769px) {
+            #services .section-title, #booking .section-title, #notice .section-title, #contact .section-title { margin-bottom: 40px !important; }
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
@@ -281,29 +291,25 @@
                     <div class="offer-text-box">
                         <span class="tag-pill">壽星獨享 🎂</span>
                         <h3>當月壽星折抵 $200</h3>
-                        <p>生日是專屬於自己的日子，值得被好好慶祝！<br>歡迎來躺平運動按摩，卸下疲憊，給身心一份放鬆的禮物。</p>
+                        <p>生日是專屬於自己的日子，值得被好好慶祝！<br>歡迎來躺平運動按摩，卸下疲憊。</p>
                         <a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 立即預約生日禮</a>
                     </div>
                 </div>
             </div>
-            
             <div class="swiper-slide">
                 <div class="offer-card-layout">
                     <div class="offer-img-box"><img src="images/學生優惠.png" alt="學生優惠"></div>
                     <div class="offer-text-box">
                         <span class="tag-pill" style="background:#e67e22;">學生限定 🎓</span>
                         <h3>憑學生證折抵 $200</h3>
-                        <p>不論你是在操場揮汗，還是在考場中拼搏。<br>快來放鬆肌肉與壓力，重整身心，補好能量再出發！</p>
+                        <p>快來放鬆肌肉與壓力，重整身心，補好能量再出發！</p>
                         <a href="#booking" class="btn-main" style="margin-top: 15px;">🔻 學生專屬預約</a>
                     </div>
                 </div>
             </div>
-            
             <div class="swiper-slide">
                 <div class="offer-card-layout">
-                    <div class="offer-img-box">
-                        <img src="images/包堂優惠方案.png" alt="包堂優惠">
-                    </div>
+                    <div class="offer-img-box"><img src="images/包堂優惠方案.png" alt="包堂優惠"></div>
                     <div class="offer-text-box">
                         <span class="tag-pill" style="background:#d35400;">最划算 🔥</span>
                         <h3>包堂優惠方案</h3>
@@ -326,15 +332,11 @@
 
 <section class="content-section" id="about" style="background-color: #fffaf0; padding-bottom: 50px; border-radius: 20px; margin: 40px auto; max-width: 900px; position: relative;">
     <h2 class="section-title" style="padding-top: 20px;">關於運動按摩</h2>
-    <p class="section-desc">左右滑動卡片，了解我們如何幫助您的身體 👇</p>
-    <div class="swiper mySwiper" style="padding: 0 50px;">
+    <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="images/按摩效果.png" alt="效果" class="slide-img"></div>
-            <div class="swiper-slide"><img src="images/比較圖.png" alt="比較" class="slide-img"></div>
-            <div class="swiper-slide"><img src="images/適合族群.png" alt="族群" class="slide-img"></div>
-            <div class="swiper-slide"><img src="images/徒手按摩.png" alt="徒手" class="slide-img"></div>
-            <div class="swiper-slide"><img src="images/筋膜刀.png" alt="筋膜刀" class="slide-img"></div>
-            <div class="swiper-slide"><img src="images/拔罐.png" alt="拔罐" class="slide-img"></div>
+            <div class="swiper-slide"><img src="images/按摩效果.png" alt="1" class="slide-img"></div>
+            <div class="swiper-slide"><img src="images/比較圖.png" alt="2" class="slide-img"></div>
+            <div class="swiper-slide"><img src="images/適合族群.png" alt="3" class="slide-img"></div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
@@ -345,19 +347,15 @@
 <section class="content-section" id="services">
     <h2 class="section-title">服務項目 & 價目表</h2>
     <div class="services-grid">
-        <div class="service-card"><div class="card-body"><h3>專業運動按摩</h3><p class="desc">美式深壓手法、PNF 伸展，緩解緊繃。</p><hr><div style="display:flex;justify-content:space-between"><span>60分鐘</span><strong>$1,200</strong></div></div></div>
-        <div class="service-card"><div class="card-body"><h3>張力調整</h3><p class="desc">筋膜刀、拔罐，改善沾黏提昇活動度。</p><hr><div style="display:flex;justify-content:space-between"><span>60分鐘</span><strong>$1,400</strong></div></div></div>
+        <div class="service-card"><div class="card-body"><h3>專業運動按摩</h3><p class="desc">深層放鬆肌肉。</p><div style="display:flex;justify-content:space-between"><span>60min</span><strong>$1,200</strong></div></div></div>
+        <div class="service-card"><div class="card-body"><h3>張力調整</h3><p class="desc">筋膜刀與拔罐。</p><div style="display:flex;justify-content:space-between"><span>60min</span><strong>$1,400</strong></div></div></div>
     </div>
 </section>
 
 <section class="content-section" id="booking">
     <h2 class="section-title">線上預約</h2>
     <div class="booking-container">
-        <div class="month-selector">
-            <button class="month-btn" onclick="prevMonth()">❮</button>
-            <h3 id="currentMonthYear">12月 (2025)</h3>
-            <button class="month-btn" onclick="nextMonth()">❯</button>
-        </div>
+        <div id="front-loading-overlay" class="local-loading-overlay"><div class="spinner"></div></div>
         <div class="calendar-grid" id="calendar-grid-front"></div>
         <div class="time-grid" id="time-grid"></div>
     </div>
@@ -366,82 +364,67 @@
 <section class="content-section" id="contact" style="background-color: #333; color: #fff; border-radius: 30px;">
     <h2 class="section-title" style="color: var(--brand-color);">📍 聯絡我們</h2>
     <div class="contact-container">
-        <div class="contact-info" style="text-align: left;">
+        <div class="contact-info" style="text-align:left;">
             <p><strong>地址：</strong>新北市蘆洲區三民路128巷68號</p>
             <p><strong>LINE：</strong>@tangping</p>
-            <div class="btn-group" style="margin-top:20px;">
-                <a href="https://line.me/R/ti/p/@tangping" class="btn-main" style="background:#00B900;color:#fff;border:none;">LINE 預約</a>
-            </div>
+            <a href="https://line.me/R/ti/p/@tangping" target="_blank" class="btn-main" style="background:#00B900;color:#fff;border:none;">加入 LINE 預約</a>
         </div>
-        <div class="map-box"><iframe width="100%" height="100%" frameborder="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.6826723223!2d121.4727!3d25.0847"></iframe></div>
+        <div class="map-box"><iframe width="100%" height="100%" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.370022826966!2d121.46770401095526!3d25.08933283596854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90055f62f55%3A0x9cc567681495fd17!2z6Lq65bmz6YGL5YuV5oyJ5pGp!5e0!3m2!1szh-TW!2stw!4v1765006184538!5m2!1szh-TW!2stw" style="border:0;"></iframe></div>
     </div>
 </section>
 
-<footer>
-    <p>© 2025 TANG PING Sport Massage.</p>
-</footer>
+<footer><p>© 2025 TANG PING Sport Massage.</p></footer>
 
 <div class="floating-btn-container">
     <button onclick="scrollToTop()" class="float-btn">▲</button>
 </div>
 
 <script>
-    const SCRIPT_URL = "YOUR_SCRIPT_URL_HERE"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMkzyDQMWOJ28pzIcS_NuJWVqGGemq2_hjca5P5NOE5NTLzJxX5u7SSV8hcfWcpZPhAg/exec"; 
     let currentDate = new Date();
     let allOrders = [];
-    let holidays = [];
 
     window.onload = function() {
         updateCalendars();
         fetchOrders();
+        
+        // 啟動滾動動畫
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.content-section, .service-card').forEach(el => { el.classList.add('reveal'); observer.observe(el); });
     };
 
     function fetchOrders() {
-        // 這裡串接妳的 Google App Script
+        document.getElementById('front-loading-overlay').style.display = 'flex';
+        fetch(SCRIPT_URL).then(res => res.json()).then(data => {
+            allOrders = data;
+            updateCalendars();
+            document.getElementById('front-loading-overlay').style.display = 'none';
+        });
     }
 
     function updateCalendars() {
-        const y = currentDate.getFullYear();
-        const m = currentDate.getMonth();
-        document.getElementById('currentMonthYear').innerText = `${m + 1}月 (${y})`;
-        renderCalendar(y, m, 'calendar-grid-front');
-    }
-
-    function renderCalendar(y, m, id) {
-        const container = document.getElementById(id);
+        const container = document.getElementById('calendar-grid-front');
+        if (!container) return;
         container.innerHTML = "";
-        const daysInMonth = new Date(y, m + 1, 0).getDate();
-        for (let i = 1; i <= daysInMonth; i++) {
-            const day = document.createElement('div');
-            day.className = 'calendar-day';
-            day.innerText = i;
-            container.appendChild(day);
+        const days = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+        for (let i = 1; i <= days; i++) {
+            const div = document.createElement('div');
+            div.className = 'calendar-day';
+            div.innerText = i;
+            container.appendChild(div);
         }
     }
 
-    function prevMonth() { currentDate.setMonth(currentDate.getMonth() - 1); updateCalendars(); }
-    function nextMonth() { currentDate.setMonth(currentDate.getMonth() + 1); updateCalendars(); }
-
     function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function toggleMenu() { document.getElementById('main-nav').classList.toggle('active'); document.getElementById('menu-toggle-btn').classList.toggle('active'); }
+    function closeMenu() { document.getElementById('main-nav').classList.remove('active'); document.getElementById('menu-toggle-btn').classList.remove('active'); }
 
-    function toggleMenu() {
-        const nav = document.getElementById('main-nav');
-        const btn = document.getElementById('menu-toggle-btn');
-        nav.classList.toggle('active');
-        btn.classList.toggle('active');
-        document.getElementById('dynamic-header').classList.toggle('menu-open');
-    }
-
-    function closeMenu() {
-        document.getElementById('main-nav').classList.remove('active');
-        document.getElementById('menu-toggle-btn').classList.remove('active');
-        document.getElementById('dynamic-header').classList.remove('menu-open');
-    }
-
-    // Swiper 初始化
+    // Swiper 初始化 (強化版)
     var offerSwiper = new Swiper(".offerSwiper", { 
         slidesPerView: 1, loop: true, observer: true, observeParents: true,
-        autoplay: { delay: 3500 },
+        autoplay: { delay: 3500, disableOnInteraction: false }, 
         pagination: { el: ".offerSwiper .swiper-pagination", clickable: true }, 
         navigation: { nextEl: ".offerSwiper .swiper-button-next", prevEl: ".offerSwiper .swiper-button-prev" } 
     });
@@ -450,7 +433,7 @@
         slidesPerView: 1, spaceBetween: 20, loop: true,
         breakpoints: { 768: { slidesPerView: 3 } },
         pagination: { el: ".mySwiper .swiper-pagination", clickable: true },
-        navigation: { nextEl: ".about .swiper-button-next", prevEl: ".about .swiper-button-prev" }
+        navigation: { nextEl: ".my-next-btn", prevEl: ".my-prev-btn" }
     });
 
     window.addEventListener('scroll', function() {
