@@ -26,11 +26,7 @@
             padding: 30px 20px 60px;
         }
 
-        /* --- 頂部標題 --- */
-        .page-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        .page-header { text-align: center; margin-bottom: 30px; }
         .page-header h1 {
             font-family: 'Lato', sans-serif;
             font-size: 1.5rem;
@@ -38,14 +34,8 @@
             color: var(--brand);
             font-weight: 700;
         }
-        .page-header p {
-            font-size: 0.85rem;
-            color: #999;
-            margin-top: 6px;
-            letter-spacing: 1px;
-        }
+        .page-header p { font-size: 0.85rem; color: #999; margin-top: 6px; letter-spacing: 1px; }
 
-        /* --- 操作卡片 --- */
         .card {
             background: #fff;
             border-radius: 20px;
@@ -55,238 +45,125 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             margin-bottom: 20px;
         }
+        .card-title { font-size: 0.8rem; font-weight: 700; color: #aaa; letter-spacing: 2px; margin-bottom: 16px; text-transform: uppercase; }
 
-        .card-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #aaa;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-        }
-
-        /* --- 月份選擇器 --- */
-        .month-selector {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .month-selector { display: flex; justify-content: space-between; align-items: center; }
         .month-btn {
-            background: none;
-            border: 1px solid #ddd;
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            font-size: 1rem;
-            cursor: pointer;
-            color: #666;
-            transition: 0.2s;
+            background: none; border: 1px solid #ddd;
+            width: 36px; height: 36px; border-radius: 50%;
+            font-size: 1rem; cursor: pointer; color: #666; transition: 0.2s;
             display: flex; align-items: center; justify-content: center;
         }
         .month-btn:hover { background: var(--brand); color: #fff; border-color: var(--brand); }
-        .month-label {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--dark);
-            letter-spacing: 2px;
-        }
+        .month-label { font-size: 1.3rem; font-weight: 700; color: var(--dark); letter-spacing: 2px; }
 
-        /* --- 月曆格子 --- */
-        .cal-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
-            margin-top: 16px;
-        }
-        .cal-head {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #aaa;
-            font-weight: 700;
-            padding-bottom: 4px;
-        }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 16px; }
+        .cal-head { text-align: center; font-size: 0.7rem; color: #aaa; font-weight: 700; padding-bottom: 4px; }
         .cal-head.weekend { color: #ffb3b3; }
-
         .cal-day {
-            aspect-ratio: 1/1;
-            border-radius: 10px;
-            border: 1.5px solid #eee;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.15s;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--dark);
-            background: #fff;
-            position: relative;
+            aspect-ratio: 1/1; border-radius: 10px; border: 1.5px solid #eee;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.15s; font-size: 0.9rem; font-weight: 500;
+            color: var(--dark); background: #fff; position: relative;
         }
         .cal-day:hover { border-color: var(--brand); color: var(--brand); }
         .cal-day.today { border-color: var(--brand); font-weight: 700; }
-        .cal-day.holiday {
-            background: #fff0f0;
-            border-color: #ffcccc;
-            color: #e74c3c;
-        }
-        .cal-day.holiday::after {
-            content: '休';
-            font-size: 0.55rem;
-            color: #e74c3c;
-            margin-top: 1px;
-        }
+        .cal-day.holiday { background: #fff0f0; border-color: #ffcccc; color: #e74c3c; }
+        .cal-day.holiday::after { content: '休'; font-size: 0.55rem; color: #e74c3c; margin-top: 1px; }
         .cal-day.empty { border: none; cursor: default; }
 
-        /* --- 提示文字 --- */
-        .hint {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #bbb;
-            margin-top: 12px;
-        }
+        .hint { text-align: center; font-size: 0.8rem; color: #bbb; margin-top: 12px; }
 
-        /* --- 生成按鈕 --- */
         .gen-btn {
-            width: 100%;
-            max-width: 480px;
-            padding: 16px;
-            background: var(--brand);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(239,183,72,0.4);
-            transition: all 0.3s;
+            width: 100%; max-width: 480px; padding: 16px;
+            background: var(--brand); color: #fff; border: none;
+            border-radius: 50px; font-size: 1rem; font-weight: 700;
+            letter-spacing: 2px; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(239,183,72,0.4); transition: all 0.3s;
         }
         .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239,183,72,0.5); }
         .gen-btn:active { transform: scale(0.98); }
 
-        /* --- IG 班表容器（隱藏，用來截圖）--- */
+        /* --- IG 班表容器 --- */
         #ig-story-container {
-            width: 1080px;
-            height: 1920px;
+            width: 1080px; height: 1920px;
             background-color: transparent;
-            position: fixed;
-            left: -9999px;
-            top: 0;
-            z-index: -1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            position: fixed; left: -9999px; top: 0; z-index: -1;
+            display: flex; flex-direction: column; align-items: center;
             padding-top: 584px;
             font-family: 'Noto Sans TC', sans-serif;
             box-sizing: border-box;
         }
         #ig-bg-layer {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            z-index: -1;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; object-fit: cover; z-index: -1;
         }
         .ig-header-group {
-            position: absolute;
-            top: 160px;
-            left: 0; right: 0;
-            text-align: center;
+            position: absolute; top: 160px; left: 0; right: 0; text-align: center;
         }
         .ig-month-en {
-            font-family: 'Lato', sans-serif;
-            font-size: 110px;
-            font-weight: 400;
-            color: #000;
-            margin: 0;
-            line-height: 1;
-            letter-spacing: 20px;
-            text-transform: uppercase;
+            font-family: 'Lato', sans-serif; font-size: 110px; font-weight: 400;
+            color: #000; margin: 0; line-height: 1; letter-spacing: 20px; text-transform: uppercase;
         }
         .ig-year-sub {
-            font-family: 'Lato', sans-serif;
-            font-size: 45px;
-            color: #333;
-            letter-spacing: 8px;
-            margin-top: 40px;
-            font-weight: 400;
+            font-family: 'Lato', sans-serif; font-size: 45px; color: #333;
+            letter-spacing: 8px; margin-top: 40px; font-weight: 400;
         }
+
+        /* --- 5週版格子 --- */
         .ig-grid-container {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            width: 833px;
-            border: none;
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            width: 833px; border: none;
         }
         .ig-cell-body {
-            height: 182px;
-            border: none;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            height: 182px; border: none; position: relative;
+            display: flex; flex-direction: column; align-items: center;
             padding-top: 25px;
         }
         .ig-date-num {
-            font-family: 'Lato', sans-serif;
-            font-size: 40px;
-            font-weight: 400;
-            color: #333;
-            line-height: 1;
+            font-family: 'Lato', sans-serif; font-size: 40px;
+            font-weight: 400; color: #333; line-height: 1;
         }
         .ig-holiday-circle {
-            margin-top: 20px;
-            width: 52px; height: 52px;
-            background-color: #f3d0d3;
-            color: #c0392b;
+            margin-top: 20px; width: 52px; height: 52px;
+            background-color: #f3d0d3; color: #c0392b;
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            font-size: 28px;
-            font-weight: bold;
+            font-size: 28px; font-weight: bold;
             font-family: 'Noto Sans TC', sans-serif;
-            line-height: 1;
+            line-height: 1; padding-bottom: 3px;
+        }
+
+        /* --- 6週版覆蓋 --- */
+        .ig-grid-container.six-weeks .ig-cell-body {
+            height: 161px;
+            padding-top: 18px;
+        }
+        .ig-grid-container.six-weeks .ig-date-num {
+            font-size: 32px;
+        }
+        .ig-grid-container.six-weeks .ig-holiday-circle {
+            width: 44px; height: 44px;
+            font-size: 22px;
+            margin-top: 14px;
             padding-bottom: 3px;
         }
 
         /* --- 預覽覆蓋層 --- */
         #preview-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92);
-            z-index: 9999;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); z-index: 9999;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
             padding: 20px;
         }
-        #preview-overlay .tip {
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 14px;
-            letter-spacing: 1px;
-        }
-        #preview-overlay img {
-            max-width: 88%;
-            max-height: 72vh;
-            border-radius: 12px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.6);
-        }
+        #preview-overlay .tip { color: #fff; font-size: 1rem; font-weight: 700; margin-bottom: 14px; letter-spacing: 1px; }
+        #preview-overlay img { max-width: 88%; max-height: 72vh; border-radius: 12px; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
         #preview-overlay .close-btn {
-            margin-top: 20px;
-            padding: 12px 36px;
-            background: var(--brand);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            letter-spacing: 1px;
+            margin-top: 20px; padding: 12px 36px; background: var(--brand);
+            color: #fff; border: none; border-radius: 50px;
+            font-size: 1rem; font-weight: 700; cursor: pointer; letter-spacing: 1px;
         }
 
-        /* 手機微調 */
         @media (max-width: 480px) {
             .cal-day { font-size: 0.8rem; border-radius: 7px; }
             .month-label { font-size: 1.1rem; }
@@ -300,7 +177,6 @@
         <p>IG 班表生成器</p>
     </div>
 
-    <!-- 月份選擇 + 月曆 -->
     <div class="card">
         <div class="card-title">選擇月份 & 標記休假</div>
         <div class="month-selector">
@@ -312,10 +188,8 @@
         <p class="hint">點擊日期來標記 / 取消休假</p>
     </div>
 
-    <!-- 生成按鈕 -->
     <button class="gen-btn" onclick="generateImage()">📸 生成 IG 班表</button>
 
-    <!-- 隱藏的 IG 班表截圖區 -->
     <div id="ig-story-container">
         <img id="ig-bg-layer" src="images/schedule_bg_clean.png" alt="背景">
         <div class="ig-header-group">
@@ -325,7 +199,6 @@
         <div class="ig-grid-container" id="ig-grid"></div>
     </div>
 
-    <!-- 預覽覆蓋層 -->
     <div id="preview-overlay">
         <p class="tip">長按圖片儲存 📥</p>
         <img id="preview-img" src="" alt="班表預覽">
@@ -339,10 +212,17 @@
         ];
 
         let currentDate = new Date();
-        let holidays = new Set(); // 儲存休假日期，格式 "YYYY-M-D"
+        let holidays = new Set();
 
         function getKey(year, month, day) {
             return `${year}-${month}-${day}`;
+        }
+
+        function countWeeks(year, month) {
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const startSlot = firstDay === 0 ? 6 : firstDay - 1;
+            return Math.ceil((startSlot + daysInMonth) / 7);
         }
 
         function renderCalendar() {
@@ -355,7 +235,6 @@
             const grid = document.getElementById('cal-grid');
             grid.innerHTML = '';
 
-            // 星期標頭
             const heads = ['一','二','三','四','五','六','日'];
             heads.forEach((h, i) => {
                 const div = document.createElement('div');
@@ -380,14 +259,10 @@
                 const cell = document.createElement('div');
                 cell.className = 'cal-day';
                 cell.innerText = d;
-
                 if (y === today.getFullYear() && m === today.getMonth() && d === today.getDate()) {
                     cell.classList.add('today');
                 }
-                if (holidays.has(key)) {
-                    cell.classList.add('holiday');
-                }
-
+                if (holidays.has(key)) { cell.classList.add('holiday'); }
                 cell.onclick = () => toggleHoliday(y, m + 1, d, cell);
                 grid.appendChild(cell);
             }
@@ -404,27 +279,24 @@
             }
         }
 
-        function prevMonth() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        }
-
-        function nextMonth() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        }
+        function prevMonth() { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); }
+        function nextMonth() { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); }
 
         function generateImage() {
             const y = currentDate.getFullYear();
             const m = currentDate.getMonth();
 
-            // 填入標題
             document.getElementById('ig-month-en').innerText = MONTH_NAMES_EN[m];
             document.getElementById('ig-year-sub').innerText =
                 `${y} / ${String(m + 1).padStart(2, '0')}`;
 
-            // 填入格子
+            // 自動判斷週數，切換背景圖和格子尺寸
+            const isSixWeeks = countWeeks(y, m) === 6;
+            document.getElementById('ig-bg-layer').src = isSixWeeks
+                ? 'images/schedule_6weeks.png'
+                : 'images/schedule_bg_clean.png';
             const igGrid = document.getElementById('ig-grid');
+            igGrid.className = isSixWeeks ? 'ig-grid-container six-weeks' : 'ig-grid-container';
             igGrid.innerHTML = '';
 
             const firstDay = new Date(y, m, 1).getDay();
@@ -445,15 +317,13 @@
                     </div>`;
             }
 
-            // 截圖
             const btn = document.querySelector('.gen-btn');
             btn.innerText = '生成中...';
             btn.disabled = true;
 
             setTimeout(() => {
                 html2canvas(document.getElementById('ig-story-container'), {
-                    scale: 1,
-                    backgroundColor: null
+                    scale: 1, backgroundColor: null
                 }).then(canvas => {
                     const imgSrc = canvas.toDataURL('image/png');
                     document.getElementById('preview-img').src = imgSrc;
@@ -472,7 +342,6 @@
             document.getElementById('preview-overlay').style.display = 'none';
         }
 
-        // 初始化
         renderCalendar();
     </script>
 </body>
